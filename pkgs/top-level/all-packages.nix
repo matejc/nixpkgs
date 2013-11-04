@@ -8464,6 +8464,8 @@ let
 
   easytag = callPackage ../applications/audio/easytag { };
 
+  mp3gain = callPackage ../applications/audio/mp3gain { };
+
   mp3info = callPackage ../applications/audio/mp3info { };
 
   mpc123 = callPackage ../applications/audio/mpc123 { };
