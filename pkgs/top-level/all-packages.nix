@@ -674,6 +674,9 @@ let
 
   conspy = callPackage ../os-specific/linux/conspy {};
 
+  connman = callPackage ../tools/networking/connman { };
+  connmanui = callPackage ../tools/networking/connmanui { };
+
   convertlit = callPackage ../tools/text/convertlit { };
 
   collectd = callPackage ../tools/system/collectd { };
@@ -1572,6 +1575,10 @@ let
   pbzip2 = callPackage ../tools/compression/pbzip2 { };
 
   pciutils = callPackage ../tools/system/pciutils { };
+
+  pcmanfm = callPackage ../applications/misc/pcmanfm { };
+  libfm = callPackage ../applications/misc/pcmanfm/libfm.nix { };
+  menucache = callPackage ../applications/misc/pcmanfm/menu-cache.nix { };
 
   pcsclite = callPackage ../tools/security/pcsclite { };
 
@@ -8978,6 +8985,8 @@ let
   };
 
   tribler = callPackage ../applications/networking/p2p/tribler { };
+
+  twmn = callPackage ../applications/misc/twmn { };
 
   twinkle = callPackage ../applications/networking/instant-messengers/twinkle {
     ccrtp = ccrtp_1_8;
