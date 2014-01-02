@@ -3,11 +3,11 @@
   wpa_supplicant, readline6, pptp, ppp, tree }:
 
 stdenv.mkDerivation {
-  name = "connman-1.19";
+  name = "connman-1.20";
   src = fetchgit {
     url = "git://git.kernel.org/pub/scm/network/connman/connman.git";
-    rev = "4f9d0f6293ab9db895c94c1fd49cd433e06b99d3";
-    sha256 = "0jsbvybwvn4l5mb684i2a73z1ihqkhyq5nmgfpbafhfsd9il2cdj";
+    rev = "8047f3d051b32d38ac0b1e78296b482368728ec6";
+    sha256 = "0hb03rzrspgry8z43x8x76vlq1hdq2wggkk7wbidavnqhpmz7dxz";
   };
 
   buildInputs = [ autoconf automake libtool pkgconfig openconnect polkit
