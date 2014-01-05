@@ -31,6 +31,12 @@ in {
   config = mkIf cfg.enable {
 
     assertions = [{
+      assertion = config.networking.useDHCP == false;
+      message = "You can not use services.networking.connman with services.networking.useDHCP";
+    }{
+      assertion = config.networking.wireless.enable == true;
+      message = "You must use services.networking.connman with services.networking.wireless";
+    }{
       assertion = config.networking.networkmanager.enable == false;
       message = "You can not use services.networking.connman with services.networking.networkmanager";
     }];
@@ -78,7 +84,6 @@ in {
       };
     };
 
-    # Turn off NixOS' network management
     networking = {
       useDHCP = false;
       wireless.enable = true;

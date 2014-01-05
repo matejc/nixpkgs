@@ -21,5 +21,8 @@ stdenv.mkDerivation {
   meta = {
     description = "A full-featured GTK based trayicon UI for ConnMan";
     homepage = "https://github.com/tbursztyka/connman-ui";
+    maintainers = [ stdenv.lib.maintainers.matejc ];
+    platforms = stdenv.lib.platforms.linux;
+    license = stdenv.lib.licenses.gpl2;
   };
 }
