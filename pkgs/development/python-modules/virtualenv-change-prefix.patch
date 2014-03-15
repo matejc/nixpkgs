@@ -25,7 +25,7 @@ Without this patch `virtualenv --python=python2.7 .` fails with an error because
              if src_prefix != os.sep: # sys.prefix == "/"
                  assert relpath[0] == os.sep
                  relpath = relpath[1:]
-+                if src_prefix == prefixes[0]:
++                if src_prefix == (os.environ['NIX_STORE'] if 'NIX_STORE' in os.environ else '/nix/store'):
 +                    relpath = "/".join(relpath.split("/")[1:])
              return join(dst_prefix, relpath)
      assert False, "Filename %s does not start with any of these prefixes: %s" % \
