@@ -17,7 +17,7 @@ Without this patch `virtualenv --python=python2.7 .` fails with an error because
 -            os.path.join("~", ".local", "lib","python", sys.version[:3], "site-packages"),
 -            # System Python 2.7 on OSX Mountain Lion
 -            os.path.join("~", "Library", "Python", sys.version[:3], "lib", "python", "site-packages")))
-+    prefixes = ["/nix/store", sys.prefix]
++    prefixes = [os.environ('NIX_STORE'), sys.prefix]
  
      if hasattr(sys, 'real_prefix'):
          prefixes.append(sys.real_prefix)
@@ -25,7 +25,7 @@ Without this patch `virtualenv --python=python2.7 .` fails with an error because
              if src_prefix != os.sep: # sys.prefix == "/"
                  assert relpath[0] == os.sep
                  relpath = relpath[1:]
-+                if src_prefix == "/nix/store":
++                if src_prefix == os.environ('NIX_STORE'):
 +                    relpath = "/".join(relpath.split("/")[1:])
              return join(dst_prefix, relpath)
      assert False, "Filename %s does not start with any of these prefixes: %s" % \
