@@ -2165,6 +2165,8 @@ let
 
   sdcv = callPackage ../applications/misc/sdcv { };
 
+  seafile-server = callPackage ../servers/seafile { };
+
   sec = callPackage ../tools/admin/sec { };
 
   seccure = callPackage ../tools/security/seccure { };
@@ -5500,6 +5502,8 @@ let
 
   libevent14 = callPackage ../development/libraries/libevent/1.4.nix { };
   libevent = callPackage ../development/libraries/libevent { };
+
+  libevhtp = callPackage ../development/libraries/libevhtp { };
 
   libewf = callPackage ../development/libraries/libewf { };
 

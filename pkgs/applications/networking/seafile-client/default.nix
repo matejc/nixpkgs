@@ -1,32 +1,29 @@
-{stdenv, fetchurl, writeScript, pkgconfig, cmake, qt4, seafile-shared, ccnet, makeWrapper}:
+{ stdenv, fetchurl, writeScript, pkgconfig, qt4, seafile-shared, ccnet
+, makeWrapper, cmake }:
 
 stdenv.mkDerivation rec
 {
-  version = "3.0.4";
+  version = "3.1.6";
   name = "seafile-client-${version}";
 
   src = fetchurl
   {
     url = "https://github.com/haiwen/seafile-client/archive/v${version}.tar.gz";
-    sha256 = "10iz45y8j5f9smi0srxw62frb97vhr0w938v8w3rsjcw9qq366a2";
+    sha256 = "0wbjy42yarlsq6ax8frx4lrcgy3gqqp3f9hp0q9np2nc1fvg66wp";
   };
 
-  buildInputs = [ pkgconfig cmake qt4 seafile-shared makeWrapper ];
+  buildInputs = [ pkgconfig qt4 seafile-shared makeWrapper cmake ];
 
-  builder = writeScript "${name}-builder.sh" ''
-    source $stdenv/setup
-
-    tar xvfz $src
-    cd seafile-client-*
-
+  configurePhase = ''
     cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_SKIP_BUILD_RPATH=ON -DCMAKE_INSTALL_PREFIX="$out" .
-    make -j1
+  '';
 
-    make install
+  buildPhase = "make -j1";
 
+  postInstall = ''
     wrapProgram $out/bin/seafile-applet \
       --suffix PATH : ${ccnet}/bin:${seafile-shared}/bin
-    '';
+  '';
 
   meta =
   {
