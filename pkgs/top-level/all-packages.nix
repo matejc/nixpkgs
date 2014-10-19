@@ -7275,8 +7275,8 @@ in
     x265 = if stdenv.isDarwin then null else x265;
     xavs = if stdenv.isDarwin then null else xavs;
     inherit (darwin) CF;
-    inherit (darwin.apple_sdk.frameworks) 
-      Cocoa CoreServices CoreAudio AVFoundation MediaToolbox 
+    inherit (darwin.apple_sdk.frameworks)
+      Cocoa CoreServices CoreAudio AVFoundation MediaToolbox
       VideoDecodeAcceleration;
   };
 
@@ -16152,6 +16152,10 @@ in
   ue4demos = recurseIntoAttrs (callPackage ../games/ue4demos { });
 
   ut2004demo = callPackage_i686 ../games/ut2004demo { };
+
+  unknownhorizons = callPackage ../games/unknownhorizons { };
+  fifengine = callPackage ../games/unknownhorizons/fifengine.nix { };
+  fifechan = callPackage ../games/unknownhorizons/fifechan.nix { };
 
   vapor = callPackage ../games/vapor { love = love_0_8; };
 
