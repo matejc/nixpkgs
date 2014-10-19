@@ -16400,6 +16400,10 @@ in
 
   ut2004demo = self.ut2004Packages.ut2004 [ self.ut2004Packages.ut2004-demo ];
 
+  unknownhorizons = callPackage ../games/unknownhorizons { };
+  fifengine = callPackage ../games/unknownhorizons/fifengine.nix { };
+  fifechan = callPackage ../games/unknownhorizons/fifechan.nix { };
+
   vapor = callPackage ../games/vapor { love = love_0_8; };
 
   vapoursynth = callPackage ../development/libraries/vapoursynth { };
