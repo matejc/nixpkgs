@@ -16056,6 +16056,10 @@ in
 
   ue4demos = recurseIntoAttrs (callPackage ../games/ue4demos { });
 
+  unknownhorizons = callPackage ../games/unknownhorizons { };
+  fifengine = callPackage ../games/unknownhorizons/fifengine.nix { };
+  fifechan = callPackage ../games/unknownhorizons/fifechan.nix { };
+
   ut2004demo = callPackage ../games/ut2004demo { };
 
   vapor = callPackage ../games/vapor { love = love_0_8; };
