@@ -666,6 +666,8 @@ let
 
   ccnet = callPackage ../tools/networking/ccnet { };
 
+  ccnet31 = callPackage ../tools/networking/ccnet/31.nix { };
+
   consul = callPackage ../servers/consul {
     inherit ruby rubyLibs;
   };
@@ -2360,6 +2362,9 @@ let
   scrypt = callPackage ../tools/security/scrypt { };
 
   sdcv = callPackage ../applications/misc/sdcv { };
+
+  seafile-server = callPackage ../servers/seafile { };
+  seafile-server-installer = callPackage ../servers/seafile/installer.nix { };
 
   sec = callPackage ../tools/admin/sec { };
 
@@ -5822,6 +5827,8 @@ let
 
   libevent14 = callPackage ../development/libraries/libevent/1.4.nix { };
   libevent = callPackage ../development/libraries/libevent { };
+
+  libevhtp = callPackage ../development/libraries/libevhtp { };
 
   libewf = callPackage ../development/libraries/libewf { };
 
@@ -10688,6 +10695,7 @@ let
   };
 
   seafile-client = callPackage ../applications/networking/seafile-client { };
+  seafile-client31 = callPackage ../applications/networking/seafile-client/31.nix { };
 
   seeks = callPackage ../tools/networking/p2p/seeks { };
 
@@ -12712,6 +12720,8 @@ let
   saneFrontends = callPackage ../applications/graphics/sane/frontends.nix { };
 
   seafile-shared = callPackage ../misc/seafile-shared { };
+
+  seafile-shared31 = callPackage ../misc/seafile-shared/31.nix { };
 
   slock = callPackage ../misc/screensavers/slock { };
 
