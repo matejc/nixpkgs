@@ -9306,6 +9306,7 @@ let
   };
 
   docker = callPackage ../applications/virtualization/docker { };
+  dockerui = callPackage ../applications/virtualization/dockerui { };
 
   doodle = callPackage ../applications/search/doodle { };
 
