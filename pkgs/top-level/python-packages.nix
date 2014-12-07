@@ -4049,6 +4049,93 @@ let
     };
   });
 
+  texttable = self.buildPythonPackage rec {
+    name = "texttable-0.8.1";
+
+    src = pkgs.fetchurl {
+      url = "https://pypi.python.org/packages/source/t/texttable/${name}.tar.gz";
+      md5 = "4fe37704f16ecf424b91e122defedd7e";
+    };
+
+    meta = with stdenv.lib; {
+      description = "A module to generate a formatted text table, using ASCII characters";
+      homepage = http://foutaise.org/code/;
+      license = licenses.lgpl2;
+    };
+  };
+
+
+  docopt = buildPythonPackage rec {
+    name = "docopt-0.6.2";
+
+    src = pkgs.fetchurl {
+      url = "https://pypi.python.org/packages/source/d/docopt/${name}.tar.gz";
+      md5 = "4bc74561b37fad5d3e7d037f82a4c3b1";
+    };
+
+    meta = {
+      description = "Pythonic argument parser, that will make you smile";
+      homepage = http://docopt.org/;
+      license = licenses.mit;
+    };
+  };
+
+
+  dockerpty = buildPythonPackage rec {
+    name = "dockerpty-0.3.2";
+
+    src = pkgs.fetchurl {
+      url = "https://pypi.python.org/packages/source/d/dockerpty/${name}.tar.gz";
+      md5 = "1f97b24d2f4b2c345f176f91655002dd";
+    };
+
+    meta = {
+      description = "Functionality needed to operate the pseudo-tty (PTY) allocated to a docker container";
+      homepage = https://github.com/d11wtq/dockerpty;
+      license = licenses.asl20;
+    };
+  };
+
+  fig = buildPythonPackage rec {
+    name = "fig-1.0.1";
+    disabled = isPy3k;
+
+    src = pkgs.fetchurl {
+      url = "https://pypi.python.org/packages/source/f/fig/${name}.tar.gz";
+      md5 = "e1c82296fe2362fae21b3cb0dfee8cb2";
+    };
+
+    propagatedBuildInputs = with self; [
+      six requests2 pyyaml texttable docopt
+      (dockerpty.override {
+        src = pkgs.fetchurl {
+          url = "https://pypi.python.org/packages/source/d/dockerpty/dockerpty-0.3.2.tar.gz";
+          md5 = "1f97b24d2f4b2c345f176f91655002dd";
+        };
+      })
+      (docker.override {
+        src = pkgs.fetchurl {
+          url = "https://pypi.python.org/packages/source/d/docker-py/docker-py-0.5.3.tar.gz";
+          md5 = "809b7b8c144f5e37787e72b030ee353f";
+        };
+      })
+      (websocket_client.override {
+        src = pkgs.fetchurl {
+          url = "https://pypi.python.org/packages/source/w/websocket-client/websocket-client-0.11.0.tar.gz";
+          md5 = "fcffbb5ac10941d9ace416d14d1e3ec8";
+        };
+      })
+    ];
+
+    doCheck = false;
+
+    meta = {
+      homepage = http://www.fig.sh/;
+      description = "Fast, isolated development environments using Docker";
+      license = stdenv.lib.licenses.asl20;
+    };
+  };
+
   jsonschema = buildPythonPackage (rec {
     version = "2.4.0";
     name = "jsonschema-${version}";
