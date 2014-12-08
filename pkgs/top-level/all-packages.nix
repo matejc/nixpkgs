@@ -10334,6 +10334,8 @@ let
   namecoin = callPackage ../applications/misc/namecoin { };
   namecoinqt = callPackage ../applications/misc/namecoin/qt.nix { };
 
+  panamax_api = callPackage ../applications/networking/cluster/panamax/api.nix {};
+
   pcmanfm = callPackage ../applications/misc/pcmanfm { };
 
   ruby_gpgme = callPackage ../development/libraries/ruby_gpgme {
