@@ -1679,6 +1679,7 @@ let
   mailsend = callPackage ../tools/networking/mailsend { };
 
   mailpile = callPackage ../applications/networking/mailreaders/mailpile { };
+  mailpile_dev = callPackage ../applications/networking/mailreaders/mailpile/dev.nix { };
 
   mailutils = callPackage ../tools/networking/mailutils {
     guile = guile_1_8;
