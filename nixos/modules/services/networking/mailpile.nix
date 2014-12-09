@@ -8,6 +8,7 @@ let
 
   hostname = cfg.hostname;
   port = cfg.port;
+  package = cfg.package;
 
 in
 
@@ -31,6 +32,11 @@ in
       port = mkOption {
         default = "33411";
         description = "Listen on this port.";
+      };
+      package = mkOption {
+        default = pkgs.mailpile;
+        description = "Which mailpile derivation to use.";
+        type = types.package;
       };
     };
 
