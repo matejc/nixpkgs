@@ -1,18 +1,18 @@
-{ stdenv, fetchurl, writeScript, pkgconfig, qt4, seafile-shared31, ccnet31
+{ stdenv, fetchurl, writeScript, pkgconfig, qt4, seafile-shared4, ccnet4
 , makeWrapper, cmake }:
 
 stdenv.mkDerivation rec
 {
-  version = "3.1.4";
+  version = "4.0.4";
   name = "seafile-client-${version}";
 
   src = fetchurl
   {
     url = "https://github.com/haiwen/seafile-client/archive/v${version}.tar.gz";
-    sha256 = "0a99ng0scbypnz8c7shzs2p4x3cnqnwb34dg60cprfs7h2b0xrsj";
+    sha256 = "1xqxqvxg4kd452wk8g2nc40bpaxrhzsbjp1ll7d0asqry4zn89jb";
   };
 
-  buildInputs = [ pkgconfig qt4 seafile-shared31 makeWrapper cmake ];
+  buildInputs = [ pkgconfig qt4 seafile-shared4 makeWrapper cmake ];
 
   configurePhase = ''
     cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_SKIP_BUILD_RPATH=ON -DCMAKE_INSTALL_PREFIX="$out" .
@@ -22,7 +22,7 @@ stdenv.mkDerivation rec
 
   postInstall = ''
     wrapProgram $out/bin/seafile-applet \
-      --suffix PATH : ${ccnet31}/bin:${seafile-shared31}/bin
+      --suffix PATH : ${ccnet4}/bin:${seafile-shared4}/bin
   '';
 
   meta =
@@ -31,6 +31,6 @@ stdenv.mkDerivation rec
     description = "Desktop client for Seafile, the Next-generation Open Source Cloud Storage";
     license = stdenv.lib.licenses.asl20;
     platforms = stdenv.lib.platforms.linux;
-    maintainers = [ stdenv.lib.maintainers.calrama ];
+    maintainers = [ stdenv.lib.maintainers.matejc ];
   };
 }

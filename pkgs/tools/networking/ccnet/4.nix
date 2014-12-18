@@ -1,15 +1,15 @@
 { stdenv, fetchurl, which, automake, autoconf, pkgconfig, libtool, vala, python
-, libsearpc, libzdb, libuuid, libevent, sqlite, openssl}:
+, libsearpc, libzdb, libuuid, libevent, sqlite, openssl }:
 
 stdenv.mkDerivation rec
 {
-  version = "3.1.4";
+  version = "4.0.4";
   name = "ccnet-${version}";
 
   src = fetchurl
   {
     url = "https://github.com/haiwen/ccnet/archive/v${version}.tar.gz";
-    sha256 = "05rwc54y2xar0jaswzjn2ds4wz7xdj6lmqn4my9451xq4ixvbp21";
+    sha256 = "15179dxgrnd9nyk7y4fkqhvjjg2k58dxs58zylm90hlb3kyjz0ak";
   };
 
   buildInputs = [ which automake autoconf pkgconfig libtool vala  python ];

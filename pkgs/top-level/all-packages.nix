@@ -666,7 +666,7 @@ let
 
   ccnet = callPackage ../tools/networking/ccnet { };
 
-  ccnet31 = callPackage ../tools/networking/ccnet/31.nix { };
+  ccnet4 = callPackage ../tools/networking/ccnet/4.nix { };
 
   consul = callPackage ../servers/consul {
     inherit ruby rubyLibs;
@@ -10701,7 +10701,7 @@ let
   };
 
   seafile-client = callPackage ../applications/networking/seafile-client { };
-  seafile-client31 = callPackage ../applications/networking/seafile-client/31.nix { };
+  seafile-client4 = callPackage ../applications/networking/seafile-client/4.nix { };
 
   seeks = callPackage ../tools/networking/p2p/seeks { };
 
@@ -12727,7 +12727,7 @@ let
 
   seafile-shared = callPackage ../misc/seafile-shared { };
 
-  seafile-shared31 = callPackage ../misc/seafile-shared/31.nix { };
+  seafile-shared4 = callPackage ../misc/seafile-shared/4.nix { };
 
   slock = callPackage ../misc/screensavers/slock { };
 

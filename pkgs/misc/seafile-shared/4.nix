@@ -1,19 +1,20 @@
 { stdenv, fetchurl, which, automake, autoconf, pkgconfig, libtool, vala, python
-, intltool, fuse, ccnet}:
+, intltool, fuse, ccnet4, curl }:
 
 stdenv.mkDerivation rec
 {
-  version = "3.1.4";
+  version = "4.0.4";
   name = "seafile-shared-${version}";
 
   src = fetchurl
   {
     url = "https://github.com/haiwen/seafile/archive/v${version}.tar.gz";
-    sha256 = "14w8wr7gh7j18amijrvr3xr2g43lzvypzg1qfp38aky6gf0h2bm3";
+    sha256 = "1sx120n9is6w5i8lzvzi5w1855rnp252rr9m4r8rfvbslb2rpchh";
   };
 
-  buildInputs = [ which automake autoconf pkgconfig libtool vala python intltool fuse ];
-  propagatedBuildInputs = [ ccnet ];
+  buildInputs = [ which automake autoconf pkgconfig libtool vala python intltool
+    fuse curl ];
+  propagatedBuildInputs = [ ccnet4 ];
 
   preConfigure = ''
   sed -ie 's|/bin/bash|/bin/sh|g' ./autogen.sh
@@ -37,6 +38,6 @@ stdenv.mkDerivation rec
     description = "Shared components of Seafile: seafile-daemon, libseafile, libseafile python bindings, manuals, and icons";
     license = stdenv.lib.licenses.gpl3;
     platforms = stdenv.lib.platforms.linux;
-    maintainers = [ stdenv.lib.maintainers.calrama ];
+    maintainers = [ stdenv.lib.maintainers.matejc ];
   };
 }

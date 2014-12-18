@@ -1,33 +1,33 @@
-{ stdenv, fetchurl, seafile-server, buildEnv, pythonPackages, python, ccnet31
+{ stdenv, fetchurl, seafile-server, buildEnv, pythonPackages, python, ccnet4
 , libsearpc, writeScriptBin, procps, destination ? "/var/lib/seafile"
 , serverName ? "haiwen" }:
 let
-  # First time and on update:
-  # nix-env -iA pkgs.seafile-server-installer
-  # seafile-server-install
+  helptxt = builtins.toFile "help.txt" ''
+    First time and on update:
+    $ nix-env -iA pkgs.seafile-server-installer
+    $ seafile-server-install
+    if updating, check which update scripts you will have to run:
+    http://manual.seafile.com/deploy/upgrade.html
 
-  # First time only (interactive setup):
-  # seafile-server-env seafile-admin setup
+    First time only (interactive setup):
+    $ seafile-server-env seafile-admin setup
 
-  # To run (you will need Nginx or something to serve, otherwise use without `--fastcgi`):
-  # seafile-server-env seafile-admin start --fastcgi
-  #
-  # First time, after starting server (interactive creation of admin user):
-  # seafile-server-env seafile-admin create-admin
+    To run (you will need Nginx or something to serve, otherwise use without `--fastcgi`):
+    $ seafile-server-env seafile-admin start --fastcgi
+
+    First time, after starting server (interactive creation of admin user):
+    $ seafile-server-env seafile-admin create-admin
+  '';
 
   seahubSrc = fetchurl {
-    url = https://github.com/haiwen/seahub/archive/v4.0.0-server.tar.gz;
-    sha256 = "13sgqgsr7r3jv5hbi2fwdqrhj2pk2jd9166rp45wydlp6rd3qrf4";
-  };
-
-  seafileServer = seafile-server.override {
-    seafile_topdir = "${destination}/${serverName}";
+    url = https://github.com/haiwen/seahub/archive/v4.0.0-pro.tar.gz;
+    sha256 = "1m7xbnczvp1npykvcby3inkvl6vqalzcvj8ksymjqkkrxpi6cmda";
   };
 
   deps = buildEnv {
     name = "deps";
     paths = with pythonPackages; [ python.modules.sqlite3 pillow
-      django_1_5 djblets seafileServer ccnet31 libsearpc gunicorn
+      django_1_5 djblets seafile-server ccnet4 libsearpc gunicorn
       six flup chardet dateutil ];
   };
 
@@ -45,11 +45,16 @@ let
     cd ${destination}/${serverName}
     export PATH="${procps}/bin:${deps}/bin:${python}/bin"
     export PYTHONPATH="${deps}/${python.sitePackages}:${destination}/${serverName}/seafile-server/seahub:${destination}/${serverName}/seafile-server/seahub/thirdpart"
+    export SEAFILE_TOPDIR="${destination}/${serverName}"
 
     "$@"
   '';
 
+  help = writeScriptBin "seafile-server-help" ''
+    cat ${helptxt}
+  '';
+
 in buildEnv {
   name = "seafile-server-installer";
-  paths = [ install env ];
+  paths = [ install env help ];
 }

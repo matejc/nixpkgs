@@ -1,33 +1,32 @@
 { stdenv, fetchurl, which, automake, autoconf, pkgconfig, libtool, vala, python
-, intltool, fuse, ccnet31, libarchive, libevhtp, libevent, acl, lzma, bzip2
-, attr, makeWrapper, gnutar, seafile_topdir ? "" }:
+, intltool, fuse, ccnet4, libarchive, libevhtp, libevent, acl, lzma, bzip2
+, attr, makeWrapper, gnutar }:
 let
   libevent_openssl = libevent.override { use_openssl = true; };
 in
 stdenv.mkDerivation rec
 {
-  version = "3.1.4";
+  version = "4.0.4";
   name = "seafile-server-${version}";
 
   src = fetchurl
   {
     url = "https://github.com/haiwen/seafile/archive/v${version}.tar.gz";
-    sha256 = "14w8wr7gh7j18amijrvr3xr2g43lzvypzg1qfp38aky6gf0h2bm3";
+    sha256 = "1sx120n9is6w5i8lzvzi5w1855rnp252rr9m4r8rfvbslb2rpchh";
   };
 
   buildInputs = [ which automake autoconf pkgconfig libtool vala python intltool
     fuse libarchive libevhtp libevent_openssl acl lzma bzip2 attr makeWrapper
     gnutar ];
-  propagatedBuildInputs = [ ccnet31 ];
+  propagatedBuildInputs = [ ccnet4 ];
 
   # seafile_topdir can be /var/lib/seafile/haiwen
   # (or /data/haiwen, see http://manual.seafile.com/build_seafile/server.html)
   # if you do not set seafile_topdir then application will try to make
   # directories like /nix/pids/ because seafile executables are in /nix/store/...
-  preConfigure = (stdenv.lib.optionalString (seafile_topdir != "") ''
+  preConfigure = ''
     substituteInPlace controller/seafile-controller.c \
-      --replace "g_path_get_dirname (installpath);" "\"${seafile_topdir}\";"
-  '') + ''
+      --replace "g_path_get_dirname (installpath);" "g_getenv (\"SEAFILE_TOPDIR\");"
     sed -ie 's|/bin/bash|/bin/sh|g' ./autogen.sh
     ./autogen.sh
   '';
@@ -39,7 +38,7 @@ stdenv.mkDerivation rec
   postInstall = ''
     for i in $out/bin/*; do
         wrapProgram $i \
-            --prefix PATH ':' $out/bin:${ccnet31}/bin
+            --prefix PATH ':' $out/bin:${ccnet4}/bin
     done
   '';
 
