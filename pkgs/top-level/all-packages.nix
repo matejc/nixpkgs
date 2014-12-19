@@ -2520,6 +2520,8 @@ let
 
   seafile-server = callPackage ../servers/seafile { };
 
+  seafile-server-installer = callPackage ../servers/seafile/installer.nix { };
+
   sec = callPackage ../tools/admin/sec { };
 
   seccure = callPackage ../tools/security/seccure { };
