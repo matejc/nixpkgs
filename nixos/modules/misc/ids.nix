@@ -178,6 +178,8 @@
       nylon = 168;
       apache-kafka = 169;
       panamax = 170;
+      tiddly = 171;
+      tiddlywiki = 172;
 
       # When adding a uid, make sure it doesn't match an existing gid. And don't use uids above 399!
 
