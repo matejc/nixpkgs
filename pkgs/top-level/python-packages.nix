@@ -8296,6 +8296,20 @@ let
   };
 
 
+  pyparsing1 = buildPythonPackage rec {
+    name = "pyparsing-1.5.7";
+
+    src = pkgs.fetchurl {
+      url = "http://pypi.python.org/packages/source/p/pyparsing/${name}.tar.gz";
+      sha256 = "17z7ws076z977sclj628fvwrp8y9j2rvdjcsq42v129n1gwi8vk4";
+    };
+
+    meta = {
+      homepage = http://pyparsing.wikispaces.com/;
+      description = "The pyparsing module is an alternative approach to creating and executing simple grammars, vs. the traditional lex/yacc approach, or the use of regular expressions.";
+    };
+  };
+
   pyparted = buildPythonPackage rec {
     name = "pyparted-${version}";
     version = "3.10";
@@ -8472,6 +8486,16 @@ let
     propagatedBuildInputs = with self; [ kitchen requests bunch paver ];
     doCheck = false;
   });
+
+
+  python_openid = buildPythonPackage (rec {
+    name = "python-openid-2.2.5";
+    src = pkgs.fetchurl {
+      url = "https://pypi.python.org/packages/source/p/python-openid/${name}.tar.gz";
+      sha256 = "1vvhxlghjan01snfdc4k7ykd80vkyjgizwgg9bncnin8rqz1ricj";
+    };
+  });
+
 
   python_simple_hipchat = buildPythonPackage rec {
     name = "python-simple-hipchat-${version}";
@@ -9692,6 +9716,53 @@ let
     meta = {
       description = "A library for testing interactive command-line applications";
       homepage = http://pypi.python.org/pypi/ScriptTest/;
+    };
+  };
+
+  selector = buildPythonPackage rec {
+    version = "0.10.1";
+    name = "selector-${version}";
+
+    src = pkgs.fetchurl {
+      url = "http://pypi.python.org/packages/source/s/selector/${name}.tar.gz";
+      sha256 = "03sq1dhll6k84s6acb57wrbc0x959s83bp2r5fysja5x6dwsiqrc";
+    };
+
+    propagatedBuildInputs = with self; [ resolver ];
+
+    meta = {
+      homepage = http://github.com/lukearno/selector/;
+      description = "WSGI request delegation. (AKA routing.)";
+    };
+  };
+
+  resolver = buildPythonPackage rec {
+    version = "0.2.1";
+    name = "resolver-${version}";
+
+    src = pkgs.fetchurl {
+      url = "http://pypi.python.org/packages/source/r/resolver/${name}.tar.gz";
+      sha256 = "1hn709w0bpfg77s7pqrvfd2wlqnjmmm5vn8gzqid40jkahn15lvh";
+    };
+
+    meta = {
+      homepage = http://lukearno.com/projects/resolver/;
+      description = "Resolve specially formated statements to Python objects";
+    };
+  };
+
+  httpexceptor = buildPythonPackage rec {
+    version = "1.3.1";
+    name = "httpexceptor-${version}";
+
+    src = pkgs.fetchurl {
+      url = "http://pypi.python.org/packages/source/h/httpexceptor/${name}.tar.gz";
+      sha256 = "178lhmpn4h1np16gwzlps2xak41iwwcq4yp0cr06x6gr95ij3sdb";
+    };
+
+    meta = {
+      homepage = https://github.com/tiddlyweb/httpexceptor;
+      description = "WSGI middleware to handle HTTP responses using exceptions";
     };
   };
 
@@ -12590,6 +12661,24 @@ let
       homepage = http://graphite.wikidot.com/;
       description = "Fixed size round-robin style database";
       maintainers = with maintainers; [ rickynils offline ];
+    };
+  };
+
+  Whoosh = buildPythonPackage rec {
+    name = "Whoosh-${version}";
+    version = "2.5.7";
+
+    src = pkgs.fetchurl {
+      url = "https://pypi.python.org/packages/source/W/Whoosh/${name}.tar.gz";
+      md5 = "9d35a7498d5c7af8fe162f63719f4eeb";
+    };
+
+    buildInputs = [ self.pytest ];
+
+    meta = with stdenv.lib; {
+      homepage = http://bitbucket.org/mchaput/whoosh;
+      description = "Fast, pure-Python full text indexing, search, and spell checking library";
+      maintainers = with maintainers; [ matejc ];
     };
   };
 

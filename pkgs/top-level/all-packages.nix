@@ -7399,6 +7399,12 @@ let
 
   thrift = callPackage ../development/libraries/thrift { };
 
+  tiddlyweb = callPackage ../servers/tiddly/tiddlyweb.nix { };
+  tiddlywebwiki = callPackage ../servers/tiddly/tiddlywebwiki.nix { };
+  tiddlywiki = callPackage ../servers/tiddly/tiddlywiki.nix { };
+  tiddlyWebPlugins = recurseIntoAttrs (callPackage ../servers/tiddly/plugins.nix { });
+  tiddlyWrapper = callPackage ../servers/tiddly/wrapper.nix { };
+
   tinyxml = tinyxml2;
 
   tinyxml2 = callPackage ../development/libraries/tinyxml/2.6.2.nix { };
