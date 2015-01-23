@@ -21,8 +21,9 @@ rec {
 
   #### APPLICATIONS
   econnman = callPackage ./econnman.nix { };
-  terminology = callPackage ./terminology.nix { };
-  rage = callPackage ./rage.nix { };
+  empc = callPackage ./empc.nix { };
   ephoto = callPackage ./ephoto.nix { };
+  rage = callPackage ./rage.nix { };
+  terminology = callPackage ./terminology.nix { };
 
 }
