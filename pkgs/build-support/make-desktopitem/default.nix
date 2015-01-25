@@ -10,6 +10,8 @@
 , mimeType ? ""
 , categories ? "Application;Other;"
 , startupNotify ? null
+, encoding ? "UTF-8"
+, noDisplay ? "false"
 }:
 
 stdenv.mkDerivation {
@@ -30,5 +32,8 @@ stdenv.mkDerivation {
     ${if startupNotify == null then ''EOF'' else ''
     StartupNotify=${startupNotify}
     EOF''}
+    Encoding=${encoding}
+    NoDisplay=${noDisplay}
+    EOF
   '';
 }
