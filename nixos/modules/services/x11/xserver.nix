@@ -424,6 +424,26 @@ in
           by default.
         '';
       };
+
+      defaultApps = mkOption {
+        default = [];
+        example = literalExample ''[
+          {mimetypes = ["text/plain" "text/css"]; exec = "/run/current-system/sw/bin/sublime";}
+          {mimetypes = ["image/png" "image/jpeg" "image/gif"]; exec = "/run/current-system/sw/bin/gpicview";}
+          {
+            mimetypes = ["video/x-msvideo" "video/mp4" "application/mp4" "video/x-m4v" "video/x-ms-wmv"
+              "video/x-matroska" "video/quicktime"];
+            exec = "/run/current-system/sw/bin/mpv --hwdec=vdpau --vo=vdpau --no-terminal --force-window";
+          }
+        ]'';
+        description = ''
+          Default application list by mimetypes. This is used by file managers
+          and web browsers. To apply this option in some cases you need to
+          re-login beside to rebuild the configuration. Keep in mind that there
+          are many mimetypes per file, to get right mimetype use commands like
+          `file --mime-type ./file.ext` and file preferences of your file manager.
+        '';
+      };
     };
 
   };
@@ -488,7 +508,10 @@ in
         pkgs.xdg_utils
         xorg.xf86inputevdev.out # get evdev.4 man page
       ]
-      ++ optional (elem "virtualbox" cfg.videoDrivers) xorg.xrefresh;
+      ++ optional (elem "virtualbox" cfg.videoDrivers) xorg.xrefresh
+      ++ optionals (cfg.defaultApps != []) [(pkgs.makeDefaultApps {
+        applist = cfg.defaultApps;
+      }) pkgs.perlPackages.FileMimeInfo ];
 
     environment.pathsToLink =
       [ "/etc/xdg" "/share/xdg" "/share/applications" "/share/icons" "/share/pixmaps" ];
