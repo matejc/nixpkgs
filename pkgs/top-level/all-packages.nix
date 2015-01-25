@@ -411,6 +411,10 @@ let
 
   makeDesktopItem = callPackage ../build-support/make-desktopitem { };
 
+  makeDefaultApps = import ../misc/defaultapps.nix {
+    inherit pkgs lib;
+  };
+
   makeAutostartItem = callPackage ../build-support/make-startupitem { };
 
   makeInitrd = { contents, compressor ? "gzip -9n", prepend ? [ ] }:
@@ -12359,7 +12363,7 @@ let
 
   pencil = callPackage ../applications/graphics/pencil { };
 
-  perseus = callPackage ../applications/science/math/perseus {};  
+  perseus = callPackage ../applications/science/math/perseus {};
 
   petrifoo = callPackage ../applications/audio/petrifoo {
     inherit (gnome) libgnomecanvas;
