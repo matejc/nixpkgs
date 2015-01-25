@@ -271,6 +271,10 @@ in
 
   makeDesktopItem = callPackage ../build-support/make-desktopitem { };
 
+  makeDefaultApps = import ../misc/defaultapps.nix {
+    inherit pkgs lib;
+  };
+
   makeAutostartItem = callPackage ../build-support/make-startupitem { };
 
   makeInitrd = { contents, compressor ? "gzip -9n", prepend ? [ ] }:
