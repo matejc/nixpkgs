@@ -1,5 +1,5 @@
 { stdenv, fetchurl, e19, automake, autoconf, libtool, pkgconfig, gst_all_1
-, makeWrapper, lib }:
+, makeWrapper, lib, curl }:
 stdenv.mkDerivation rec {
   name = "rage-${version}";
   version = "0.1.1";
@@ -35,7 +35,8 @@ stdenv.mkDerivation rec {
   '';
   postInstall = ''
     wrapProgram $out/bin/rage \
-      --prefix GST_PLUGIN_PATH : "$GST_PLUGIN_PATH"
+      --prefix GST_PLUGIN_PATH : "$GST_PLUGIN_PATH" \
+      --prefix LD_LIBRARY_PATH : ${curl}/lib
   '';
   meta = {
     description = "Video + Audio player along the lines of mplayer";
