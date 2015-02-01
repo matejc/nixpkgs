@@ -10,6 +10,7 @@ stdenv.mkDerivation rec {
   buildInputs = [ e19.elementary e19.efl automake autoconf libtool pkgconfig
     makeWrapper ];
   GST_PLUGIN_PATH = lib.makeSearchPath "lib/gstreamer-1.0" [
+    gst_all_1.gstreamer
     gst_all_1.gst-plugins-base
     gst_all_1.gst-plugins-good
     gst_all_1.gst-plugins-bad
