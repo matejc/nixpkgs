@@ -1,18 +1,25 @@
-{ stdenv, fetchgit, pythonPackages, gnupg1orig, makeWrapper, openssl }:
+{ stdenv, fetchgit, pythonPackages, gnupg1orig, makeWrapper, openssl, gettext }:
 
 pythonPackages.buildPythonPackage rec {
   name = "mailpile-${version}";
-  version = "0.4.1";
+  version = "0.4.3";
 
   src = fetchgit {
     url = "git://github.com/pagekite/Mailpile";
     rev = "refs/tags/${version}";
-    sha256 = "0h84cc9kwb0m4admqjkpg4pllxlh095rmzvrql45kz71fpnxs780";
+    sha256 = "1zac75in4m543cjmsig42jikgr7zdrfl2637xmh6q3mbcf5mgi0y";
   };
 
   patchPhase = ''
-    substituteInPlace setup.py --replace "data_files.append((dir" "data_files.append(('lib/${pythonPackages.python.libPrefix}/site-packages/' + dir"
+    substituteInPlace scripts/compile-messages.sh \
+      --replace "/bin/bash" "${stdenv.shell}"
+
+    # so that tests work
+    export HOME=$PWD/home
+    mkdir -p $HOME
   '';
+
+  buildInputs = [ gettext pythonPackages.nose pythonPackages.mock ];
 
   propagatedBuildInputs = with pythonPackages; [
     makeWrapper pillow jinja2 spambayes pythonPackages.lxml
