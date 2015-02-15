@@ -1,6 +1,6 @@
 { stdenv, runCommand, writeText, writeScript, writeScriptBin, ruby, lib
 , callPackage, defaultGemConfig, fetchurl, fetchgit, buildRubyGem , bundler_HEAD
-, git
+, git, cacert
 }@defs:
 
 # This is a work-in-progress.
@@ -294,6 +294,7 @@ stdenv.mkDerivation {
 
     mkdir $out/bin
     cp ${./monkey_patches.rb} monkey_patches.rb
+    export OPENSSL_X509_CERT_FILE=${cacert}/etc/ca-bundle.crt
     export RUBYOPT="-rmonkey_patches.rb -I $(pwd -P)"
     bundler install --frozen --binstubs ${lib.optionalString enableParallelBuilding "--jobs $NIX_BUILD_CORES"}
     RUBYOPT=""
