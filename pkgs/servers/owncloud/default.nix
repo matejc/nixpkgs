@@ -1,19 +1,19 @@
 { stdenv, fetchurl }:
 stdenv.mkDerivation rec {
   name= "owncloud-${version}";
-  version = "7.0.4";
+  version = "8.0.0";
 
   src = fetchurl {
     url = "https://download.owncloud.org/community/${name}.tar.bz2";
-    sha256 = "0djgqdyxkrh1wc4sn21fmdjr09dkmnjm3gs6lbkp6yn5fpbzhybi";
+    sha256 = "0brlwqiyia7y0z9rsz6gfd9px7rvpgr04hycph3v2gjczq3cnqhc";
   };
 
   installPhase =
     ''
-      mkdir -p $out
-      find . -maxdepth 1 -execdir cp -r '{}' $out \;
+      mkdir -p $out/www/owncloud
+      find . -maxdepth 1 -execdir cp -r '{}' $out/www/owncloud \;
 
-      substituteInPlace $out/lib/base.php \
+      substituteInPlace $out/www/owncloud/lib/base.php \
         --replace 'OC_Config::$object = new \OC\Config(self::$configDir);' \
                   'self::$configDir = getenv("OC_CONFIG_PATH"); OC_Config::$object = new \OC\Config(self::$configDir);'
     '';
