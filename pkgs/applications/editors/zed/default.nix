@@ -3,7 +3,7 @@
 
 let
   name = "zed-${version}";
-  version = "1.0.0";
+  version = "1.0.1";
 
   # When upgrading node.nix / node packages:
   #   fetch package.json from Zed's repository
@@ -31,7 +31,7 @@ let
     src = fetchgit {
         url = "git://github.com/zedapp/zed";
         rev = "refs/tags/v${version}";
-        sha256 = "1kdvj9mvdwm4cswqw6nn9j6kgqvs4d7vycpsmmfha9a2rkryw9zh";
+        sha256 = "16bslpc76z1b6w6iaxgxbxcffx05qxc970f4c3zwgs1rbzm8p9ak";
       };
 
     buildInputs = [ makeWrapper zip ];
