@@ -37,6 +37,8 @@ in stdenv.mkDerivation rec {
       $out/share/atom/atom
     patchelf --set-interpreter "$(cat $NIX_CC/nix-support/dynamic-linker)" \
       $out/share/atom/resources/app/apm/bin/node
+    patchelf --set-interpreter "$(cat $NIX_CC/nix-support/dynamic-linker)" \
+      $out/share/atom/resources/app/node_modules/symbols-view/vendor/ctags-linux
     wrapProgram $out/bin/atom \
       --prefix "LD_LIBRARY_PATH" : "${atomEnv}/lib:${atomEnv}/lib64"
     wrapProgram $out/bin/apm \
