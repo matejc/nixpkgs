@@ -21,12 +21,12 @@ let
   bundler = bundler_HEAD.override { inherit ruby; };
 in stdenv.mkDerivation rec {
   name = "panamax-api-${version}";
-  version = "0.2.11";
+  version = "0.2.13";
 
   src = fetchgit {
     rev = "refs/tags/v${version}";
     url = "git://github.com/CenturyLinkLabs/panamax-api";
-    sha256 = "01sz7jibn1rqfga85pr4p8wk6jfldzfaxj1726vs6znmcwhfkcgj";
+    sha256 = "11gy7c25vp2d4d9bn7zc3y3wgpvwgg3b6hi8wfsdbfx3cq8p6cqb";
   };
 
   buildInputs = [ makeWrapper sqlite openssl env.ruby bundler ];

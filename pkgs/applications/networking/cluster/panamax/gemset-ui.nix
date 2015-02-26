@@ -183,10 +183,10 @@ in {
     ];
   };
   "ctl_base_ui" = {
-    version = "0.0.4";
+    version = "0.0.5";
     source = {
       type = "gem";
-      sha256 = "0h0dbl0mf6cql7yp10jywv22rn0iy2188phdxvr2ladwwn2vxf5d";
+      sha256 = "1pji85xmddgld5lqx52zxi5r2kx6rsjwkqlr26bp62xb29r10x57";
     };
     dependencies = [
       "haml"
@@ -283,10 +283,10 @@ in {
     };
   };
   "i18n" = {
-    version = "0.6.11";
+    version = "0.7.0";
     source = {
       type = "gem";
-      sha256 = "0fwjlgmgry2blf8zlxn9c555cf4a16p287l599kz5104ncjxlzdk";
+      sha256 = "1i5z1ykl8zhszsxcs8mzl8d0dxgs3ylz8qlzrw74jb0gplkx6758";
     };
   };
   "jquery-rails" = {
@@ -311,10 +311,10 @@ in {
     ];
   };
   "json" = {
-    version = "1.8.1";
+    version = "1.8.2";
     source = {
       type = "gem";
-      sha256 = "0002bsycvizvkmk1jyv8px1hskk6wrjfk4f7x5byi8gxm6zzn6wn";
+      sha256 = "0zzvv25vjikavd3b1bp6lvbgj23vv9jvmnl4vpim8pv30z8p6vr5";
     };
   };
   "kramdown" = {
@@ -363,10 +363,10 @@ in {
     };
   };
   "minitest" = {
-    version = "5.4.3";
+    version = "5.5.1";
     source = {
       type = "gem";
-      sha256 = "1ws2cphg9jh45nrvs43s2ww5r14nb026bwlbwwpi0jz6qsqm86x4";
+      sha256 = "1h8jn0rgmwy37jnhfcg55iilw0n370vgp8xnh0g5laa8rhv32fyn";
     };
   };
   "multi_json" = {
@@ -456,10 +456,10 @@ in {
     ];
   };
   "rack-test" = {
-    version = "0.6.2";
+    version = "0.6.3";
     source = {
       type = "gem";
-      sha256 = "01mk715ab5qnqf6va8k3hjsvsmplrfqpz6g58qw4m3l8mim0p4ky";
+      sha256 = "0h6x5jq24makgv2fq5qqgjlrk74dxfy62jif9blk43llw8ib2q7z";
     };
     dependencies = [
       "rack"
@@ -506,10 +506,10 @@ in {
     ];
   };
   "rake" = {
-    version = "10.4.1";
+    version = "10.4.2";
     source = {
       type = "gem";
-      sha256 = "1446zzdpwpvwkd0zk19b2smmmvdiarh4b26cdbcw4fy5p67wxkw2";
+      sha256 = "1rn03rqlf1iv6n87a78hkda2yqparhhaivfjpizblmxvlw2hk5r8";
     };
   };
   "ref" = {
@@ -635,10 +635,10 @@ in {
     ];
   };
   "sprockets-rails" = {
-    version = "2.2.2";
+    version = "2.2.4";
     source = {
       type = "gem";
-      sha256 = "192d4vfl1gjz6phli6sqk98364x6v4jkpl5imajvimsinvgyv81b";
+      sha256 = "172cdg38cqsfgvrncjzj0kziz7kv6b1lx8pccd0blyphs25qf4gc";
     };
     dependencies = [
       "actionpack"
