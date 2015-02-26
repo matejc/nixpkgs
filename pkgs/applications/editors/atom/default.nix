@@ -16,11 +16,11 @@ let
   };
 in stdenv.mkDerivation rec {
   name = "atom-${version}";
-  version = "0.171.0";
+  version = "0.184.0";
 
   src = fetchurl {
     url = "https://github.com/atom/atom/releases/download/v${version}/atom-amd64.deb";
-    sha256 = "0syl3rljk2k8j6fy8xq59qhf13b8a4awpi5cvn1kka56y0vmhxs5";
+    sha256 = "1zhy1jpwz1fjkzxr45flswni8zw765kr096av9vixv69s49pmwwk";
     name = "${name}.deb";
   };
 
@@ -36,7 +36,9 @@ in stdenv.mkDerivation rec {
     patchelf --set-interpreter "$(cat $NIX_CC/nix-support/dynamic-linker)" \
       $out/share/atom/atom
     patchelf --set-interpreter "$(cat $NIX_CC/nix-support/dynamic-linker)" \
-      $out/share/atom/resources/app/apm/node_modules/atom-package-manager/bin/node
+      $out/share/atom/resources/app/apm/bin/node
+    patchelf --set-interpreter "$(cat $NIX_CC/nix-support/dynamic-linker)" \
+      $out/share/atom/resources/app/node_modules/symbols-view/vendor/ctags-linux
     wrapProgram $out/bin/atom \
       --prefix "LD_LIBRARY_PATH" : "${atomEnv}/lib:${atomEnv}/lib64"
     wrapProgram $out/bin/apm \
