@@ -1702,6 +1702,8 @@ let
 
   logstash-forwarder = callPackage ../tools/misc/logstash-forwarder { };
 
+  loomio = callPackage ../servers/loomio { ruby = ruby_2_2; };
+
   kippo = callPackage ../servers/kippo { };
 
   klavaro = callPackage ../games/klavaro {};
