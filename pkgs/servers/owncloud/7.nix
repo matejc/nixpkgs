@@ -16,7 +16,7 @@ stdenv.mkDerivation rec {
 
   src = fetchurl {
     url = "https://download.owncloud.org/community/${name}.tar.bz2";
-    sha256 = "1m2bq3fli618wbwzwz2h0ls28cyqhx9lzqzvwqj299jr65kwsk8h";
+    sha256 = "1j21b7ljvbhni9l0b1cpzlhsjy36scyas1l1j222mqdg2srfsi9y";
   };
 
   installPhase =

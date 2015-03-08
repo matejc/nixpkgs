@@ -4,7 +4,7 @@ with lib;
 
 let
   config = ''
-  # php application ${name}
+  # application: ${name}
   server {
       listen ${options.listenAddress+":"}${options.listenPort}${optionalString options.enableSSL " ssl"};
 
@@ -14,8 +14,6 @@ let
 
       ${optionalString options.enableSSL "ssl_certificate ${options.sslCertificate};"}
       ${optionalString options.enableSSL "ssl_certificate_key ${options.sslCertificateKey};"}
-
-      index index.php;
 
       access_log  /var/log/nginx-${name}-access.log;
       error_log  /var/log/nginx-${name}-error.log;
@@ -28,10 +26,10 @@ let
   '';
 
   preStart =
-    { description = "Nginx PHP application ${name} pre start script.";
+    { description = "Nginx application ${name} pre start script.";
       wantedBy = [ "nginx.service" ];
       before = [ "nginx.service" ];
-      after = [ "phpfpm.service" ] ++ options.after;
+      after = options.after ++ (optionals options.isPhpApp [ "phpfpm.service" ]);
       script =
         ''
           ${options.preStart}
@@ -48,5 +46,6 @@ let
     ${options.fpmPool}
   '';
 in {
-  inherit preStart config fpmPool name options;
-}
+  inherit preStart config name options;
+  inherit (options) isPhpApp;
+} // (optionalAttrs options.isPhpApp {inherit fpmPool;})

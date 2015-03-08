@@ -1239,8 +1239,9 @@ in {
 
     services.nginx.enable = true;
 
-    services.nginx.phpApps.owncloud7 = {
+    services.nginx.apps.owncloud7 = {
       enable = true;
+      isPhpApp = true;
       root = documentRoot;
       extraServerConfig = ''
         client_max_body_size 1G;

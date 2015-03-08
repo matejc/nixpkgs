@@ -4,7 +4,9 @@ with lib;
 
 let
   cfg = config.services.nginx;
+
   nginx = cfg.package;
+
   configFile = pkgs.writeText "nginx.conf" ''
     user ${cfg.user} ${cfg.group};
     daemon off;
@@ -16,13 +18,22 @@ let
     ''}
     ${cfg.appendConfig}
   '';
-  httpConfig = cfg.httpConfig + (optionalString (phpApps != []) ''
-    ${concatMapStrings (i: i.config) phpApps}
+
+  httpConfig = cfg.httpConfig + (optionalString (apps != []) ''
+    ${concatStrings (mapAttrsToList (n: v: v.config) apps)}
   '');
-  phpNix = import ./php.nix;
-  phpApps = mapAttrsToList
-    (name: options: phpNix { inherit lib pkgs cfg name options; })
-    (filterAttrs (n: o: o.enable) cfg.phpApps);
+
+  appNix = import ./app.nix;
+
+  apps = mapAttrs
+    (name: options: appNix { inherit lib pkgs cfg name options; })
+    (filterAttrs (n: o: o.enable) cfg.apps);
+
+  preStartScripts = mapAttrs' (n: v: nameValuePair ("nginx-" + n) v.preStart) apps;
+
+  poolConfigs = mapAttrs'
+    (n: v: nameValuePair n v.fpmPool)
+    (filterAttrs (n: o: o.isPhpApp) apps);
 in
 
 {
@@ -89,7 +100,7 @@ in
         description = "Group account under which nginx runs.";
       };
 
-      phpApps = mkOption {
+      apps = mkOption {
         type = types.attrsOf types.optionSet;
         default = {};
         description = "Set of php applications.";
@@ -101,7 +112,14 @@ in
               type = types.bool;
               default = true;
               description = ''
-                Whether this php config should be generated.
+                Whether this config should be enabled.
+              '';
+            };
+            isPhpApp = mkOption {
+              type = types.bool;
+              default = false;
+              description = ''
+                Whether to enable phpfpm.
               '';
             };
             enableSSL = mkOption {
@@ -143,14 +161,14 @@ in
               type = types.str;
               example = "/var/lib/www";
               description = ''
-                Root directory for PHP application.
+                Root directory for the application.
               '';
             };
             serverName = mkOption {
               type = types.str;
               default = "localhost";
               description = ''
-                Domain name for PHP app.
+                Domain name for the app.
               '';
             };
             extraServerConfig = mkOption {
@@ -214,7 +232,7 @@ in
           ExecStart = "${nginx}/bin/nginx -c ${configFile} -p ${cfg.stateDir}";
         };
       };
-    } // (listToAttrs (map (v: (nameValuePair "nginx-${v.name}" v.preStart)) phpApps));
+    } // preStartScripts;
 
     users.extraUsers = optionalAttrs (cfg.user == "nginx") (singleton
       { name = "nginx";
@@ -227,7 +245,7 @@ in
         gid = config.ids.gids.nginx;
       });
 
-    services.phpfpm.poolConfigs = mkIf (phpApps != []) (listToAttrs (map (v: nameValuePair v.name v.fpmPool) phpApps));
+    services.phpfpm.poolConfigs = mkIf (poolConfigs != {}) poolConfigs;
 
   });
 }

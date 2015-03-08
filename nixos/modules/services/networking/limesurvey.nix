@@ -202,8 +202,9 @@ in {
 
       services.nginx.enable = true;
 
-      services.nginx.phpApps.limesurvey = {
+      services.nginx.apps.limesurvey = {
         enable = true;
+        isPhpApp = true;
         root = documentRoot;
         extraServerConfig = ''
           set $host_path "${documentRoot}";
