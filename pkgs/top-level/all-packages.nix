@@ -8975,6 +8975,8 @@ let
     libgcrypt = libgcrypt_1_6;
   };
 
+  cryptocat = callPackage ../applications/networking/cryptocat { };
+
   cramfsswap = callPackage ../os-specific/linux/cramfsswap { };
 
   darwin = let
