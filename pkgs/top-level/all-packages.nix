@@ -8505,6 +8505,8 @@ let
 
   criu = callPackage ../os-specific/linux/criu { };
 
+  cryptocat = callPackage ../applications/networking/cryptocat { };
+
   cryptsetup = callPackage ../os-specific/linux/cryptsetup { };
 
   cramfsswap = callPackage ../os-specific/linux/cramfsswap { };
