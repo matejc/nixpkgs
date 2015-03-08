@@ -10465,6 +10465,8 @@ let
 
   gksu = callPackage ../applications/misc/gksu { };
 
+  glowingbear = callPackage ../applications/networking/irc/glowing-bear { };
+
   gnuradio = callPackage ../applications/misc/gnuradio {
     inherit (pythonPackages) lxml numpy scipy matplotlib pyopengl;
     fftw = fftwFloat;
