@@ -272,6 +272,7 @@
   ./services/networking/flashpolicyd.nix
   ./services/networking/freenet.nix
   ./services/networking/git-daemon.nix
+  ./services/networking/glowing-bear.nix
   ./services/networking/gnunet.nix
   ./services/networking/gogoclient.nix
   ./services/networking/gvpe.nix
