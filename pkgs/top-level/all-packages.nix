@@ -9724,6 +9724,8 @@ let
 
   cryptsetup = callPackage ../os-specific/linux/cryptsetup { };
 
+  cryptocat = callPackage ../applications/networking/cryptocat { };
+
   cramfsswap = callPackage ../os-specific/linux/cramfsswap { };
 
   darwin = let
