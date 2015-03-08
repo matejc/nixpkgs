@@ -12184,6 +12184,8 @@ with pkgs;
 
   cryptsetup = callPackage ../os-specific/linux/cryptsetup { };
 
+  cryptocat = callPackage ../applications/networking/cryptocat { };
+
   cramfsswap = callPackage ../os-specific/linux/cramfsswap { };
 
   crda = callPackage ../os-specific/linux/crda { };
