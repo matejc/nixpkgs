@@ -12766,6 +12766,12 @@ let
       kwooty = callPackage ../applications/networking/newsreaders/kwooty { };
     };
 
+  lxqt = callPackage ../desktops/lxqt { };
+  liblxqt = callPackage ../desktops/lxqt/liblxqt.nix { };
+  libqtxdg = callPackage ../desktops/lxqt/libqtxdg.nix { };
+  liboobs = callPackage ../desktops/lxqt/liboobs.nix { };
+  system-tools-backends = callPackage ../desktops/lxqt/system-tools-backends.nix { };
+
   pantheon = recurseIntoAttrs rec {
     callPackage = newScope pkgs.pantheon;
     pantheon-terminal = callPackage ../desktops/pantheon/apps/pantheon-terminal { };
