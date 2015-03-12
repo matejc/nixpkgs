@@ -182,6 +182,7 @@
       exim = 172;
       tiddly = 173;
       tiddlywiki = 174;
+      loomio = 175;
 
       # When adding a uid, make sure it doesn't match an existing gid. And don't use uids above 399!
 
