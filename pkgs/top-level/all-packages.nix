@@ -4501,7 +4501,7 @@ in
   inherit (self.haskellPackages) ghc;
 
   cabal-install = haskell.lib.disableSharedExecutables haskellPackages.cabal-install;
-   
+
   stack = haskell.lib.overrideCabal haskellPackages.stack (drv: {
     enableSharedExecutables = false;
     isLibrary = false;
@@ -10846,7 +10846,7 @@ in
     batman_adv = callPackage ../os-specific/linux/batman-adv {};
 
     bcc = callPackage ../os-specific/linux/bcc { };
-    
+
     bbswitch = callPackage ../os-specific/linux/bbswitch {};
 
     ati_drivers_x11 = callPackage ../os-specific/linux/ati-drivers { };
@@ -15775,6 +15775,11 @@ in
   mate = recurseIntoAttrs (callPackage ../desktops/mate {
     callPackage = newScope pkgs.mate;
   });
+  lxqt = callPackage ../desktops/lxqt { };
+  liblxqt = callPackage ../desktops/lxqt/liblxqt.nix { };
+  libqtxdg = callPackage ../desktops/lxqt/libqtxdg.nix { };
+  liboobs = callPackage ../desktops/lxqt/liboobs.nix { };
+  system-tools-backends = callPackage ../desktops/lxqt/system-tools-backends.nix { };
 
   pantheon = recurseIntoAttrs rec {
     callPackage = newScope pkgs.pantheon;
@@ -15981,7 +15986,7 @@ in
 
   openspecfun = callPackage ../development/libraries/science/math/openspecfun {};
 
-  magma = callPackage ../development/libraries/science/math/magma { };  
+  magma = callPackage ../development/libraries/science/math/magma { };
 
   mathematica = callPackage ../applications/science/math/mathematica { };
   mathematica9 = callPackage ../applications/science/math/mathematica/9.nix { };
