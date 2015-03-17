@@ -3,12 +3,12 @@
 assert stdenv.system == "x86_64-linux";
 
 stdenv.mkDerivation rec {
-  name = "newrelic-sysmond-1.5.1.93";
+  name = "newrelic-sysmond-2.0.3.113";
 
   src = fetchurl {
-    url = "http://download.newrelic.com/server_monitor/release/newrelic-sysmond-1.5.1.93-linux.tar.gz";
+    url = "http://download.newrelic.com/server_monitor/release/newrelic-sysmond-2.0.3.113-linux.tar.gz";
 
-    sha256 = "1bfwyczcf7pvji8lx566jxgy8dhyf1gmqmi64lj10673a86axnwz";
+    sha256 = "0akjj1j3cq3lp9x0zan0c34jmvp3hg49y2rj7z0vmxvzhngzi9dq";
   };
 
   installPhase = ''
