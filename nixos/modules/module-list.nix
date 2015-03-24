@@ -268,6 +268,7 @@
   ./services/networking/iodined.nix
   ./services/networking/ircd-hybrid/default.nix
   ./services/networking/kippo.nix
+  ./services/networking/limesurvey.nix
   ./services/networking/mailpile.nix
   ./services/networking/minidlna.nix
   ./services/networking/mstpd.nix
