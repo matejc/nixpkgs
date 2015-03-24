@@ -2274,7 +2274,9 @@ let
 
   otpw = callPackage ../os-specific/linux/otpw { };
 
-  owncloud = callPackage ../servers/owncloud { };
+  owncloud = owncloud7;
+
+  owncloud7 = callPackage ../servers/owncloud/7.nix { };
 
   owncloudclient = callPackage ../applications/networking/owncloud-client { };
 
