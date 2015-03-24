@@ -316,6 +316,7 @@
   ./services/networking/dnscrypt-proxy.nix
   ./services/networking/dnsmasq.nix
   ./services/networking/docker-registry-server.nix
+  ./services/networking/drupal.nix
   ./services/networking/ejabberd.nix
   ./services/networking/fan.nix
   ./services/networking/firefox/sync-server.nix
