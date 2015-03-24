@@ -345,24 +345,17 @@ rec {
 
   extraConfig =
     ''
-      ServerName ${config.siteName}
-      ServerAdmin ${config.adminAddr}
-      DocumentRoot ${documentRoot}
+      Alias /apps ${config.dataDir}/apps
+      <Directory ${config.dataDir}/apps>
+        ${allGranted}
+      </Directory>
 
-      RewriteEngine On
-      RewriteCond %{DOCUMENT_ROOT}%{REQUEST_URI} !-f
-      RewriteCond %{DOCUMENT_ROOT}%{REQUEST_URI} !-d
-
-      <Directory ${pkgs.owncloud}>
-        ${builtins.readFile "${pkgs.owncloud}/.htaccess"}
+      <Directory "${documentRoot}">
+        AllowOverride All
       </Directory>
     '';
 
-  globalEnvVars = [
-    { name = "OC_CONFIG_PATH"; value = "${config.dataDir}/config/"; }
-  ];
-
-  documentRoot = pkgs.owncloud;
+  documentRoot = "${pkgs.owncloud}/www/owncloud";
 
   enablePHP = true;
 
@@ -439,7 +432,7 @@ rec {
     };
 
     trustedDomain = mkOption {
-      default = "";
+      default = "localhost";
       description = "Trusted domain";
     };
 
@@ -547,18 +540,14 @@ rec {
   };
 
   startupScript = pkgs.writeScript "owncloud_startup.sh" ''
-
     if [ ! -d ${config.dataDir}/config ]; then
       mkdir -p ${config.dataDir}/config
-      cp ${owncloudConfig} ${config.dataDir}/config/config.php
+      cp ${documentRoot}/_config/.htaccess ${config.dataDir}/config
       mkdir -p ${config.dataDir}/storage
       mkdir -p ${config.dataDir}/apps
-      cp -r ${pkgs.owncloud}/apps/* ${config.dataDir}/apps/
-      chmod -R ug+rw ${config.dataDir}
-      chmod -R o-rwx ${config.dataDir}
-      chown -R wwwrun:wwwrun ${config.dataDir}
+      cp -r ${documentRoot}/apps/* ${config.dataDir}/apps/
 
-      ${pkgs.postgresql}/bin/createuser -s -r postgres
+      ${pkgs.postgresql}/bin/createuser -s -r postgres || true
       ${pkgs.postgresql}/bin/createuser --no-superuser --no-createdb --no-createrole "${config.dbUser}" || true
       ${pkgs.postgresql}/bin/createdb "${config.dbName}" -O "${config.dbUser}" || true
       ${pkgs.sudo}/bin/sudo -u postgres ${pkgs.postgresql}/bin/psql -U postgres -d postgres -c "alter user ${config.dbUser} with password '${config.dbPassword}';" || true
@@ -567,9 +556,13 @@ rec {
       ${pkgs.sudo}/bin/sudo -u postgres ${pkgs.postgresql}/bin/psql -h "/tmp" -U postgres -d ${config.dbName} -Atw -c "$QUERY" || true
     fi
 
-    ${php}/bin/php ${pkgs.owncloud}/occ upgrade || true
+    cp ${owncloudConfig} ${config.dataDir}/config/config.php
 
-    chown wwwrun:wwwrun ${config.dataDir}/owncloud.log || true
+    chmod -R ug+rw ${config.dataDir}
+    chmod -R o-rwx ${config.dataDir}
+    chown -R wwwrun:wwwrun ${config.dataDir}
+
+    ${pkgs.sudo}/bin/sudo -u wwwrun ${php}/bin/php ${documentRoot}/occ upgrade || true
 
     QUERY="INSERT INTO groups (gid) values('admin'); INSERT INTO users (uid,password) values('${config.adminUser}','`echo -n "${config.adminPassword}" | ${pkgs.openssl}/bin/openssl dgst -sha1 | ${pkgs.gawk}/bin/awk '{print $2}'`'); INSERT INTO group_user (gid,uid) values('admin','${config.adminUser}');"
     ${pkgs.sudo}/bin/sudo -u postgres ${pkgs.postgresql}/bin/psql -h "/tmp" -U postgres -d ${config.dbName} -Atw -c "$QUERY" || true
