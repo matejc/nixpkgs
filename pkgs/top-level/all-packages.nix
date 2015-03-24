@@ -1301,6 +1301,8 @@ let
 
   dropbear = callPackage ../tools/networking/dropbear { };
 
+  drupal = callPackage ../servers/drupal { };
+
   dtach = callPackage ../tools/misc/dtach { };
 
   dub = callPackage ../development/tools/build-managers/dub { };
