@@ -67,6 +67,10 @@ installPhase() {
         mkdir -p $out/lib/xorg/modules/extensions
         cp -p libglx.so.* $out/lib/xorg/modules/extensions
 
+        ln -snf $out/lib/xorg/modules/extensions/libglx.so.$versionNumber $out/lib/xorg/modules/extensions/libglx.so
+
+        patchelf --set-rpath $out/lib $out/lib/xorg/modules/extensions/libglx.so.$versionNumber
+
         #patchelf --set-rpath $out/lib $out/lib/xorg/modules/extensions/libglx.so.*.*
 
         # Install the programs.
