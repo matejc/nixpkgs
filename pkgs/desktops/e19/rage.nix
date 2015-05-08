@@ -2,10 +2,10 @@
 , makeWrapper, lib, curl }:
 stdenv.mkDerivation rec {
   name = "rage-${version}";
-  version = "0.1.1";
+  version = "0.1.4";
   src = fetchurl {
     url = "http://download.enlightenment.org/rel/apps/rage/${name}.tar.gz";
-    sha256 = "0jdhbzmnvl0i2zzmjs1wgvxmnv0lm76k7h5llbb8ai34xh4yp3fi";
+    sha256 = "10j3n8crk16jzqz2hn5djx6vms5f6x83qyiaphhqx94h9dgv2mgg";
   };
   buildInputs = [ e19.elementary e19.efl automake autoconf libtool pkgconfig
     makeWrapper ];
