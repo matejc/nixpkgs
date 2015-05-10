@@ -12236,9 +12236,7 @@ let
     inherit (pkgs.kde4) kdelibs;
   };
 
-  opera-beta = callPackage ../applications/networking/browsers/opera/beta.nix {
-    inherit (pkgs.kde4) kdelibs;
-  };
+  opera-beta = callPackage ../applications/networking/browsers/opera/beta.nix { };
 
   opusfile = callPackage ../applications/audio/opusfile { };
 
