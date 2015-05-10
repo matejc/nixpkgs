@@ -13,13 +13,9 @@ stdenv.mkDerivation rec {
     gst_all_1.gst-plugins-good
     gst_all_1.gst-plugins-bad
     gst_all_1.gst-libav ];
-  preConfigure = ''
-    export NIX_CFLAGS_COMPILE="-I${e19.efl}/include/eo-1 $NIX_CFLAGS_COMPILE"
-    export NIX_CFLAGS_COMPILE="-I${e19.efl}/include/ecore-con-1 $NIX_CFLAGS_COMPILE"
-    export NIX_CFLAGS_COMPILE="-I${e19.efl}/include/eldbus-1 $NIX_CFLAGS_COMPILE"
-    export NIX_CFLAGS_COMPILE="-I${e19.efl}/include/ethumb-1 $NIX_CFLAGS_COMPILE"
-    export NIX_CFLAGS_COMPILE="-I${e19.efl}/include/elocation-1 $NIX_CFLAGS_COMPILE"
-  '';
+  NIX_CFLAGS_COMPILE = [ "-I${e19.efl}/include/eo-1" "-I${e19.efl}/include/ecore-con-1"
+    "-I${e19.efl}/include/eldbus-1" "-I${e19.efl}/include/ethumb-1"
+    "-I${e19.efl}/include/elocation-1" "-I${e19.efl}/include/emile-1" ];
   postInstall = ''
     wrapProgram $out/bin/terminology \
       --prefix GST_PLUGIN_PATH : "$GST_PLUGIN_PATH"

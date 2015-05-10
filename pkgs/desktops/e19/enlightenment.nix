@@ -11,8 +11,12 @@ stdenv.mkDerivation rec {
   buildInputs = [ pkgconfig e19.efl e19.elementary xlibs.libXdmcp xlibs.libxcb
     xlibs.xcbutilkeysyms xlibs.libXrandr libffi pam alsaLib luajit bzip2
     libpthreadstubs gdbm ] ++ stdenv.lib.optionals stdenv.isLinux [ libcap ];
+
+  NIX_CFLAGS_COMPILE = [ "-I${e19.efl}/include/emile-1" "-I${e19.efl}/include/eo-1"
+    "-I${e19.efl}/include/ecore-imf-1" "-I${e19.efl}/include/ethumb-client-1"
+    "-I${e19.efl}/include/elocation-1" "-I${e19.efl}/include/ethumb-1" ];
+
   preConfigure = ''
-    export NIX_CFLAGS_COMPILE="-I${e19.efl}/include/eo-1 -I${e19.efl}/include/ecore-imf-1 -I${e19.efl}/include/ethumb-client-1 -I${e19.efl}/include/elocation-1 -I${e19.efl}/include/ethumb-1 $NIX_CFLAGS_COMPILE"
     export USER_SESSION_DIR=$prefix/lib/systemd/user
 
     substituteInPlace src/modules/xkbswitch/e_mod_parse.c \

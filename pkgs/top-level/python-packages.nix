@@ -14722,16 +14722,24 @@ let
     };
   };
 
-  pythonefl_1_13 = buildPythonPackage rec {
+  pythonefl = buildPythonPackage rec {
     name = "python-efl-${version}";
-    version = "1.13.0";
+    version = "1.14.0";
     src = pkgs.fetchurl {
       url = "http://download.enlightenment.org/rel/bindings/python/${name}.tar.bz2";
-      sha256 = "0yy4v0f04dgdz21wd2c09x9w6lzsbq6g12s8895laln44l5aqd82";
+      sha256 = "1ax44l37id4278mj2jhgp5s8zwacc2z15w0nsdjl5ccws587x95d";
     };
-    preConfigure = ''
-      export NIX_CFLAGS_COMPILE="-I${pkgs.e19.efl}/include/eo-1 -I${pkgs.e19.efl}/include/eina-1 -I${pkgs.e19.efl}/include/eina-1/eina -I${pkgs.e19.efl}/include/evas-1 -I${self.dbus}/include/dbus-1.0 -I${pkgs.e19.efl}/include/efl-1 -I${pkgs.e19.efl}/include/eet-1 -I${pkgs.e19.efl}/include/ecore-1 -I${pkgs.e19.efl}/include/ecore-evas-1 -I${pkgs.e19.efl}/include/ecore-file-1 -I${pkgs.e19.efl}/include/ecore-input-1 -I${pkgs.e19.efl}/include/ecore-imf-1 -I${pkgs.e19.efl}/include/ecore-con-1 -I${pkgs.e19.efl}/include/edje-1 -I${pkgs.e19.efl}/include/eldbus-1 -I${pkgs.e19.efl}/include/efreet-1 -I${pkgs.e19.efl}/include/ethumb-client-1 -I${pkgs.e19.efl}/include/ethumb-1 -I${pkgs.e19.efl}/include/ecore-x-1 $NIX_CFLAGS_COMPILE"
-    '';
+    NIX_CFLAGS_COMPILE = [ "-I${pkgs.e19.efl}/include/eo-1" "-I${pkgs.e19.efl}/include/eina-1"
+      "-I${pkgs.e19.efl}/include/eina-1/eina" "-I${pkgs.e19.efl}/include/evas-1"
+      "-I${self.dbus}/include/dbus-1.0" "-I${pkgs.e19.efl}/include/efl-1"
+      "-I${pkgs.e19.efl}/include/eet-1" "-I${pkgs.e19.efl}/include/ecore-1"
+      "-I${pkgs.e19.efl}/include/ecore-evas-1" "-I${pkgs.e19.efl}/include/ecore-file-1"
+      "-I${pkgs.e19.efl}/include/ecore-input-1" "-I${pkgs.e19.efl}/include/ecore-imf-1"
+      "-I${pkgs.e19.efl}/include/ecore-con-1" "-I${pkgs.e19.efl}/include/edje-1"
+      "-I${pkgs.e19.efl}/include/eldbus-1" "-I${pkgs.e19.efl}/include/efreet-1"
+      "-I${pkgs.e19.efl}/include/ethumb-client-1" "-I${pkgs.e19.efl}/include/ethumb-1"
+      "-I${pkgs.e19.efl}/include/ecore-x-1" "-I${pkgs.e19.efl}/include/emile-1"
+      "-I${pkgs.e19.efl}/include/elocation-1" ];
     buildInputs = with self; [ pkgs.pkgconfig pkgs.e19.efl pkgs.e19.elementary ];
     meta = {
       description = "Python bindings for EFL and Elementary";

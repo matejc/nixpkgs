@@ -2,11 +2,11 @@
 , subversionClient, libtool, gdbm, libcap }:
 stdenv.mkDerivation rec {
   name = "ephoto-${version}";
-  version = "20150125";
+  version = "20150407";
   src = fetchgit {
     url = "git://git.enlightenment.org/apps/ephoto.git";
-    rev = "6db2aa4ea2b32c8e19923d6a12cb241fb7ea3ffd";
-    sha256 = "0nag5l52dcjvhcl1fi0x8x5vyxnnkqwnljmr84zkggfiwzppqj1d";
+    rev = "d5fa0ec3065369f430c8f0c6e87cfb69d1a605e9";
+    sha256 = "1468482ik68psynvyrvl1lx7fidpc47s7kca75rdm3marhj7dba9";
   };
   buildInputs = [ pkgconfig e19.efl gettext automake autoconf subversionClient
     libtool e19.elementary gdbm libcap ];
@@ -17,7 +17,8 @@ stdenv.mkDerivation rec {
     "-I${e19.efl}/include/ecore-input-1" "-I${e19.efl}/include/ecore-imf-1"
     "-I${e19.efl}/include/ecore-con-1" "-I${e19.efl}/include/edje-1"
     "-I${e19.efl}/include/eldbus-1" "-I${e19.efl}/include/ethumb-1"
-    "-I${e19.efl}/include/eio-1" ];
+    "-I${e19.efl}/include/eio-1" "-I${e19.efl}/include/emile-1"
+    "-I${e19.efl}/include/ecore-file-1" "-I${e19.efl}/include/ethumb-client-1" ];
   configurePhase = ''
     ./autogen.sh --prefix=$out
   '';

@@ -1,10 +1,10 @@
 { stdenv, fetchurl, pkgconfig, e19, vlc }:
 stdenv.mkDerivation rec {
   name = "emotion_generic_players-${version}";
-  version = "1.13.0";
+  version = "1.14.0";
   src = fetchurl {
     url = "http://download.enlightenment.org/rel/libs/emotion_generic_players/${name}.tar.gz";
-    sha256 = "0gin3cjhfj75v0gjsvv7harbj4fs4r7r1sfi74ncxzna71nrd8r3";
+    sha256 = "1n1a5n2wi68n8gjw4yk6cyf11djpqpac0025vysn5w6dqgccfic3";
   };
   buildInputs = [ pkgconfig e19.efl vlc ];
   preConfigure = ''
