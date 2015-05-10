@@ -2,14 +2,20 @@
 , freetype, fontconfig, libXft, libXrender, libxcb, expat, libXau, libXdmcp
 , libuuid, cups, xz, dpkg, curl, nss, nspr, gnome, xlibs, dbus, systemd
 , gstreamer, gst_plugins_base, libxml2, alsaLib, pulseaudio, makeWrapper
-, gtkSupport ? true, glib, gtk, pango, gdk_pixbuf, cairo, atk
-, kdeSupport ? false, qt4, kdelibs
+, glib, gtk, pango, gdk_pixbuf, cairo, atk, callPackage
 }:
 
 assert stdenv.isLinux && stdenv.cc.cc.isGNU or false && stdenv.cc.libc != null;
 
 let
   mirror = http://get.geo.opera.com/pub/opera-beta;
+
+  plugins = callPackage ../chromium/plugins.nix {
+    enablePepperFlash = true;
+    enableWideVine = false;
+    source = (callPackage ../chromium/source { useOpenSSL = false; });
+  };
+  flags = (import "${plugins}/nix-support/chromium-plugin.nix").flags;
 in
 
 stdenv.mkDerivation rec {
@@ -43,11 +49,8 @@ stdenv.mkDerivation rec {
       gstreamer libxml2 gst_plugins_base curl nss nspr gnome.GConf xlibs.libXi
       xlibs.libXcursor xlibs.libXfixes xlibs.libXScrnSaver xlibs.libXcomposite
       alsaLib xlibs.libXdamage xlibs.libXtst xlibs.libXrandr dbus cups pulseaudio
-      systemd
-    ]
-    ++ stdenv.lib.optionals gtkSupport [ glib gtk pango gdk_pixbuf cairo atk ]
-    ++ stdenv.lib.optionals kdeSupport [ kdelibs qt4 ];
-
+      systemd glib gtk pango gdk_pixbuf cairo atk
+    ];
   libPath = stdenv.lib.makeLibraryPath buildInputs
     + stdenv.lib.optionalString (stdenv.system == "x86_64-linux")
       (":" + stdenv.lib.makeSearchPath "lib64" buildInputs);
@@ -75,24 +78,15 @@ stdenv.mkDerivation rec {
     '';
 
   postFixup = ''
-    # oldRPATH=`patchelf --print-rpath $out/bin/opera-beta`
-    # patchelf --set-interpreter "$(cat $NIX_CC/nix-support/dynamic-linker)" \
-    #   --set-rpath $oldRPATH:${libPath}:${cups}/lib $out/bin/opera-beta
-
-
     rm $out/bin/*
-    # ln -s $out/lib/x86_64-linux-gnu/opera-beta/* $out/bin/
 
-    # ln -s ${systemd}/lib/libudev.so.1 $out/lib/libudev.so.0
+    echo "#####################################"
+    echo ${toString flags}
+
     makeWrapper $out/lib/x86_64-linux-gnu/opera-beta/opera-beta $out/bin/opera-beta \
-      --prefix LD_LIBRARY_PATH : ${libPath}
-
-
-
-    # This file should normally require a gtk-update-icon-cache -q /usr/share/icons/hicolor command
-    # It have no reasons to exist in a redistribuable package
-    # rm $out/share/icons/hicolor/icon-theme.cache
-    '';
+      --prefix LD_LIBRARY_PATH : ${libPath} \
+      --add-flags "${toString flags}"
+  '';
 
   meta = {
     homepage = http://www.opera.com;
