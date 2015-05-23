@@ -21,6 +21,7 @@ rec {
 
   #### APPLICATIONS
   econnman = callPackage ./econnman.nix { };
+  ecrire = callPackage ./ecrire.nix { };
   empc = callPackage ./empc.nix { };
   enventor = callPackage ./enventor.nix { };
   ephoto = callPackage ./ephoto.nix { };
