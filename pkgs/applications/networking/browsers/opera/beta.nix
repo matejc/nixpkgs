@@ -20,13 +20,13 @@ in
 
 stdenv.mkDerivation rec {
   name = "opera-beta-${version}";
-  version = "30.0.1835.18";
+  version = "30.0.1835.26";
 
   src =
     if stdenv.system == "x86_64-linux" then
       fetchurl {
         url = "${mirror}/${version}/linux/opera-beta_${version}_amd64.deb";
-        sha256 = "048p10g26b2r0diyikz192qffyw12dfh2nk2cxjp49611a33bk8l";
+        sha256 = "1riywfifkh6352cd9ir55r3nhibc019rw9cka55px0vhwkcdsi3i";
       }
     else throw "Opera-beta is not supported on ${stdenv.system} (only x86_64 linux is supported)";
 
