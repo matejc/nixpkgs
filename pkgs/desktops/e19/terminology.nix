@@ -13,13 +13,6 @@ stdenv.mkDerivation rec {
     gst_all_1.gst-plugins-good
     gst_all_1.gst-plugins-bad
     gst_all_1.gst-libav ];
-  preConfigure = ''
-    export NIX_CFLAGS_COMPILE="-I${e19.efl}/include/eo-1 $NIX_CFLAGS_COMPILE"
-    export NIX_CFLAGS_COMPILE="-I${e19.efl}/include/ecore-con-1 $NIX_CFLAGS_COMPILE"
-    export NIX_CFLAGS_COMPILE="-I${e19.efl}/include/eldbus-1 $NIX_CFLAGS_COMPILE"
-    export NIX_CFLAGS_COMPILE="-I${e19.efl}/include/ethumb-1 $NIX_CFLAGS_COMPILE"
-    export NIX_CFLAGS_COMPILE="-I${e19.efl}/include/elocation-1 $NIX_CFLAGS_COMPILE"
-  '';
   postInstall = ''
     wrapProgram $out/bin/terminology \
       --prefix GST_PLUGIN_PATH : "$GST_PLUGIN_PATH"
@@ -27,7 +20,7 @@ stdenv.mkDerivation rec {
   meta = {
     description = "The best terminal emulator written with the EFL";
     homepage = http://enlightenment.org/;
-    maintainers = with stdenv.lib.maintainers; [ matejc tstrobel ];
+    maintainers = with stdenv.lib.maintainers; [ matejc tstrobel ftrvxmtrx ];
     platforms = stdenv.lib.platforms.linux;
     license = stdenv.lib.licenses.bsd2;
   };
