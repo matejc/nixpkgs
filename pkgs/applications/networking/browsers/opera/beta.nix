@@ -1,7 +1,7 @@
 { stdenv, fetchurl, zlib, libX11, libXext, libSM, libICE, libXt
 , freetype, fontconfig, libXft, libXrender, libxcb, expat, libXau, libXdmcp
 , libuuid, cups, xz, dpkg, curl, nss, nspr, gnome, xlibs, dbus, systemd
-, gstreamer, gst_plugins_base, libxml2, alsaLib, pulseaudio, makeWrapper
+, gstreamer, gst_plugins_base, libxml2, alsaLib, libpulseaudio, makeWrapper
 , glib, gtk, pango, gdk_pixbuf, cairo, atk, callPackage
 }:
 
@@ -48,7 +48,7 @@ stdenv.mkDerivation rec {
       libXft freetype fontconfig libXrender libuuid expat makeWrapper
       gstreamer libxml2 gst_plugins_base curl nss nspr gnome.GConf xlibs.libXi
       xlibs.libXcursor xlibs.libXfixes xlibs.libXScrnSaver xlibs.libXcomposite
-      alsaLib xlibs.libXdamage xlibs.libXtst xlibs.libXrandr dbus cups pulseaudio
+      alsaLib xlibs.libXdamage xlibs.libXtst xlibs.libXrandr dbus cups libpulseaudio
       systemd glib gtk pango gdk_pixbuf cairo atk
     ];
   libPath = stdenv.lib.makeLibraryPath buildInputs
