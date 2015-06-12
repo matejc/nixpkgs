@@ -24,7 +24,8 @@ stdenv.mkDerivation rec {
     patchShebangs .
   '';
 
-  doCheck = stdenv.system == "x86_64-linux";
+  # doCheck = stdenv.system == "x86_64-linux";
+  doCheck = false;
 
   checkPhase = stdenv.lib.optionalString (stdenv.system == "x86_64-linux")
   ''
@@ -60,4 +61,3 @@ stdenv.mkDerivation rec {
   };
 
 }
-
