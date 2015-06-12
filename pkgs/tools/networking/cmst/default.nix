@@ -1,12 +1,12 @@
 { stdenv, fetchgit, qt5, makeWrapper, libX11 }:
 
 stdenv.mkDerivation rec {
-  name = "cmst-2014.12.05";
+  name = "cmst-2015.03.01";
   rev = "refs/tags/${name}";
   src = fetchgit {
     url = "git://github.com/andrew-bibb/cmst.git";
     inherit rev;
-    sha256 = "070rxv3kyn41ra7nnk1wbqvy6fjg38h7hrdv4dn71b201kmzd194";
+    sha256 = "0mp47ix2yn7qzjlrql0vfz5b3cs6gdp7bg4brj0b75x5wa8xx5cv";
   };
 
   buildInputs = [ qt5.base makeWrapper ];
