@@ -26,10 +26,11 @@ let
       inherit exec;
       mimeType = mimetypes;
       desktopName = "${name}";
-      genericName = "NixOS default";
       extraEntries = ''
       NoDisplay=true;
       '';
+      genericName = "${name}";
+      comment = "NixOS default";
     };
 
   defaultsListString = lib.concatStringsSep "\n" (
