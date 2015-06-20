@@ -26,7 +26,8 @@ let
       inherit exec;
       mimeType = mimetypes;
       desktopName = "${name}";
-      genericName = "NixOS default";
+      genericName = "${name}";
+      comment = "NixOS default";
       noDisplay = "true";
     };
 
