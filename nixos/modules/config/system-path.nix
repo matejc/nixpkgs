@@ -114,6 +114,7 @@ in
         "/share/org"
         "/share/terminfo"
         "/share/vim-plugins"
+        "/share/mime/packages"  # this is needed for update-mime-database
       ];
 
     system.path = pkgs.buildEnv {
