@@ -10820,6 +10820,8 @@ in
 
   disk_indicator = callPackage ../os-specific/linux/disk-indicator { };
 
+  dmc_firmware = callPackage ../os-specific/linux/firmware/dmc { };
+
   dmidecode = callPackage ../os-specific/linux/dmidecode { };
 
   dmtcp = callPackage ../os-specific/linux/dmtcp { };
