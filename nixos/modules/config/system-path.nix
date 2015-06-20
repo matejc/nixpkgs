@@ -119,6 +119,7 @@ in
         "/share/themes"
         "/share/vim-plugins"
         "/share/vulkan"
+        "/share/mime/packages"  # this is needed for update-mime-database
       ];
 
     system.path = pkgs.buildEnv {
