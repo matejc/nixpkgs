@@ -111,6 +111,7 @@ in
         "/share/info"
         "/share/terminfo"
         "/share/man"
+        "/share/mime/packages"  # this is needed for update-mime-database
       ];
 
     system.path = pkgs.buildEnv {
