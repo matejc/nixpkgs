@@ -1,17 +1,18 @@
 { stdenv, fetchgit, autogen, cmake, qt5, pkgconfig, libconfig, kde5, xlibs
 , liboobs, polkit_qt5, libfm, menu-cache, libexif, lib, automake, xorg
 , openbox, which, pango, imlib2, makeWrapper, glib, buildEnv, zlib
-, alsaPlugins, pulseaudio, polkit, freetype, fontconfig, libxml2, autoconf }:
+, alsaPlugins, libpulseaudio, polkit, freetype, fontconfig, libxml2, autoconf }:
 let
-  lxqt_deps = buildEnv {
-    name = "lxqt-deps";
+  lxqt_deps = "${lxqt_env.outPath}";
+  lxqt_env = buildEnv {
+    name = "lxqt-env";
     paths = [ autogen cmake qt5 pkgconfig libconfig
       kde5.kwindowsystem xlibs.libX11 xlibs.libXcursor liboobs kde5.kguiaddons
       kde5.polkit-kde-agent polkit_qt5 xlibs.libpthreadstubs libfm xlibs.libXdmcp
       menu-cache libexif automake xorg.libxcb openbox which xlibs.libXft pango
       imlib2 glib xlibs.libSM xlibs.libICE xlibs.libXext xlibs.xextproto
       xlibs.libXau xlibs.xproto xlibs.kbproto zlib xlibs.libXfixes
-      xlibs.fixesproto alsaPlugins pulseaudio xlibs.libXcomposite
+      xlibs.fixesproto alsaPlugins libpulseaudio xlibs.libXcomposite
       xlibs.libXdamage xlibs.libXrender xlibs.xcbutil xlibs.damageproto
       xlibs.renderproto xlibs.compositeproto polkit stdenv.glibc freetype
       fontconfig libxml2 autoconf ];
@@ -30,7 +31,7 @@ let
       sha256 = "1wj6vw5lf0dshqygnf841jnyyihdnx48adc06q9jwypjbncbagfa";
     };
 
-    buildInputs = [ lxqt_deps makeWrapper ];
+    buildInputs = [ lxqt_env makeWrapper ];
 
     configurePhase = ''
       export CMAKE_BUILD_TYPE=release
