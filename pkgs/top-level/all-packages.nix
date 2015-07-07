@@ -12903,6 +12903,8 @@ let
 
   tribler = callPackage ../applications/networking/p2p/tribler { };
 
+  tutanota = callPackage ../applications/networking/mailreaders/tutanota { };
+
   tuxguitar = callPackage ../applications/editors/music/tuxguitar { };
 
   twister = callPackage ../applications/networking/p2p/twister { };
