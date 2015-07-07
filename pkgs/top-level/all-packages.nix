@@ -12891,6 +12891,8 @@ let
 
   github-release = callPackage ../development/tools/github/github-release { };
 
+  tutanota = callPackage ../applications/networking/mailreaders/tutanota { };
+
   tuxguitar = callPackage ../applications/editors/music/tuxguitar { };
 
   twister = callPackage ../applications/networking/p2p/twister { };
