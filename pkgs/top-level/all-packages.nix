@@ -6458,13 +6458,13 @@ in
   beecrypt = callPackage ../development/libraries/beecrypt { };
 
   beignet = callPackage ../development/libraries/beignet {
-    inherit (llvmPackages) clang-unwrapped; 
-    inherit (xlibs) libX11; 
-    inherit (xorg) libXfixes libpthreadstubs libXdmcp libXdamage libXxf86vm; 
-    inherit (python3Packages) python; 
-    inherit (purePackages) gl; 
-  }; 
-  
+    inherit (llvmPackages) clang-unwrapped;
+    inherit (xlibs) libX11;
+    inherit (xorg) libXfixes libpthreadstubs libXdmcp libXdamage libXxf86vm;
+    inherit (python3Packages) python;
+    inherit (purePackages) gl;
+  };
+
   belle-sip = callPackage ../development/libraries/belle-sip { };
 
   bobcat = callPackage ../development/libraries/bobcat { };
@@ -13485,6 +13485,8 @@ in
   };
 
   vivaldi = callPackage ../applications/networking/browsers/vivaldi {};
+
+  opera-developer = callPackage ../applications/networking/browsers/opera/developer.nix { };
 
   opusfile = callPackage ../applications/audio/opusfile { };
 
