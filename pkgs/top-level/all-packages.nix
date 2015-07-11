@@ -14226,6 +14226,8 @@ in
 
   vivaldi = callPackage ../applications/networking/browsers/vivaldi {};
 
+  opera-developer = callPackage ../applications/networking/browsers/opera/developer.nix { };
+
   opusfile = callPackage ../applications/audio/opusfile { };
 
   opusTools = callPackage ../applications/audio/opus-tools { };
