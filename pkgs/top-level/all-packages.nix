@@ -5617,6 +5617,14 @@ let
 
   node_webkit = node_webkit_0_9;
 
+  nwjs_0_13 = callPackage ../development/tools/node-webkit/nw13.nix {
+    gconf = pkgs.gnome.GConf;
+  };
+
+  nwjs_0_12 = callPackage ../development/tools/node-webkit/nw12.nix {
+    gconf = pkgs.gnome.GConf;
+  };
+
   node_webkit_0_11 = callPackage ../development/tools/node-webkit/nw11.nix {
     gconf = pkgs.gnome.GConf;
   };
