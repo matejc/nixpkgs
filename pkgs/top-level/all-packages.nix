@@ -14610,6 +14610,8 @@ with pkgs;
 
   openmpt123 = callPackage ../applications/audio/openmpt123 {};
 
+  opera-developer = callPackage ../applications/networking/browsers/opera/developer.nix { };
+
   opusfile = callPackage ../applications/audio/opusfile { };
 
   opusTools = callPackage ../applications/audio/opus-tools { };
