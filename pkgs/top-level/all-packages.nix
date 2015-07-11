@@ -12239,6 +12239,7 @@ let
   };
 
   opera-beta = callPackage ../applications/networking/browsers/opera/beta.nix { };
+  opera-developer = callPackage ../applications/networking/browsers/opera/developer.nix { };
 
   opusfile = callPackage ../applications/audio/opusfile { };
 
