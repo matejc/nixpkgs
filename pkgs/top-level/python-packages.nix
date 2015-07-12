@@ -23812,15 +23812,17 @@ in modules // {
   };
 
   searx = buildPythonPackage rec {
-    name = "searx-0.7.0";
+    name = "searx-dev";
 
-    src = pkgs.fetchurl {
-      url = "https://github.com/asciimoo/searx/archive/v0.7.0.tar.gz";
-      sha256 = "0vq2zjdr1c8mr3zkycqq3732zf4pybbbrs3kzplqgf851k9zfpbw";
+    src = pkgs.fetchgit {
+      url = "git://github.com/asciimoo/searx";
+      rev = "a905e4e7db3f25564742f51e3c43a65db1fbc15e";
+      sha256 = "0fy9rq97kw18rwkx7fwy3p2nwcvgpfs7pk76smfvf92c7y9whra5";
     };
 
-    propagatedBuildInputs = with self; [ pyyaml lxml grequests flaskbabel flask requests
-      gevent speaklater Babel pytz dateutil pygments ];
+    propagatedBuildInputs = with self; [ pyyaml lxml flaskbabel flask
+       dateutil pygments certifi pyasn1 pyasn1-modules ndg-httpsclient
+       speaklater Babel requests2 ];
 
     meta = {
       homepage = https://github.com/asciimoo/searx;
@@ -23845,6 +23847,23 @@ in modules // {
     };
   };
 
+  ndg-httpsclient = buildPythonPackage rec {
+    name = "ndg_httpsclient-0.4.0";
+
+    src = pkgs.fetchurl {
+      url = "http://pypi.python.org/packages/source/n/ndg-httpsclient/${name}.tar.gz";
+      sha256 = "0x32ibixm3vv5m9xfk83xsqm8xcqw4dd0khbh6qbri6rxgymbhg8";
+    };
+
+    propagatedBuildInputs = with self; [ pyopenssl ];
+
+    meta = {
+      description = "Provides enhanced HTTPS support for httplib and urllib2 using PyOpenSSL";
+      homepage = https://github.com/cedadev/ndg_httpsclient/;
+      license = "bsd";
+      maintainers = with maintainers; [ matejc ];
+    };
+  };
 
   grequests = buildPythonPackage rec {
     name = "grequests-0.2.0";
