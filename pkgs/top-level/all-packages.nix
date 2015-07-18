@@ -17513,7 +17513,10 @@ with pkgs;
     useMupdf = config.zathura.useMupdf or true;
   };
 
-  zed = callPackage ../applications/editors/zed { };
+  zed = callPackage ../applications/editors/zed {
+    nodejs = nodejs-0_12;
+    node_webkit = node_webkit_0_11;
+  };
 
   zeroc_ice = callPackage ../development/libraries/zeroc-ice {
     inherit (darwin.apple_sdk.frameworks) Security;
