@@ -2542,6 +2542,8 @@ let
 
   owncloud7 = callPackage ../servers/owncloud/7.nix { };
 
+  owncloud8 = callPackage ../servers/owncloud/8.nix { };
+
   owncloudclient = callPackage ../applications/networking/owncloud-client { };
 
   p2pvc = callPackage ../applications/video/p2pvc {};
