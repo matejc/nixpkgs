@@ -15406,7 +15406,10 @@ in
 
   zathura = zathuraCollection.zathuraWrapper;
 
-  zed = callPackage ../applications/editors/zed { };
+  zed = callPackage ../applications/editors/zed {
+    nodejs = nodejs-0_12;
+    node_webkit = node_webkit_0_11;
+  };
 
   zeroc_ice = callPackage ../development/libraries/zeroc-ice { };
 
