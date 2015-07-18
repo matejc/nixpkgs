@@ -1,47 +1,63 @@
-{ lib, stdenv, fetchurl, runCommand, makeWrapper, node_webkit_0_9,
+{ lib, stdenv, fetchurl, runCommand, makeWrapper, xlibs, glibc, glib, gtk, atk,
+  pango, gdk_pixbuf, cairo, freetype, fontconfig, nss, nspr, gnome, alsaLib,
+  expat, dbus, systemd, harfbuzz, libnotify, udev, buildEnv, libcap, cups,
+  libexif,
   fromCi ? true,
   build ? "652",
   version ? if fromCi then "0.3.7-2-0ac62b848" else "0.3.7.2"
 }:
 
 let
-  config = 
-    if stdenv.system == "x86_64-linux" then 
-      {sys = "Linux32"; 
-       sha256 = 
-          if fromCi then "06av40b68xy2mv2fp9qg8npqmnvkl00p2jvbm2fdfnpc9jj746iy"
-                    else "0lm9k4fr73a9p00i3xj2ywa4wvjf9csadm0pcz8d6imwwq44sa8b";
+  config =
+    if stdenv.system == "x86_64-linux" then
+      {sys = "Linux64";
+       sha256 =
+          if fromCi then "1nr2zaixdr5vqynga7jig3fw9dckcnzcbdmbr8haq4a486x2nq0f"
+                    else "72cd01b1cbb99d566860351b4fc4d1bd8ee31f3a9e2fca6877af172923fb4d1d";
       }
-    else if stdenv.system == "i686-linux" then 
-      {sys = "Linux64"; 
-       sha256 = 
-        if fromCi then "1nr2zaixdr5vqynga7jig3fw9dckcnzcbdmbr8haq4a486x2nq0f"
-                  else "1dz1cp31qbwamm9pf8ydmzzhnb6d9z73bigdv3y74dgicz3dpr91";
+    else if stdenv.system == "i686-linux" then
+      {sys = "Linux32";
+       sha256 =
+        if fromCi then "72cd01b1cbb99d566860351b4fc4d1bd8ee31f3a9e2fca6877af172923fb4d1d"
+                  else "72cd01b1cbb99d566860351b4fc4d1bd8ee31f3a9e2fca6877af172923fb4d1d";
       }
     else throw "Unsupported system ${stdenv.system}";
 
-  fetchurlConf = 
+  fetchurlConf =
     let
       ciBase = "https://ci.popcorntime.io/job/Popcorn-Experimental/652/artifact/build/releases/Popcorn-Time";
       relBase = "https://get.popcorntime.io/build";
     in {
-      url = 
+      url =
         if fromCi then "${ciBase}/${lib.toLower config.sys}/Popcorn-Time-${version}-${config.sys}.tar.xz"
-        else "${relBase}/Popcorn-Time-${version}-Linux64.tar.xz";
+        else "${relBase}/Popcorn-Time-${version}-${config.sys}.tar.xz";
       sha256 = config.sha256;
     };
 
+  nwEnv = buildEnv {
+    name = "nwjs-env";
+    paths = [
+      xlibs.libX11 xlibs.libXrender glib gtk atk pango cairo gdk_pixbuf
+      freetype fontconfig xlibs.libXcomposite alsaLib xlibs.libXdamage
+      xlibs.libXext xlibs.libXfixes nss nspr expat dbus stdenv.cc
+      xlibs.libXtst xlibs.libXi xlibs.libXcursor xlibs.libXrandr libcap
+      libnotify xlibs.libXScrnSaver cups systemd libexif gnome.GConf harfbuzz
+    ];
+  };
+
   popcorntimePackage = stdenv.mkDerivation rec {
-    name = 
+    name =
       if fromCi then "popcorntime-git-2015-07-07"
                 else "popcorntime-${version}";
     src = fetchurl fetchurlConf;
     sourceRoot = ".";
     installPhase = ''
       mkdir -p $out
-      cp -r *.so *.pak $out/
-      cat ${node_webkit_0_9}/bin/nw package.nw > $out/Popcorn-Time
-      chmod 555 $out/Popcorn-Time
+      cp -r * $out/
+      patchelf --set-interpreter "${glibc}/lib/ld-linux-x86-64.so.2" \
+        --set-rpath "${nwEnv}/lib" \
+        $out/Popcorn-Time
+      chmod +x $out/Popcorn-Time
     '';
   };
 in
