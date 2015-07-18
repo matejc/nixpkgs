@@ -1,5 +1,5 @@
 { stdenv, buildEnv, fetchgit, makeWrapper, writeScript, fetchurl, zip, pkgs
-, node_webkit }:
+, node_webkit, nodejs }:
 
 let
   name = "zed-${version}";
@@ -11,7 +11,8 @@ let
   #   and replace node.nix with new one
   nodePackages = import ../../../../pkgs/top-level/node-packages.nix {
     inherit pkgs;
-    inherit (pkgs) stdenv nodejs fetchurl fetchgit;
+    inherit (pkgs) stdenv fetchurl fetchgit;
+    inherit nodejs;
     neededNatives = [ pkgs.python ] ++ pkgs.lib.optional pkgs.stdenv.isLinux pkgs.utillinux;
     self = nodePackages;
     generated = ./node.nix;
@@ -47,6 +48,7 @@ let
 
       cat $NWPATH/nw $out/zed/app.nw > $out/zed/zed-bin
       cp $NWPATH/nw.pak $out/zed/
+      cp $NWPATH/icudtl.dat $out/zed/
       cp nw/zed-linux $out/zed/zed
       chmod +x $out/zed/zed*
       cp Zed.desktop.tmpl Zed.svg Zed.png $out/zed
