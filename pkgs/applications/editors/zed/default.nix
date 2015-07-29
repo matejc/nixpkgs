@@ -1,5 +1,5 @@
 { stdenv, buildEnv, fetchgit, makeWrapper, writeScript, fetchurl, zip, pkgs
-, node_webkit, nodejs }:
+, node_webkit, nodejs, glib }:
 
 let
   name = "zed-${version}";
@@ -43,21 +43,16 @@ let
       export NWPATH="${node_webkit}/share/node-webkit";
 
       mkdir -p $out/zed
-
-      cd ${src}/app; zip -r $out/zed/app.nw *; cd ..
-
-      cat $NWPATH/nw $out/zed/app.nw > $out/zed/zed-bin
-      cp $NWPATH/nw.pak $out/zed/
-      cp $NWPATH/icudtl.dat $out/zed/
-      cp nw/zed-linux $out/zed/zed
-      chmod +x $out/zed/zed*
-      cp Zed.desktop.tmpl Zed.svg Zed.png $out/zed
-      rm $out/zed/app.nw
+      cp -r ${src}/app/* $out/zed/
+      echo "#!${stdenv.shell}" > $out/zed/zed-bin
+      echo "$NWPATH/nw $out/zed/" >> $out/zed/zed-bin
+      chmod +x $out/zed/zed-bin
     '';
 
     postFixup = ''
       wrapProgram $out/zed/zed-bin \
-        --prefix NODE_PATH : ${node_env}/lib/node_modules
+        --prefix NODE_PATH : ${node_env}/lib/node_modules \
+        --prefix 'LD_LIBRARY_PATH' ':' '${glib}/lib'
     '';
   };
 
