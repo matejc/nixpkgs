@@ -1,7 +1,7 @@
 { stdenv, fetchurl, buildEnv, makeWrapper
 , xlibs, alsaLib, dbus, glib, gtk, atk, pango, freetype, fontconfig
-, gdk_pixbuf, cairo, zlib, nss, nssTools, nspr, gconf, expat, udev, libcap
-, libnotify}:
+, gdk_pixbuf, cairo, zlib, nss, nssTools, nspr, gconf, expat, systemd, libcap
+, libnotify, cups, libexif }:
 let
   bits = if stdenv.system == "x86_64-linux" then "x64"
          else "ia32";
@@ -13,7 +13,7 @@ let
       freetype fontconfig xlibs.libXcomposite alsaLib xlibs.libXdamage
       xlibs.libXext xlibs.libXfixes nss nspr gconf expat dbus stdenv.cc
       xlibs.libXtst xlibs.libXi xlibs.libXcursor xlibs.libXrandr libcap
-      libnotify
+      libnotify xlibs.libXScrnSaver cups systemd libexif
     ];
   };
 
@@ -37,16 +37,14 @@ in stdenv.mkDerivation rec {
     patchelf --set-interpreter "$(cat $NIX_CC/nix-support/dynamic-linker)" $out/share/nwjs/nw
     patchelf --set-interpreter "$(cat $NIX_CC/nix-support/dynamic-linker)" $out/share/nwjs/nwjc
 
-    ln -s ${udev}/lib/libudev.so $out/share/nwjs/libudev.so.0
-
-    # patchelf --set-rpath "${nwEnv}/lib:${nwEnv}/lib64:$out/share/nwjs" $out/share/nwjs/nw
-    # patchelf --set-rpath "${nwEnv}/lib:${nwEnv}/lib64:$out/share/nwjs" $out/share/nwjs/nwjc
+    patchelf --set-rpath "${nwEnv}/lib:${nwEnv}/lib64" $out/share/nwjs/nw
+    patchelf --set-rpath "${nwEnv}/lib:${nwEnv}/lib64" $out/share/nwjs/nwjc
 
     mkdir -p $out/bin
-    # ln -s $out/share/nwjs/nw $out/bin
-    # ln -s $out/share/nwjs/nwjc $out/bin
-    makeWrapper $out/share/nwjs/nw $out/bin/nw --prefix 'LD_LIBRARY_PATH' ':' '${nwEnv}/lib:${nwEnv}/lib64:$out/share/nwjs'
-    makeWrapper $out/share/nwjs/nwjc $out/bin/nwjc --prefix 'LD_LIBRARY_PATH' ':' '${nwEnv}/lib:${nwEnv}/lib64:$out/share/nwjs'
+    ln -s $out/share/nwjs/nw $out/bin
+    ln -s $out/share/nwjs/nwjc $out/bin
+    #makeWrapper $out/share/nwjs/nw $out/bin/nw --prefix 'LD_LIBRARY_PATH' ':' '${nwEnv}/lib:${nwEnv}/lib64:$out/share/nwjs'
+    #makeWrapper $out/share/nwjs/nwjc $out/bin/nwjc --prefix 'LD_LIBRARY_PATH' ':' '${nwEnv}/lib:${nwEnv}/lib64:$out/share/nwjs'
   '';
 
   buildInputs = [ makeWrapper ];
