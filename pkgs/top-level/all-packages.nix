@@ -7111,6 +7111,7 @@ with pkgs;
   phantomjs = callPackage ../development/tools/phantomjs { };
 
   phantomjs2 = callPackage ../development/tools/phantomjs2 { };
+  phantomjs2-bin = callPackage ../development/tools/phantomjs/2-bin.nix { };
 
   pmccabe = callPackage ../development/tools/misc/pmccabe { };
 
