@@ -7821,11 +7821,11 @@ in modules // {
   });
 
   distutils_extra = buildPythonPackage rec {
-    name = "distutils-extra-2.26";
+    name = "distutils-extra-2.38";
 
     src = pkgs.fetchurl {
-      url = "http://launchpad.net/python-distutils-extra/trunk/2.26/+download/python-${name}.tar.gz";
-      sha256 = "11a3d16efffb00c2b50f40c48531dadaf553ed7a36c5621fde437a16ca40f7ea";
+      url = "http://launchpad.net/python-distutils-extra/trunk/2.38/+download/python-${name}.tar.gz";
+      sha256 = "0lx15kcbby9zisx33p2h5hgakgwh2bvh0ibag8z0px4j6ifhs41x";
     };
 
     meta = {
