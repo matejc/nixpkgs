@@ -30,9 +30,9 @@ let
     inherit name version;
 
     src = fetchgit {
-        url = "git://github.com/zedapp/zed";
-        rev = "refs/tags/v${version}";
-        sha256 = "1zvlngv73h968jd2m42ylr9vfhf35n80wzy616cv2ic7gmr1fl9p";
+        url = "git://github.com/matejc/zed";
+        rev = "74dd7c89238af95d1ece7d5b91f875316bd50a0c";
+        sha256 = "0br7yhwzgqnsin3h0wg4l48ixjq7japrybzr8mqasjdq6xawww4n";
       };
 
     buildInputs = [ makeWrapper zip ];
@@ -40,7 +40,7 @@ let
     dontBuild = true;
 
     installPhase = ''
-      export NWPATH="${node_webkit}/share/node-webkit";
+      export NWPATH="${node_webkit}/share/nwjs";
 
       mkdir -p $out/zed
       cp -r ${src}/app/* $out/zed/
