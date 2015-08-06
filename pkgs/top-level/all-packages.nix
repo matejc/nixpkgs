@@ -15418,7 +15418,7 @@ in
 
   zed = callPackage ../applications/editors/zed {
     nodejs = nodejs-0_12;
-    node_webkit = node_webkit_0_11;
+    node_webkit = nwjs_0_12;
   };
 
   zeroc_ice = callPackage ../development/libraries/zeroc-ice { };
