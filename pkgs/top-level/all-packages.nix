@@ -8889,6 +8889,8 @@ with pkgs;
 
   icu = icu59;
 
+  icu52 = callPackage ../development/libraries/icu/52.nix { };
+
   id3lib = callPackage ../development/libraries/id3lib { };
 
   ilbc = callPackage ../development/libraries/ilbc { };
