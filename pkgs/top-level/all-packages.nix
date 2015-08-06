@@ -6950,6 +6950,8 @@ let
 
   icu = callPackage ../development/libraries/icu { };
 
+  icu52 = callPackage ../development/libraries/icu/52.nix { };
+
   id3lib = callPackage ../development/libraries/id3lib { };
 
   iksemel = callPackage ../development/libraries/iksemel { };
