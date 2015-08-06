@@ -7665,6 +7665,8 @@ in
   icu = callPackage ../development/libraries/icu { };
   icu_54_1 = callPackage ../development/libraries/icu/54.1.nix { };
 
+  icu52 = callPackage ../development/libraries/icu/52.nix { };
+
   id3lib = callPackage ../development/libraries/id3lib { };
 
   iksemel = callPackage ../development/libraries/iksemel { };
