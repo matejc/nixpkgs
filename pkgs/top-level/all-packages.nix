@@ -5667,6 +5667,8 @@ let
 
   phantomjs = callPackage ../development/tools/phantomjs { };
 
+  phantomjs2-bin = callPackage ../development/tools/phantomjs/2-bin.nix { };
+
   pmccabe = callPackage ../development/tools/misc/pmccabe { };
 
   /* Make pkgconfig always return a nativeDrv, never a proper crossDrv,
