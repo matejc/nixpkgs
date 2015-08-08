@@ -10425,6 +10425,21 @@ let
     };
   };
 
+  pythonwifi = buildPythonPackage rec {
+    name = "python-wifi-${version}";
+    version = "0.6.0";
+    src = pkgs.fetchurl {
+      url = "https://pypi.python.org/packages/source/p/python-wifi/${name}.tar.bz2";
+      sha256 = "0ga0v1vqq4cscndv2qk7m0pdhcrx2jz0z42q2zjc1biyjpjkjijh";
+    };
+
+    meta = {
+      description = "Python WiFi provides read and write access to a wireless network card's capabilities using the Linux Wireless Extensions";
+      homepage = https://pypi.python.org/pypi/python-wifi;
+      license = licenses.lgpl2Plus;
+    };
+  };
+
 
   pil = buildPythonPackage rec {
     name = "PIL-${version}";

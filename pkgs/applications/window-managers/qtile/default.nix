@@ -24,7 +24,7 @@ buildPythonPackage rec {
     pythonPath = [ python27Packages.xcffib ];
   };
 
-  pythonPath = with python27Packages; [ xcffib cairocffi-xcffib trollius readline ];
+  pythonPath = with python27Packages; [ xcffib cairocffi-xcffib trollius readline pythonwifi ];
 
   LD_LIBRARY_PATH = "${pkgs.xorg.libxcb}/lib:${pkgs.cairo}/lib";
 
