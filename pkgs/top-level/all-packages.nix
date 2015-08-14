@@ -599,6 +599,8 @@ let
     client = true;
   });
 
+  ubuntu-device-flash = callPackage ../development/mobile/androidenv/ubuntu-device-flash.nix { };
+
   androidenv = callPackage ../development/mobile/androidenv {
     pkgs_i686 = pkgsi686Linux;
   };
