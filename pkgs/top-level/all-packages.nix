@@ -649,6 +649,8 @@ let
     client = true;
   });
 
+  ubuntu-device-flash = callPackage ../development/mobile/androidenv/ubuntu-device-flash.nix { };
+
   androidenv = import ../development/mobile/androidenv {
     inherit pkgs;
     pkgs_i686 = pkgsi686Linux;
