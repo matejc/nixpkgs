@@ -521,6 +521,8 @@ with pkgs;
     client = true;
   });
 
+  ubuntu-device-flash = callPackage ../development/mobile/androidenv/ubuntu-device-flash.nix { };
+
   apg = callPackage ../tools/security/apg { };
 
   autorevision = callPackage ../tools/misc/autorevision { };
