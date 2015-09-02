@@ -1,22 +1,18 @@
-{ stdenv, boost, fuse, openssl, cmake, attr, jdk, ant, which, python, file
-, fetchurl, lib, valgrind, makeWrapper, utillinux }:
-let
-  sourceInfo = rec {
-    baseName="XtreemFS";
-    version="1.5.1";
-    name="${baseName}-${version}";
-    url="http://www.xtreemfs.org/downloads/${name}.tar.gz";
-    hash="134jhzrdh1ah6b1mvwrnjyf5dass8xh2li40xcmd8cw2nmn8m3r7";
-  };
-in
+{ stdenv, boost, fuse, openssl, cmake, attr, jdk, ant, which, file, python
+, fetchurl, lib, valgrind, makeWrapper, utillinux, fetchFromGitHub }:
+
 stdenv.mkDerivation rec {
-  src = fetchurl {
-    url = sourceInfo.url;
-    sha256 = sourceInfo.hash;
+  src = fetchFromGitHub {
+    rev = "7ddcb081aa125b0cfb008dc98addd260b8353ab3";  # stable (v1.5.1) has broken repl plugin
+    owner = "xtreemfs";
+    repo = "xtreemfs";
+    sha256 = "1hjmd32pla27zf98ghzz6r5ml8ry86m9dsryv1z01kxv5l95b3m0";
   };
 
-  inherit (sourceInfo) name version;
-  buildInputs = [ which attr makeWrapper ];
+  name = "XtreemFS";
+  version = "1.5.1.81";
+
+  buildInputs = [ which attr makeWrapper python ];
 
   preConfigure = ''
     export JAVA_HOME=${jdk}
@@ -46,6 +42,11 @@ stdenv.mkDerivation rec {
 
     # do not put cmake into buildInputs
     export PATH="$PATH:${cmake}/bin"
+  '';
+
+  preBuild = ''
+    substituteInPlace configure \
+    --replace "/usr/bin/file" "${file}/bin/file"
   '';
 
   doCheck = false;
