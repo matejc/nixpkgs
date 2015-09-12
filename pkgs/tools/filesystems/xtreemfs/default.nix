@@ -1,15 +1,16 @@
 { stdenv, boost, fuse, openssl, cmake, attr, jdk, ant, which, file, python
-, fetchurl, lib, valgrind, makeWrapper, utillinux, fetchFromGitHub }:
+, fetchurl, lib, valgrind, makeWrapper, fetchFromGitHub }:
 
 stdenv.mkDerivation rec {
   src = fetchFromGitHub {
-    rev = "7ddcb081aa125b0cfb008dc98addd260b8353ab3";  # stable (v1.5.1) has broken repl plugin
+    # using unstable release because stable (v1.5.1) has broken repl java plugin
+    rev = "7ddcb081aa125b0cfb008dc98addd260b8353ab3";
     owner = "xtreemfs";
     repo = "xtreemfs";
     sha256 = "1hjmd32pla27zf98ghzz6r5ml8ry86m9dsryv1z01kxv5l95b3m0";
   };
 
-  name = "XtreemFS";
+  name = "XtreemFS-${version}";
   version = "1.5.1.81";
 
   buildInputs = [ which attr makeWrapper python ];
@@ -53,22 +54,12 @@ stdenv.mkDerivation rec {
 
   postInstall = ''
     rm -r $out/sbin
-
-    wrapProgram $out/etc/xos/xtreemfs/generate_uuid \
-      --prefix PATH : ${which}/bin:${utillinux}/bin
-
-    substituteInPlace $out/etc/xos/xtreemfs/postinstall_setup.sh \
-      --replace 'XTREEMFS_GENERATE_UUID_SCRIPT="''${XTREEMFS_ETC}/generate_uuid"' "XTREEMFS_GENERATE_UUID_SCRIPT=$out/etc/xos/xtreemfs/generate_uuid"
   '';
 
   meta = {
     description = "A distributed filesystem";
-    maintainers = with lib.maintainers;
-    [
-      raskin matejc
-    ];
-    platforms = with lib.platforms;
-      linux;
+    maintainers = with lib.maintainers; [ raskin matejc ];
+    platforms = lib.platforms.linux;
     license = lib.licenses.bsd3;
   };
 }
