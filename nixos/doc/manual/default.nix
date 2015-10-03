@@ -33,7 +33,7 @@ let
   stripAnyPrefixes = lib.flip (lib.fold lib.removePrefix) prefixesToStrip;
 
   # Convert the list of options into an XML file.
-  optionsXML = builtins.toFile "options.xml" (builtins.toXML optionsList');
+  optionsXML = builtins.toFile "options.xml" (builtins.unsafeDiscardStringContext(builtins.toXML optionsList'));
 
   optionsDocBook = runCommand "options-db.xml" {} ''
     optionsXML=${optionsXML}
