@@ -14683,7 +14683,7 @@ in
   zathura = zathuraCollection.zathuraWrapper;
 
   zed = callPackage ../applications/editors/zed {
-    nodejs = nodejs-0_12;
+    nodejs = nodejs-4_1;
     node_webkit = nwjs_0_12;
   };
 
