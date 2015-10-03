@@ -158,7 +158,7 @@ let
         breeze-qt4 = overrideDerivation super.breeze (drv: {
           name = "breeze-qt4-${version}";
           buildInputs = [ pkgs.xorg.xproto pkgs.kde4.kdelibs pkgs.qt4 ];
-          nativeBuildInputs = [ scope.cmake pkgs.pkgconfig ];
+          nativeBuildInputs = [ scope.cmake pkgs.pkgconfig pkgs.automoc4 ];
           cmakeFlags = [
             "-DUSE_KDE4=ON"
             "-DQT_QMAKE_EXECUTABLE=${scope.qt4}/bin/qmake"
