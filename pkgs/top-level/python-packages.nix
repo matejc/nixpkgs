@@ -17417,12 +17417,13 @@ let
   };
 
   searx = buildPythonPackage rec {
-    name = "searx-dev";
+    name = "searx-${version}";
+    version = "0.8.0";
 
     src = pkgs.fetchgit {
       url = "git://github.com/asciimoo/searx";
-      rev = "a905e4e7db3f25564742f51e3c43a65db1fbc15e";
-      sha256 = "0fy9rq97kw18rwkx7fwy3p2nwcvgpfs7pk76smfvf92c7y9whra5";
+      rev = "refs/tags/v${version}";
+      sha256 = "104jfbvwcvp386li7xzc86f9rw31g1samfy1kya47cl85q0cx232";
     };
 
     propagatedBuildInputs = with self; [ pyyaml lxml flaskbabel flask
