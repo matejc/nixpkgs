@@ -361,6 +361,8 @@ let
 
   california = callPackage ./misc/california { };
 
+  connman-gtk = callPackage ./apps/connman-gtk { };
+
   geary = callPackage ./misc/geary {
     webkitgtk = webkitgtk24x;
   };
@@ -388,7 +390,7 @@ let
   gpaste = callPackage ./misc/gpaste { };
 
   pidgin-im-gnome-shell-extension = callPackage ./misc/pidgin { };
-  
+
   gtkhtml = callPackage ./misc/gtkhtml { };
 
   pomodoro = callPackage ./misc/pomodoro { };
