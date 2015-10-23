@@ -359,6 +359,8 @@ let
 
   california = callPackage ./misc/california { };
 
+  connman-gtk = callPackage ./apps/connman-gtk { };
+
   geary = callPackage ./misc/geary {
     webkitgtk = webkitgtk24x;
   };
