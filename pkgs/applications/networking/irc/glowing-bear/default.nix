@@ -1,11 +1,11 @@
 { stdenv, fetchurl }:
 stdenv.mkDerivation rec {
   name= "glowing-bear-${version}";
-  version = "0.4.9";
+  version = "0.5.2";
 
   src = fetchurl {
     url = "https://github.com/glowing-bear/glowing-bear/archive/cordova-${version}.tar.gz";
-    sha256 = "05dkn49xk9mk2sx6mb165gsrbzl3yzxzzrb9p6ynw0mgxckcsgi7";
+    sha256 = "0sxxigfa1c9d5cz33hi2fln2cwv3gg253hscbm1yi1ygrd9p6l3k";
   };
 
   installPhase =
