@@ -23848,24 +23848,6 @@ in modules // {
     };
   };
 
-  ndg-httpsclient = buildPythonPackage rec {
-    name = "ndg_httpsclient-0.4.0";
-
-    src = pkgs.fetchurl {
-      url = "http://pypi.python.org/packages/source/n/ndg-httpsclient/${name}.tar.gz";
-      sha256 = "0x32ibixm3vv5m9xfk83xsqm8xcqw4dd0khbh6qbri6rxgymbhg8";
-    };
-
-    propagatedBuildInputs = with self; [ pyopenssl ];
-
-    meta = {
-      description = "Provides enhanced HTTPS support for httplib and urllib2 using PyOpenSSL";
-      homepage = https://github.com/cedadev/ndg_httpsclient/;
-      license = "bsd";
-      maintainers = with maintainers; [ matejc ];
-    };
-  };
-
   grequests = buildPythonPackage rec {
     name = "grequests-0.2.0";
 
