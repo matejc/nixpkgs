@@ -36,16 +36,21 @@ stdenv.mkDerivation rec {
 
   installPhase = ''
     tar xf ${src}
-    mkdir -p $out/bin
-    mv ./${name}-linux/* $out/bin
+    mkdir -p $out/{bin,share/LightTable}
+    mv ./${name}-linux/* $out/share/LightTable
 
     patchelf \
       --interpreter "$(cat $NIX_CC/nix-support/dynamic-linker)" \
-      --set-rpath ${libPath}:${libPath}/lib64:$out/bin \
-      $out/bin/LightTable
+      --set-rpath ${libPath}:${libPath}/lib64:$out/share/LightTable \
+      $out/share/LightTable/LightTable
 
+    mv $out/share/LightTable/light $out/bin/light
+
+    ln -s ${udev}/lib/libudev.so.1 $out/share/LightTable/libudev.so.0
     substituteInPlace $out/bin/light \
-        --replace "/usr/lib/x86_64-linux-gnu" "${udev}/lib"
+        --replace "/usr/lib/x86_64-linux-gnu" "${udev}/lib" \
+        --replace "/lib/x86_64-linux-gnu" "$out/share/LightTable" \
+        --replace 'HERE=`dirname $(readlink -f $0)`' "HERE=$out/share/LightTable"
 
     mkdir -p "$out"/share/applications
     cp "${desktopItem}/share/applications/LightTable.desktop" "$out"/share/applications/
