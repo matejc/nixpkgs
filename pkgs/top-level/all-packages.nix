@@ -12826,6 +12826,7 @@ in
   ledger = ledger3;
 
   lighttable = callPackage ../applications/editors/lighttable {};
+  lighttable-alpha = callPackage ../applications/editors/lighttable/alpha.nix {};
 
   links2 = callPackage ../applications/networking/browsers/links2 { };
 
