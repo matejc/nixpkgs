@@ -16326,6 +16326,7 @@ with pkgs;
   lighthouse = callPackage ../applications/misc/lighthouse { };
 
   lighttable = callPackage ../applications/editors/lighttable {};
+  lighttable-alpha = callPackage ../applications/editors/lighttable/alpha.nix {};
 
   libdsk = callPackage ../misc/emulators/libdsk { };
 
