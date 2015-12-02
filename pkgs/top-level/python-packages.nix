@@ -6543,7 +6543,17 @@ let
     };
   };
 
-  docker_compose = buildPythonPackage rec {
+  docker_compose =
+  let
+      docker-custom = self.docker.override rec {
+        name = "docker-py-1.3.1";
+        src = pkgs.fetchurl {
+          url = "https://pypi.python.org/packages/source/d/docker-py/${name}.tar.gz";
+          sha256 = "0l1za05ki6rlijnv3s2dq3pyvd7i1i3zdph3qr5d2nb1iz3kygvl";
+        };
+      };
+  in
+  buildPythonPackage rec {
     version = "1.4.2";
     name = "docker-compose-${version}";
     namePrefix = "";
@@ -6556,6 +6566,7 @@ let
 
     propagatedBuildInputs = with self; [
       six requests pyyaml texttable docopt docker dockerpty websocket_client
+      docker-custom
       (requests2.override {
         src = pkgs.fetchurl {
           url = "https://pypi.python.org/packages/source/r/requests/requests-2.6.1.tar.gz";
