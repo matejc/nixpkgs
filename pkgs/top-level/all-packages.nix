@@ -17254,7 +17254,7 @@ with pkgs;
   };
 
   zed = callPackage ../applications/editors/zed {
-    nodejs = nodejs-4_1;
+    nodejs = nodejs-4_2;
     node_webkit = nwjs_0_12;
   };
 
