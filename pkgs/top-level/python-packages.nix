@@ -23958,17 +23958,17 @@ in modules // {
     };
   };
 
-  pythonefl_1_15 = buildPythonPackage rec {
+  pythonefl_1_16 = buildPythonPackage rec {
     name = "python-efl-${version}";
-    version = "1.15.0";
+    version = "1.16.0";
     src = pkgs.fetchurl {
       url = "http://download.enlightenment.org/rel/bindings/python/${name}.tar.gz";
-      sha256 = "1k3vb7pb70l2v1s2mzg91wvmncq93vb04vn60pzdlrnbcns0grhi";
+      sha256 = "1ihay90agl2jx12m7jj8j1cspd7vsak1w7q95rhb6r2srkq0ppxk";
     };
     preConfigure = ''
       export NIX_CFLAGS_COMPILE="$(pkg-config --cflags efl) -I${self.dbus}/include/dbus-1.0 $NIX_CFLAGS_COMPILE"
     '';
-    buildInputs = with self; [ pkgs.pkgconfig pkgs.e19.efl pkgs.e19.elementary ];
+    buildInputs = with self; [ pkgs.pkgconfig pkgs.e20.efl pkgs.e20.elementary ];
     meta = {
       description = "Python bindings for EFL and Elementary";
       homepage = http://enlightenment.org/;

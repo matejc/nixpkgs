@@ -1,13 +1,13 @@
-{ stdenv, fetchurl, pkgconfig, e19, vlc }:
+{ stdenv, fetchurl, pkgconfig, e20, vlc }:
 stdenv.mkDerivation rec {
   name = "emotion_generic_players-${version}";
-  version = "1.15.0";
+  version = "1.16.0";
   src = fetchurl {
     url = "http://download.enlightenment.org/rel/libs/emotion_generic_players/${name}.tar.gz";
-    sha256 = "08yl473aiklj0yfxbn88000hmnhl7dbhqixsn22ias8a90rxdfhh";
+    sha256 = "101w13s6bynddrn9mznkiyjca8w47zq52i2y18x4l4bd1fm4zcyb";
   };
-  buildInputs = [ pkgconfig e19.efl vlc ];
-  NIX_CFLAGS_COMPILE = [ "-I${e19.efl}/include/eo-1" ];
+  buildInputs = [ pkgconfig e20.efl vlc ];
+  NIX_CFLAGS_COMPILE = [ "-I${e20.efl}/include/eo-1" ];
   meta = {
     description = "Extra video decoders";
     homepage = http://enlightenment.org/;

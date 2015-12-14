@@ -1,4 +1,4 @@
-{ stdenv, fetchurl, pkgconfig, openssl, libjpeg, zlib, freetype, fontconfig, fribidi, SDL2, SDL, mesa, giflib, libpng, libtiff, glib, gst_all_1, libpulseaudio, libsndfile, xorg, libdrm, libxkbcommon, udev, utillinuxCurses, dbus, bullet, luajit, python27Packages, openjpeg, doxygen, expat, harfbuzz, jbig2dec, librsvg, dbus_libs, alsaLib, poppler, libraw, libspectre, xineLib, libwebp, curl, libinput }:
+{ stdenv, fetchurl, pkgconfig, openssl, libjpeg, zlib, freetype, fontconfig, fribidi, SDL2, SDL, mesa, giflib, libpng, libtiff, glib, gst_all_1, libpulseaudio, libsndfile, xorg, libdrm, libxkbcommon, udev, utillinuxCurses, dbus, bullet, luajit, python27Packages, openjpeg, doxygen, expat, harfbuzz, jbig2dec, librsvg, dbus_libs, alsaLib, poppler, libraw, libspectre, xineLib, vlc, libwebp, curl, libinput }:
 
 
 stdenv.mkDerivation rec {
@@ -6,7 +6,7 @@ stdenv.mkDerivation rec {
   version = "1.16.0";
   src = fetchurl {
     url = "http://download.enlightenment.org/rel/libs/efl/${name}.tar.gz";
-    sha256 = "1ihay90agl2jx12m7jj8j1cspd7vsak1w7q95rhb6r2srkq0ppxk";
+    sha256 = "0l0y4admq5m381jxrdjgsw88ar2sxxidcvy46nsfp1yxss1hgbrm";
   };
 
   buildInputs = [ pkgconfig openssl zlib freetype fontconfig fribidi SDL2 SDL mesa
@@ -18,7 +18,7 @@ stdenv.mkDerivation rec {
     xorg.libXdamage xorg.libXinerama xorg.libXp xorg.libXtst xorg.libXi xorg.libXext
     bullet xorg.libXScrnSaver xorg.libXrender xorg.libXfixes xorg.libXrandr
     xorg.libxkbfile xorg.libxcb xorg.xcbutilkeysyms openjpeg doxygen expat luajit
-    harfbuzz jbig2dec librsvg dbus_libs alsaLib poppler libraw libspectre xineLib libwebp curl libdrm
+    harfbuzz jbig2dec librsvg dbus_libs alsaLib poppler libraw libspectre xineLib vlc libwebp curl libdrm
     libinput ];
 
   # ac_ct_CXX must be set to random value, because then it skips some magic which does alternative searching for g++
