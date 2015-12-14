@@ -1,12 +1,12 @@
-{ stdenv, fetchurl, pkgconfig, e19, gst_all_1, makeWrapper, lib }:
+{ stdenv, fetchurl, pkgconfig, e20, gst_all_1, makeWrapper, lib }:
 stdenv.mkDerivation rec {
   name = "terminology-${version}";
-  version = "0.8.0";
+  version = "0.9.1";
   src = fetchurl {
     url = "http://download.enlightenment.org/rel/apps/terminology/${name}.tar.gz";
-    sha256 = "7a10d44b023cf6134c2483304e4ad33bea6df0f11266aec482f54fa67a3ce628";
+    sha256 = "15iq24rcs4hg5naw6xdalcb940bjwykm9wn5h68hwj828ahn9f3z";
   };
-  buildInputs = [ pkgconfig e19.efl e19.elementary makeWrapper ];
+  buildInputs = [ pkgconfig e20.efl e20.elementary makeWrapper ];
   GST_PLUGIN_PATH = lib.makeSearchPath "lib/gstreamer-1.0" [
     gst_all_1.gstreamer
     gst_all_1.gst-plugins-base

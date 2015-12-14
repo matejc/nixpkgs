@@ -6,7 +6,7 @@ stdenv.mkDerivation rec {
   version = "1.16.0";
   src = fetchurl {
     url = "http://download.enlightenment.org/rel/libs/efl/${name}.tar.gz";
-    sha256 = "1ihay90agl2jx12m7jj8j1cspd7vsak1w7q95rhb6r2srkq0ppxk";
+    sha256 = "0l0y4admq5m381jxrdjgsw88ar2sxxidcvy46nsfp1yxss1hgbrm";
   };
 
   buildInputs = [ pkgconfig openssl zlib freetype fontconfig fribidi SDL2 SDL mesa

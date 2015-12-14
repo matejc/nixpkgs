@@ -8286,7 +8286,7 @@ let
   rubberband = callPackage ../development/libraries/rubberband {
     inherit (vamp) vampSDK;
   };
-  
+
   sad = callPackage ../applications/science/logic/sad { };
 
   sbc = callPackage ../development/libraries/sbc { };
@@ -14391,8 +14391,8 @@ let
 
   enlightenment = callPackage ../desktops/enlightenment { };
 
-  e19 = recurseIntoAttrs (callPackage ../desktops/e19 {
-    callPackage = newScope pkgs.e19;
+  e20 = recurseIntoAttrs (callPackage ../desktops/e20 {
+    callPackage = newScope pkgs.e20;
   });
 
   gnome2 = callPackage ../desktops/gnome-2 {
