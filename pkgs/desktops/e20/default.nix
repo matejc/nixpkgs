@@ -19,6 +19,9 @@ rec {
   #### WINDOW MANAGER
   enlightenment = callPackage ./enlightenment.nix { };
 
+  #### BINDINGS
+  pythonefl = callPackage ./python-efl.nix { };
+
   #### APPLICATIONS
   econnman = callPackage ./econnman.nix { };
   /*ecrire = callPackage ./ecrire.nix { };*/
@@ -26,7 +29,7 @@ rec {
   /*enventor = callPackage ./enventor.nix { };*/
   /*ephoto = callPackage ./ephoto.nix { };*/
   /*epour = callPackage ./epour.nix { };*/
-  /*rage = callPackage ./rage.nix { };*/
+  rage = callPackage ./rage.nix { };
   terminology = callPackage ./terminology.nix { };
 
 }
