@@ -1,7 +1,7 @@
 { stdenv, fetchurl, e19, pkgconfig }:
 stdenv.mkDerivation rec {
   name = "enventor-${version}";
-  version = "0.4.1";
+  version = "0.6.0";
   src = fetchurl {
     url = "http://download.enlightenment.org/rel/apps/enventor/${name}.tar.gz";
     sha256 = "1x3q3jwk4wc59php4gbnza8w57np6mm9rx8r6w8j6b8pwnkpn4k8";
