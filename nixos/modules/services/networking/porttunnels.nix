@@ -14,7 +14,7 @@ let
     wantedBy = [ "multi-user.target" ];
     after = [ "network-interfaces.target" ];
 
-    serviceConfig.ExecStart = "${openssh}/bin/ssh -N -i ${cfg.identity_file} -L ${toString cfg.port}:${cfg.host}:${toString cfg.hostport} ${cfg.server}";
+    serviceConfig.ExecStart = "${openssh}/bin/ssh -N -i ${cfg.identity_file} -L ${toString cfg.port}:${cfg.host}:${toString cfg.hostport} ${cfg.extraFlags} ${cfg.server}";
     serviceConfig.Restart = "always";
     serviceConfig.Type = "simple";
     serviceConfig.User = "${cfg.user}";
@@ -81,6 +81,15 @@ in
           example = "someone";
           description = ''
             Run ssh under this user.
+          '';
+        };
+
+        extraFlags = mkOption {
+          type = types.str;
+          example = "-p2022";
+          default = "";
+          description = ''
+            Extra ssh flags.
           '';
         };
       };
