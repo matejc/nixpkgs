@@ -502,6 +502,7 @@
   ./services/networking/powerdns.nix
   ./services/networking/pdns-recursor.nix
   ./services/networking/pptpd.nix
+  ./services/networking/porttunnels.nix
   ./services/networking/prayer.nix
   ./services/networking/privoxy.nix
   ./services/networking/prosody.nix
