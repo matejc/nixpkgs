@@ -14,10 +14,13 @@ let
     wantedBy = [ "multi-user.target" ];
     after = [ "network-interfaces.target" ];
 
-    serviceConfig.ExecStart = "${openssh}/bin/ssh -N -i ${cfg.identity_file} -L ${toString cfg.port}:${cfg.host}:${toString cfg.hostport} -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no ${cfg.extraFlags} ${cfg.server}";
+    serviceConfig.ExecStart = "${openssh}/bin/ssh -N -i ${cfg.identity_file} -L ${if cfg.bind_address == "" then "" else "${cfg.bind_address}:"}${toString cfg.port}:${cfg.host}:${toString cfg.hostport} -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no ${cfg.extraFlags} ${cfg.server}";
     serviceConfig.Restart = "always";
     serviceConfig.Type = "simple";
     serviceConfig.User = "${cfg.user}";
+    serviceConfig.StartLimitInterval = "60s";
+    serviceConfig.StartLimitBurst = "20";
+    serviceConfig.RestartSec = "2s";
   };
 
 in
@@ -51,6 +54,14 @@ in
           example = "/home/someone/.ssh/id_rsa";
           description = ''
             Server address to connect to.
+          '';
+        };
+
+        bind_address = mkOption {
+          default = "";
+          type = types.str;
+          description = ''
+            Bind address.
           '';
         };
 
