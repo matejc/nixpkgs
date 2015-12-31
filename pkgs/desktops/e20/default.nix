@@ -25,11 +25,12 @@ rec {
   #### APPLICATIONS
   econnman = callPackage ./econnman.nix { };
   /*ecrire = callPackage ./ecrire.nix { };*/
-  /*empc = callPackage ./empc.nix { };*/
+  empc = callPackage ./empc.nix { };
   /*enventor = callPackage ./enventor.nix { };*/
-  /*ephoto = callPackage ./ephoto.nix { };*/
+  ephoto = callPackage ./ephoto.nix { };
   /*epour = callPackage ./epour.nix { };*/
   rage = callPackage ./rage.nix { };
   terminology = callPackage ./terminology.nix { };
+  express = callPackage ./express.nix { };
 
 }
