@@ -13728,6 +13728,8 @@ let
   xen_xenServer = callPackage ../applications/virtualization/xen/4.5.0.nix { xenserverPatched = true; };
   xen = xen_4_5_1;
 
+  w_scan = callPackage ../applications/video/w-scan { };
+
   win-spice = callPackage ../applications/virtualization/driver/win-spice { };
   win-virtio = callPackage ../applications/virtualization/driver/win-virtio { };
   win-qemu = callPackage ../applications/virtualization/driver/win-qemu { };
