@@ -4,6 +4,7 @@
 , libX11_32bit, libxcb_32bit, libXau_32bit, libXdmcp_32bit, libXext_32bit, mesa_32bit, alsaLib_32bit
 , libX11, libXext, libXrender, libxcb, libXau, libXdmcp, libXtst, mesa, alsaLib
 , freetype, fontconfig, glib, gtk, atk, file, jdk, coreutils
+, libpulseaudio
 }:
 { platformVersions, abiVersions, useGoogleAPIs, useExtraSupportLibs ? false, useGooglePlayServices ? false }:
 
@@ -82,7 +83,7 @@ stdenv.mkDerivation rec {
         do
             wrapProgram `pwd`/$i \
               --prefix PATH : ${file}/bin \
-              --suffix LD_LIBRARY_PATH : `pwd`/lib:${libX11}/lib:${libxcb}/lib:${libXau}/lib:${libXdmcp}/lib:${libXext}/lib:${mesa}/lib:${alsaLib}/lib
+              --suffix LD_LIBRARY_PATH : `pwd`/lib:${libX11}/lib:${libxcb}/lib:${libXau}/lib:${libXdmcp}/lib:${libXext}/lib:${mesa}/lib:${alsaLib}/lib:${libpulseaudio}/lib
         done
       ''}
     ''}
