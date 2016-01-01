@@ -4,6 +4,7 @@
 , libX11_32bit, libxcb_32bit, libXau_32bit, libXdmcp_32bit, libXext_32bit, mesa_32bit, alsaLib_32bit
 , libX11, libXext, libXrender, libxcb, libXau, libXdmcp, libXtst, mesa, alsaLib
 , freetype, fontconfig, glib, gtk, atk, file, jdk, coreutils
+, libpulseaudio
 }:
 { platformVersions, abiVersions, useGoogleAPIs, useExtraSupportLibs ? false, useGooglePlayServices ? false }:
 
@@ -38,67 +39,67 @@ stdenv.mkDerivation rec {
     ${stdenv.lib.optionalString (stdenv.system == "i686-linux" || stdenv.system == "x86_64-linux")
     ''
       # There are a number of native binaries. We must patch them to let them find the interpreter and libstdc++
-      
+
       for i in emulator emulator-arm emulator-mips emulator-x86 mksdcard
       do
           patchelf --set-interpreter ${stdenv_32bit.cc.libc.out}/lib/ld-linux.so.2 $i
           patchelf --set-rpath ${stdenv_32bit.cc.cc}/lib $i
       done
-      
+
       ${stdenv.lib.optionalString (stdenv.system == "x86_64-linux") ''
         # We must also patch the 64-bit emulator instances, if needed
-        
+
         for i in emulator64-arm emulator64-mips emulator64-x86
         do
             patchelf --set-interpreter ${stdenv.cc.libc.out}/lib/ld-linux-x86-64.so.2 $i
             patchelf --set-rpath ${stdenv.cc.cc}/lib64 $i
         done
       ''}
-      
+
       # The following scripts used SWT and wants to dynamically load some GTK+ stuff.
       # Creating these wrappers ensure that they can be found:
-      
+
       wrapProgram `pwd`/android \
         --prefix PATH : ${jdk}/bin \
         --prefix LD_LIBRARY_PATH : ${makeLibraryPath [ glib gtk libXtst ]}
-    
+
       wrapProgram `pwd`/uiautomatorviewer \
         --prefix PATH : ${jdk}/bin \
         --prefix LD_LIBRARY_PATH : ${glib}/lib:${gtk}/lib:${libXtst}/lib
-    
+
       wrapProgram `pwd`/hierarchyviewer \
         --prefix PATH : ${jdk}/bin \
         --prefix LD_LIBRARY_PATH : ${glib}/lib:${gtk}/lib:${libXtst}/lib
-      
+
       # The emulators need additional libraries, which are dynamically loaded => let's wrap them
-    
+
       for i in emulator emulator-arm emulator-mips emulator-x86
       do
           wrapProgram `pwd`/$i \
             --prefix PATH : ${file}/bin \
             --suffix LD_LIBRARY_PATH : `pwd`/lib:${makeLibraryPath [ libX11_32bit libxcb_32bit libXau_32bit libXdmcp_32bit libXext_32bit mesa_32bit ]}
       done
-      
+
       ${stdenv.lib.optionalString (stdenv.system == "x86_64-linux") ''
         for i in emulator64-arm emulator64-mips emulator64-x86
         do
             wrapProgram `pwd`/$i \
               --prefix PATH : ${file}/bin \
-              --suffix LD_LIBRARY_PATH : `pwd`/lib:${makeLibraryPath [ libX11 libxcb libXau libXdmcp libXext mesa alsaLib ]}
+              --suffix LD_LIBRARY_PATH : `pwd`/lib:${makeLibraryPath [ libX11 libxcb libXau libXdmcp libXext mesa alsaLib libpulseaudio ]}
         done
       ''}
     ''}
 
     patchShebangs .
-    
+
     ${if stdenv.system == "i686-linux" then
       ''
         # The monitor requires some more patching
-        
+
         cd lib/monitor-x86
         patchelf --set-interpreter ${stdenv.cc.libc.out}/lib/ld-linux.so.2 monitor
         patchelf --set-rpath ${makeLibraryPath [ libX11 libXext libXrender freetype fontconfig ]} libcairo-swt.so
-        
+
         wrapProgram `pwd`/monitor \
           --prefix LD_LIBRARY_PATH : ${makeLibraryPath [ gtk atk stdenv.cc.cc libXtst ]}
 
@@ -107,30 +108,30 @@ stdenv.mkDerivation rec {
       else if stdenv.system == "x86_64-linux" then
       ''
         # The monitor requires some more patching
-        
+
         cd lib/monitor-x86_64
         patchelf --set-interpreter ${stdenv.cc.libc.out}/lib/ld-linux-x86-64.so.2 monitor
         patchelf --set-rpath ${makeLibraryPath [ libX11 libXext libXrender freetype fontconfig ]} libcairo-swt.so
-        
+
         wrapProgram `pwd`/monitor \
           --prefix LD_LIBRARY_PATH : ${makeLibraryPath [ gtk atk stdenv.cc.cc libXtst ]}
 
         cd ../..
       ''
       else ""}
-    
+
     # Symlink the other sub packages
-    
+
     cd ..
     ln -s ${platformTools}/platform-tools
     ln -s ${buildTools}/build-tools
     ln -s ${support}/support
-    
+
     # Symlink required Google API add-ons
-    
+
     mkdir -p add-ons
     cd add-ons
-    
+
     ${if useGoogleAPIs then
         stdenv.lib.concatMapStrings (platformVersion:
         if (builtins.hasAttr ("google_apis_"+platformVersion) addons) then
@@ -140,7 +141,7 @@ stdenv.mkDerivation rec {
           "ln -s ${googleApis}/* addon-google_apis-${platformVersion}\n"
         else "") platformVersions
       else ""}
-      
+
     cd ..
 
     # Symlink required extras
@@ -161,14 +162,14 @@ stdenv.mkDerivation rec {
     ${if useGooglePlayServices then
        "ln -s ${addons.google_play_services}/google-play-services google_play_services"
      else ""}
-      
+
     cd ../..
 
     # Symlink required platforms
-   
+
     mkdir -p platforms
     cd platforms
-    
+
     ${stdenv.lib.concatMapStrings (platformVersion:
       if (builtins.hasAttr ("platform_"+platformVersion) platforms) then
         let
@@ -177,14 +178,14 @@ stdenv.mkDerivation rec {
         "ln -s ${platform}/* android-${platformVersion}\n"
       else ""
     ) platformVersions}
-    
+
     cd ..
-    
+
     # Symlink required system images
-  
+
     mkdir -p system-images
     cd system-images
-    
+
     ${stdenv.lib.concatMapStrings (abiVersion:
       stdenv.lib.concatMapStrings (platformVersion:
         if (builtins.hasAttr ("sysimg_" + abiVersion + "_" + platformVersion) sysimages) then
@@ -200,9 +201,9 @@ stdenv.mkDerivation rec {
         else ""
       ) platformVersions
     ) abiVersions}
-    
+
     # Create wrappers to the most important tools and platform tools so that we can run them if the SDK is in our PATH
-    
+
     mkdir -p $out/bin
 
     for i in $out/libexec/android-sdk-*/tools/*
@@ -212,7 +213,7 @@ stdenv.mkDerivation rec {
             ln -sf $i $out/bin/$(basename $i)
         fi
     done
-    
+
     for i in $out/libexec/android-sdk-*/platform-tools/*
     do
         if [ ! -d $i ] && [ -x $i ]
@@ -229,6 +230,6 @@ stdenv.mkDerivation rec {
         fi
     done
   '';
-  
+
   buildInputs = [ unzip makeWrapper ];
 }
