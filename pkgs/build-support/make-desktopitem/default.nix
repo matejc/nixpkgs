@@ -29,11 +29,10 @@ stdenv.mkDerivation {
     GenericName=${genericName}
     MimeType=${mimeType}
     Categories=${categories}
+    Encoding=${encoding}
+    NoDisplay=${noDisplay}
     ${if startupNotify == null then ''EOF'' else ''
     StartupNotify=${startupNotify}
     EOF''}
-    Encoding=${encoding}
-    NoDisplay=${noDisplay}
-    EOF
   '';
 }
