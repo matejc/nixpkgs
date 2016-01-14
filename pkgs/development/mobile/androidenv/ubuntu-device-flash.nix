@@ -10,8 +10,8 @@ in stdenv.mkDerivation rec {
   name = "ubuntu-device-flash";
 
   src = fetchurl {
-    url = "http://de.archive.ubuntu.com/ubuntu/pool/universe/g/goget-ubuntu-touch/ubuntu-device-flash_0.27-0ubuntu1_amd64.deb";
-    sha256 = "077gsba50ji545hsbvsylvk8a7rw28g53ysi9qrnzagr58jcvgh1";
+    url = "http://de.archive.ubuntu.com/ubuntu/pool/universe/g/goget-ubuntu-touch/ubuntu-device-flash_0.33-0ubuntu2_amd64.deb";
+    sha256 = "185dvj7m2l37083mzqy916m3ay80z27arj374ww39i5n6cllmlqx";
     name = "${name}.deb";
   };
 
