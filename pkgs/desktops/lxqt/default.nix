@@ -1,5 +1,5 @@
 { stdenv, fetchgit, autogen, cmake, qt5, pkgconfig, libconfig, kde5, xlibs
-, liboobs, polkit_qt5, libfm, menu-cache, libexif, lib, automake, xorg
+, liboobs, libfm, menu-cache, libexif, lib, automake, xorg
 , openbox, which, pango, imlib2, makeWrapper, glib, buildEnv, zlib
 , alsaPlugins, libpulseaudio, polkit, freetype, fontconfig, libxml2, autoconf }:
 let
@@ -8,7 +8,7 @@ let
     name = "lxqt-env";
     paths = [ autogen cmake qt5 pkgconfig libconfig
       kde5.kwindowsystem xlibs.libX11 xlibs.libXcursor liboobs kde5.kguiaddons
-      kde5.polkit-kde-agent polkit_qt5 xlibs.libpthreadstubs libfm xlibs.libXdmcp
+      kde5.polkit-kde-agent qt5.polkit-qt xlibs.libpthreadstubs libfm xlibs.libXdmcp
       menu-cache libexif automake xorg.libxcb openbox which xlibs.libXft pango
       imlib2 glib xlibs.libSM xlibs.libICE xlibs.libXext xlibs.xextproto
       xlibs.libXau xlibs.xproto xlibs.kbproto zlib xlibs.libXfixes
