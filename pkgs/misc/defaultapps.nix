@@ -28,7 +28,6 @@ let
       desktopName = "${name}";
       genericName = "${name}";
       comment = "NixOS default";
-      noDisplay = "true";
     };
 
   defaultsListString = lib.concatStringsSep "\n" (
