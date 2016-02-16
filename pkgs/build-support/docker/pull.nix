@@ -39,12 +39,12 @@ let layer = stdenv.mkDerivation {
     # the hashed mirrors.
     "NIX_CONNECT_TIMEOUT"
   ];
-  
+
   # Doing the download on a remote machine just duplicates network
   # traffic, so don't do that.
   preferLocalBuild = true;
 };
 
-in runCommand "${name}.tar.gz" {} ''
+in runCommand "${name}.tar.gz" { passthru = { inherit imageName imageTag; }; } ''
   tar -C ${layer} -czf $out .
 ''
