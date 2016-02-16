@@ -328,13 +328,13 @@ c = lib.makeOverridable f { a = 1; b = 2; }</programlisting>
   <example xml:id='ex-dockerTools-buildImage'><title>Docker build</title>
   <programlisting>
   buildImage {
-    name = "redis"; <co xml:id='ex-dockerTools-buildImage-1' />
-    tag = "latest"; <co xml:id='ex-dockerTools-buildImage-2' />
-    
+    imageName = "redis"; <co xml:id='ex-dockerTools-buildImage-1' />
+    imageTag = "latest"; <co xml:id='ex-dockerTools-buildImage-2' />
+
     fromImage = someBaseImage; <co xml:id='ex-dockerTools-buildImage-3' />
     fromImageName = null; <co xml:id='ex-dockerTools-buildImage-4' />
     fromImageTag = "latest"; <co xml:id='ex-dockerTools-buildImage-5' />
-    
+
     contents = pkgs.redis; <co xml:id='ex-dockerTools-buildImage-6' />
     runAsRoot = '' <co xml:id='ex-dockerTools-buildImage-runAsRoot' />
       #!${stdenv.shell}
@@ -360,14 +360,14 @@ c = lib.makeOverridable f { a = 1; b = 2; }</programlisting>
   <calloutlist>
    <callout arearefs='ex-dockerTools-buildImage-1'>
     <para>
-     <varname>name</varname> specifies the name of the resulting image.
+     <varname>imageName</varname> specifies the name of the resulting image.
      This is the only required argument for <varname>buildImage</varname>.
     </para>
    </callout>
 
    <callout arearefs='ex-dockerTools-buildImage-2'>
     <para>
-     <varname>tag</varname> specifies the tag of the resulting image.
+     <varname>imageTag</varname> specifies the tag of the resulting image.
      By default it's <literal>latest</literal>.
     </para>
    </callout>
@@ -598,11 +598,11 @@ c = lib.makeOverridable f { a = 1; b = 2; }</programlisting>
    <varname>runAsRoot</varname> <xref linkend='ex-dockerTools-buildImage-runAsRoot'/> script for cases like
    in the example below:
   </para>
-  
+
   <example xml:id='ex-dockerTools-shadowSetup'><title>Shadow base files</title>
   <programlisting>
   buildImage {
-    name = "shadow-basic";
+    imageName = "shadow-basic";
 
     runAsRoot = ''
       #!${stdenv.shell}
@@ -621,9 +621,9 @@ c = lib.makeOverridable f { a = 1; b = 2; }</programlisting>
    <literal>/etc/login.defs</literal> are necessary for shadow-utils to
    manipulate users and groups.
   </para>
-  
+
  </section>
- 
+
 </section>
 
 </chapter>
