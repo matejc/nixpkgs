@@ -216,6 +216,7 @@
   ./services/misc/dictd.nix
   ./services/misc/disnix.nix
   ./services/misc/docker-registry.nix
+  ./services/misc/dockerctl.nix
   ./services/misc/emby.nix
   ./services/misc/etcd.nix
   ./services/misc/felix.nix
