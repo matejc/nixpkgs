@@ -249,7 +249,7 @@ let
     repo = "archiver";
     sha256 = "0b38mrfm3rwgdi7hrp4gjhf0y0f6bw73qjkfrkafxjrdpdg7nyly";
   };
-  
+
   asciinema = buildFromGitHub {
     rev = "v1.2.0";
     owner = "asciinema";
@@ -4193,4 +4193,11 @@ let
 
   };
 
+  systemd-docker = buildFromGitHub {
+    rev = "9b02cf96ec874bae449231901631b0a4b3d546c0";
+    owner = "ibuildthecloud";
+    repo = "systemd-docker";
+    sha256 = "1awwcf93fq9hikmam69z8ndjpp9rbn95h1y7830ybqfx73b3ykmh";
+    preBuild = "export GOPATH=$GOPATH:$NIX_BUILD_TOP/go/src/github.com/ibuildthecloud/systemd-docker/Godeps/_workspace";
+  };
 }; in self
