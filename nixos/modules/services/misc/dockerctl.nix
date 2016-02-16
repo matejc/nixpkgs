@@ -11,8 +11,7 @@ let
   runServiceFun = name: container:
   let
     extraRunOptions = toString container.extraRunOptions;
-    imageName = container.image.passthru.buildArgs.imageName;
-    imageTag = container.image.passthru.buildArgs.imageTag;
+    tag = "dockerctl-${name}:latest";
   in
   {
     description = "Docker container ${name}";
