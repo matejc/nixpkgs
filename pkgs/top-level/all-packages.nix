@@ -11111,6 +11111,8 @@ in
   # standalone cryptsetup generator for systemd
   systemd-cryptsetup-generator = callPackage ../os-specific/linux/systemd/cryptsetup-generator.nix { };
 
+  systemd-docker = goPackages.systemd-docker.bin // { outputs = [ "bin" ]; };
+
   # In nixos, you can set systemd.package = pkgs.systemd_with_lvm2 to get
   # LVM2 working in systemd.
   systemd_with_lvm2 = pkgs.lib.overrideDerivation pkgs.systemd (p: {
