@@ -2,11 +2,11 @@
 , docker, shadow, utillinux, coreutils, jshon, e2fsprogs, goPackages }:
 
 # WARNING: this API is unstable and may be subject to backwards-incompatible changes in the future.
-  
+
 rec {
 
   pullImage = callPackage ./pull.nix {};
-  
+
   # We need to sum layer.tar, not a directory, hence tarsum instead of nix-hash.
   # And we cannot untar it, because then we cannot preserve permissions ecc.
   tarsum = runCommand "tarsum" {
@@ -23,7 +23,7 @@ rec {
 
     cp tarsum $out
   '';
-  
+
   # buildEnv creates symlinks to dirs, which is hard to edit inside the overlay VM
   mergeDrvs = { drvs, onlyDeps ? false }:
     runCommand "merge-drvs" {
@@ -33,7 +33,7 @@ rec {
         echo $drvs > $out
         exit 0
       fi
-        
+
       mkdir $out
       for drv in $drvs; do
         echo Merging $drv
@@ -44,13 +44,13 @@ rec {
         fi
       done
     '';
-  
+
   mkTarball = { name ? "docker-tar", drv, onlyDeps ? false }:
     runCommand "${name}.tar.gz" rec {
       inherit drv onlyDeps;
-      
+
       drvClosure = writeReferencesToFile drv;
-      
+
     } ''
       while read dep; do
         echo Copying $dep
@@ -62,7 +62,7 @@ rec {
       if [ -z "$onlyDeps" ]; then
         cp -drf --preserve=mode $drv/* rootfs/
       fi
-      
+
       tar -C rootfs/ -cpzf $out .
     '';
 
@@ -116,11 +116,11 @@ EOF
         preVM = vmTools.createEmptyImage { size = diskSize; fullName = "docker-run-disk"; };
 
         inherit fromImage fromImageName fromImageTag;
-        
+
         buildInputs = [ utillinux e2fsprogs jshon ];
       } ''
       rm -rf $out
-      
+
       mkdir disk
       mkfs /dev/${vmTools.hd}
       mount /dev/${vmTools.hd} disk
@@ -166,7 +166,7 @@ EOF
       fi
 
       ${postMount}
- 
+
       umount mnt
 
       pushd layer
@@ -185,7 +185,7 @@ EOF
         tar -C mnt -czf $out .
       '';
     };
-    
+
   mkPureLayer = { baseJson, contents ? null, extraCommands ? "" }:
     runCommand "docker-layer" {
       inherit baseJson contents extraCommands;
@@ -204,7 +204,7 @@ EOF
       pushd layer
       ${extraCommands}
       popd
-      
+
       echo Packing layer
       mkdir $out
       tar -C layer -cf $out/layer.tar .
@@ -218,7 +218,7 @@ EOF
     let runAsRootScript = writeScript "run-as-root.sh" runAsRoot;
     in runWithOverlay {
       name = "docker-layer";
-      
+
       inherit fromImage fromImageName fromImageTag diskSize;
 
       preMount = lib.optionalString (contents != null) ''
@@ -239,7 +239,7 @@ EOF
         umount -R mnt/dev mnt/sys mnt/nix/store
         rmdir --ignore-fail-on-non-empty mnt/dev mnt/proc mnt/sys mnt/nix/store mnt/nix
       '';
- 
+
       postUmount = ''
         pushd layer
         ${extraCommands}
@@ -260,14 +260,14 @@ EOF
   # 4. compute the layer id
   # 5. put the layer in the image
   # 6. repack the image
-  buildImage = args@{ name, tag ? "latest"
+  buildImage = args@{ imageName, imageTag ? "latest"
                , fromImage ? null, fromImageName ? null, fromImageTag ? null
                , contents ? null, tarballs ? [], config ? null
                , runAsRoot ? null, diskSize ? 1024, extraCommands ? "" }:
 
     let
 
-      baseName = baseNameOf name;
+      baseName = baseNameOf imageName;
 
       baseJson = writeText "${baseName}-config.json" (builtins.toJSON {
           created = "1970-01-01T00:00:01Z";
@@ -275,7 +275,7 @@ EOF
           os = "linux";
           config = config;
       });
-      
+
       layer = (if runAsRoot == null
                then mkPureLayer { inherit baseJson contents extraCommands; }
                else mkRootLayer { inherit baseJson fromImage fromImageName fromImageTag contents runAsRoot diskSize extraCommands; });
@@ -286,22 +286,21 @@ EOF
       result = runCommand "${baseName}.tar.gz" {
         buildInputs = [ jshon ];
 
-        imageName = name;
-        imageTag = tag;
-        inherit fromImage baseJson;
+        inherit fromImage baseJson imageTag imageName;
 
         mergedTarball = if tarballs == [] then depsTarball else mergeTarballs ([ depsTarball ] ++ tarballs);
 
         passthru = {
           buildArgs = args;
         };
+
       } ''
         mkdir image
         touch baseFiles
         if [ -n "$fromImage" ]; then
           echo Unpacking base image
           tar -C image -xpf "$fromImage"
-          
+
           if [ -z "$fromImageName" ]; then
             fromImageName=$(jshon -k < image/repositories|head -n1)
           fi
@@ -309,18 +308,18 @@ EOF
             fromImageTag=$(jshon -e $fromImageName -k < image/repositories|head -n1)
           fi
           parentID=$(jshon -e $fromImageName -e $fromImageTag -u < image/repositories)
-          
+
           for l in image/*/layer.tar; do
             tar -tf $l >> baseFiles
           done
         fi
 
         chmod -R ug+rw image
-        
+
         mkdir temp
         cp ${layer}/* temp/
         chmod ug+w temp/*
-        
+
         echo Adding dependencies
         tar -tf temp/layer.tar >> baseFiles
         tar -tf "$mergedTarball" | grep -v ${layer} > layerFiles
@@ -334,22 +333,22 @@ EOF
           popd
         else
           echo No new deps, no diffing needed
-        fi 
-        
+        fi
+
         echo Adding meta
-        
+
         if [ -n "$parentID" ]; then
           cat temp/json | jshon -s "$parentID" -i parent > tmpjson
           mv tmpjson temp/json
         fi
-        
+
         layerID=$(sha256sum temp/json|cut -d ' ' -f 1)
         size=$(stat --printf="%s" temp/layer.tar)
         cat temp/json | jshon -s "$layerID" -i id -n $size -i Size > tmpjson
         mv tmpjson temp/json
 
         mv temp image/$layerID
-        
+
         jshon -n object \
           -n object -s "$layerID" -i "$imageTag" \
           -i "$imageName" > image/repositories
