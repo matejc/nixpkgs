@@ -291,6 +291,7 @@
   ./services/misc/dysnomia.nix
   ./services/misc/disnix.nix
   ./services/misc/docker-registry.nix
+  ./services/misc/dockerctl.nix
   ./services/misc/emby.nix
   ./services/misc/errbot.nix
   ./services/misc/etcd.nix
