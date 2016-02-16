@@ -5,7 +5,7 @@
 
 # Currently only registry v1 is supported, compatible with Docker Hub.
 
-{ imageName, imageTag ? "latest", imageId ? null
+args@{ imageName, imageTag ? "latest", imageId ? null
 , sha256, name ? "${imageName}-${imageTag}"
 , indexUrl ? "https://index.docker.io"
 , registryVersion ? "v1"
@@ -36,12 +36,12 @@ let layer = stdenv.mkDerivation {
     # This variable allows the user to pass additional options to curl
     "NIX_CURL_FLAGS"
   ];
-  
+
   # Doing the download on a remote machine just duplicates network
   # traffic, so don't do that.
   preferLocalBuild = true;
 };
 
-in runCommand "${name}.tar.gz" {} ''
+in runCommand "${name}.tar.gz" { passthru = { buildArgs = args; }; } ''
   tar -C ${layer} -czf $out .
 ''
