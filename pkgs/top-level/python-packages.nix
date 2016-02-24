@@ -19955,13 +19955,13 @@ in modules // {
   };
 
   supervisor = buildPythonPackage rec {
-    name = "supervisor-3.1.1";
+    name = "supervisor-3.2.1";
 
     disabled = isPy3k;
 
     src = pkgs.fetchurl {
       url = "https://pypi.python.org/packages/source/s/supervisor/${name}.tar.gz";
-      md5 = "8c9714feaa63902f03871317e3ebf62e";
+      sha256 = "0c6nxaik3m0fjh44vcf7mqhkxvivcw7l1ipjnrj4c8dlm81lkdfn";
     };
 
     buildInputs = with self; [ mock ];
