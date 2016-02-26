@@ -1,46 +1,52 @@
-{ stdenv, fetchgit, autogen, cmake, qt5, pkgconfig, libconfig, kde5, xlibs
-, liboobs, libfm, menu-cache, libexif, lib, automake, xorg
+{ stdenv, fetchgit, autogen, cmake, qt5, pkgconfig, libconfig, xlibs
+, liboobs, libfm, menu-cache, libexif, lib, automake, xorg, kde5
 , openbox, which, pango, imlib2, makeWrapper, glib, buildEnv, zlib
 , alsaPlugins, libpulseaudio, polkit, freetype, fontconfig, libxml2, autoconf }:
 let
   lxqt_deps = "${lxqt_env.outPath}";
   lxqt_env = buildEnv {
     name = "lxqt-env";
-    paths = [ autogen cmake qt5 pkgconfig libconfig
-      kde5.kwindowsystem xlibs.libX11 xlibs.libXcursor liboobs kde5.kguiaddons
-      kde5.polkit-kde-agent qt5.polkit-qt xlibs.libpthreadstubs libfm xlibs.libXdmcp
+    paths = [ autogen cmake qt5.full pkgconfig libconfig
+      xlibs.libX11 xlibs.libXcursor liboobs
+      xlibs.libpthreadstubs libfm xlibs.libXdmcp
       menu-cache libexif automake xorg.libxcb openbox which xlibs.libXft pango
       imlib2 glib xlibs.libSM xlibs.libICE xlibs.libXext xlibs.xextproto
       xlibs.libXau xlibs.xproto xlibs.kbproto zlib xlibs.libXfixes
       xlibs.fixesproto alsaPlugins libpulseaudio xlibs.libXcomposite
       xlibs.libXdamage xlibs.libXrender xlibs.xcbutil xlibs.damageproto
       xlibs.renderproto xlibs.compositeproto polkit stdenv.glibc freetype
-      fontconfig libxml2 autoconf ];
+      fontconfig libxml2 autoconf kde5.kwindowsystem kde5.kguiaddons
+      kde5.polkit-kde-agent qt5.polkit-qt ];
     pathsToLink = [ "/" ];
     ignoreCollisions = true;
   };
 
   lxqt = stdenv.mkDerivation rec {
     name = "lxqt-${version}";
-    version = "0.9.0";
+    version = "0.10.0";
 
     src = fetchgit {
       url = git://github.com/lxde/lxqt;
       rev = "refs/tags/${version}";
       fetchSubmodules = true;
-      sha256 = "1wj6vw5lf0dshqygnf841jnyyihdnx48adc06q9jwypjbncbagfa";
+      sha256 = "1xf6m9prjnc23r4zr0bnghn9x9ypddn3ahzjxwgl0rn98nbkq3li";
     };
 
     buildInputs = [ lxqt_env makeWrapper ];
 
     configurePhase = ''
+      sed -e '/lxqtnotification.h/ i #include <QObject>' -i ./liblxqt/lxqtnotification.cpp
+      sed -e '/lxqtglobals.h/ i #include <QObject>' -i ./liblxqt/lxqtnotification.h
+      sed -e '/#include <QStringList>/ i #include <QObject>' -i ./lxqt-config/lxqt-config-monitor/monitor.h
+
       export CMAKE_BUILD_TYPE=release
       export USE_QT5=ON
       export LXQT_PREFIX=$out
       export CMAKE_INSTALL_PREFIX=$out
-      export CMAKE_PREFIX_PATH="$out:${qt5}:$CMAKE_PREFIX_PATH"
 
-      substituteInPlace build_all_cmake_projects.sh --replace "sudo" ""
+      export CMAKE_PREFIX_PATH="$out"
+
+      substituteInPlace build_all_cmake_projects.sh --replace "sudo " ""
       substituteInPlace lxqt-qtplugin/src/CMakeLists.txt \
         --replace '"''${QT_PLUGINS_DIR}' "\"$out/plugins"
       substituteInPlace lxqt-common/config/CMakeLists.txt \
@@ -64,21 +70,9 @@ let
       export XRANDER=${lxqt_deps}/lib
       export XEXTPROTO=${lxqt_deps}/lib
 
-      #substituteInPlace lxqt-panel/plugin-tray/CMakeLists.txt \
-      #  --replace "pkg_check_modules(XCOMPOSITE REQUIRED xcomposite)" "" \
-      #  --replace "pkg_check_modules(XDAMAGE REQUIRED xdamage)" "" \
-      #  --replace "pkg_check_modules(XRENDER REQUIRED xrender)" ""
-
       export XFIXES=${lxqt_deps}/lib
-      #substituteInPlace lximage-qt/CMakeLists.txt \
-      #  --replace "pkg_check_modules(XFIXES REQUIRED xfixes)" ""
 
       export OPENBOX=${lxqt_deps}/lib
-#      substituteInPlace obconf-qt/CMakeLists.txt \
-#        --replace "pkg_check_modules(OPENBOX REQUIRED
-#  obrender-3.5
-#  obt-3.5
-#)" ""
 
       # remove "false negatives" and include them elsewhere
       find . -name "CMakeLists.txt" -exec sed -ir "s|find_package(X11 REQUIRED)||g" '{}' \;
@@ -93,14 +87,9 @@ let
         mkdir -p $out/lib
         ln -s $out/lib $out/lib64
       ''}
-      #export LD_LIBRARY_PATH="${lxqt_deps}/lib:$out/lib:$LD_LIBRARY_PATH"
-
-      #mkdir -p $out/lib/pkgconfig
-      #ln -s ${lxqt_deps}/lib/pkgconfig/* $out/lib/pkgconfig/
-      #ln -s ${lxqt_deps}/lib/pkgconfig/x11.pc $out/lib/pkgconfig/X11.pc
-      #ln -s ${lxqt_deps}/lib/pkgconfig/x11-xcb.pc $out/lib/pkgconfig/X11-xcb.pc
-      #export PKG_CONFIG_PATH="$out/lib/pkgconfig:$PKG_CONFIG_PATH"
       export PKG_CONFIG_PATH="${lxqt_deps}/lib/pkgconfig:$out/lib/pkgconfig:$PKG_CONFIG_PATH"
+
+      substituteInPlace lxqt-sudo/CMakeLists.txt --replace 'find_package(lxqt REQUIRED QUIET)' 'find_package(lxqt-qt5 REQUIRED QUIET)'
     '';
 
     buildPhase = ''
