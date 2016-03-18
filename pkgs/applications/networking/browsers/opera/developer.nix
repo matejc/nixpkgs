@@ -13,20 +13,20 @@ let
   plugins = callPackage ../chromium/plugins.nix {
     enablePepperFlash = true;
     enableWideVine = false;
-    source = (callPackage ../chromium/source { useOpenSSL = false; });
+    source = (callPackage ../chromium/source { });
   };
   flags = (import "${plugins}/nix-support/chromium-plugin.nix").flags;
 in
 
 stdenv.mkDerivation rec {
   name = "opera-developer-${version}";
-  version = "32.0.1910.0";
+  version = "37.0.2171.0";
 
   src =
     if stdenv.system == "x86_64-linux" then
       fetchurl {
         url = "${mirror}/${version}/linux/opera-developer_${version}_amd64.deb";
-        sha256 = "0agl7piw71pl3my0a7mp833d79ysb1kga2agvn3cbfq7idmwmwy9";
+        sha256 = "0cdhkl11rzm5s44ijd0bzcn1b4javs7lldn2a4aqbl8h9sj34wf6";
       }
     else if stdenv.system == "i686-linux" then
       fetchurl {
@@ -56,28 +56,21 @@ stdenv.mkDerivation rec {
       alsaLib xlibs.libXdamage xlibs.libXtst xlibs.libXrandr dbus cups libpulseaudio
       systemd glib gtk2 gtk3 pango gdk_pixbuf cairo atk libnotify
     ];
-  libPath = stdenv.lib.makeLibraryPath buildInputs
-    + stdenv.lib.optionalString (stdenv.system == "x86_64-linux")
-      (":" + stdenv.lib.makeSearchPath "lib64" buildInputs);
+  libPath = stdenv.lib.makeLibraryPath buildInputs;
 
   preFixup =
     ''
     find $out/lib -type f | while read f; do
-      type=$(readelf -h "$f" 2>/dev/null | grep 'Type:' | sed -e 's/ *Type: *\([A-Z]*\) (.*/\1/')
-      if [ -z "$type" ]; then
-        :
-      elif [ $type == "EXEC" ]; then
+      type=`readelf -h "$f" 2>/dev/null | grep 'Type:' | sed -e 's/ *Type: *\([A-Z]*\) (.*/\1/' || true`
+      if [[ $type == "EXEC" ]]; then
         echo "patching $f executable <<"
         patchelf \
             --set-interpreter "$(cat $NIX_CC/nix-support/dynamic-linker)" \
-            --set-rpath "${libPath}" \
+            --set-rpath "${libPath}:$out/lib/${if stdenv.system == "x86_64-linux" then "x86_64" else "i386"}-linux-gnu/opera-developer" \
             "$f"
-      elif [ $type == "DYN" ]; then
+      elif [[ $type == "DYN" ]]; then
         echo "patching $f library <<"
-        patchelf --set-rpath "${libPath}" "$f"
-      else
-        echo "Unknown type $type"
-        exit 1
+        patchelf --set-rpath "${libPath}:$out/lib/${if stdenv.system == "x86_64-linux" then "x86_64" else "i386"}-linux-gnu/opera-developer" "$f"
       fi
     done
     '';
@@ -85,8 +78,8 @@ stdenv.mkDerivation rec {
   postFixup = ''
     rm $out/bin/*
     makeWrapper $out/lib/${if stdenv.system == "x86_64-linux" then "x86_64" else "i386"}-linux-gnu/opera-developer/opera-developer $out/bin/opera-developer \
-      --prefix LD_LIBRARY_PATH : ${libPath} \
-      --add-flags "${toString flags}"
+      --prefix LD_LIBRARY_PATH : "${libPath}:$out/lib/${if stdenv.system == "x86_64-linux" then "x86_64" else "i386"}-linux-gnu/opera-developer" \
+      --add-flags "--ppapi-flash-path=${plugins}/lib/libpepflashplayer.so"
   '';
 
   meta = {
