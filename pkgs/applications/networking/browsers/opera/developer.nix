@@ -10,10 +10,14 @@ assert stdenv.isLinux && stdenv.cc.cc.isGNU or false && stdenv.cc.libc != null;
 let
   mirror = http://get.geo.opera.com/pub/opera-developer;
 
+  upstream-info = (import ../chromium/update.nix {
+    inherit (stdenv) system;
+  }).getChannel "stable";
+
   plugins = callPackage ../chromium/plugins.nix {
     enablePepperFlash = true;
     enableWideVine = false;
-    source = (callPackage ../chromium/source { });
+    inherit upstream-info;
   };
   flags = (import "${plugins}/nix-support/chromium-plugin.nix").flags;
 in
