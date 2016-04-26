@@ -24,18 +24,18 @@ in
 
 stdenv.mkDerivation rec {
   name = "opera-developer-${version}";
-  version = "37.0.2171.0";
+  version = "38.0.2205.0";
 
   src =
     if stdenv.system == "x86_64-linux" then
       fetchurl {
         url = "${mirror}/${version}/linux/opera-developer_${version}_amd64.deb";
-        sha256 = "0cdhkl11rzm5s44ijd0bzcn1b4javs7lldn2a4aqbl8h9sj34wf6";
+        sha256 = "1yykv5kr9bblgxq160p69km3pq8hvdbvqw3j2rm3qwk63s7dsz85";
       }
     else if stdenv.system == "i686-linux" then
       fetchurl {
         url = "${mirror}/${version}/linux/opera-developer_${version}_i386.deb";
-        sha256 = "8bfcf3b334d6b73a7b20227aced835e9cf65076ce6ce2d804a1adc66f47eaa53";
+        sha256 = "023mrrbb76lvh00lzcx6vvvvkrafrn2j2jmdz2n1id66gcssb45i";
       }
     else throw "Opera-developer is not supported on ${stdenv.system} (only x86_64 and i686 linux is supported)";
 
