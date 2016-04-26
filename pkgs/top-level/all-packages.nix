@@ -13178,6 +13178,8 @@ in
 
   fomp = callPackage ../applications/audio/fomp { };
 
+  franz = callPackage ../applications/networking/instant-messengers/franz { };
+
   freecad = callPackage ../applications/graphics/freecad {
     boost = boost155;
     opencascade = opencascade_oce;
