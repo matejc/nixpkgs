@@ -11,7 +11,6 @@ let
   mirror = http://get.geo.opera.com/pub/opera-developer;
 
   upstream-info = (import ../chromium/update.nix {
-    inherit (stdenv) system;
   }).getChannel "stable";
 
   plugins = callPackage ../chromium/plugins.nix {
@@ -24,18 +23,18 @@ in
 
 stdenv.mkDerivation rec {
   name = "opera-developer-${version}";
-  version = "38.0.2205.0";
+  version = "39.0.2226.0";
 
   src =
     if stdenv.system == "x86_64-linux" then
       fetchurl {
         url = "${mirror}/${version}/linux/opera-developer_${version}_amd64.deb";
-        sha256 = "1yykv5kr9bblgxq160p69km3pq8hvdbvqw3j2rm3qwk63s7dsz85";
+        sha256 = "0hqylddzk3r3rd671fmgvyb4nvqqsirfvnkvx0yih7gm4c00k6i8";
       }
     else if stdenv.system == "i686-linux" then
       fetchurl {
         url = "${mirror}/${version}/linux/opera-developer_${version}_i386.deb";
-        sha256 = "023mrrbb76lvh00lzcx6vvvvkrafrn2j2jmdz2n1id66gcssb45i";
+        sha256 = "fc736604a27c5283727dfe4bc4c69bb067f28ce4d77216caddfa843df39c07ec";
       }
     else throw "Opera-developer is not supported on ${stdenv.system} (only x86_64 and i686 linux is supported)";
 
