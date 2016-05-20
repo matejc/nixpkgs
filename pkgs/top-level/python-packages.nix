@@ -878,6 +878,39 @@ in modules // {
     };
   };
 
+  ansible2-dev = buildPythonPackage rec {
+    version    = "dev";
+    name       = "ansible2-${version}";
+
+    src = pkgs.fetchgit {
+      url = "git://github.com/ansible/ansible.git";
+      rev = "fb2355e47d6567b497b083522e8228c1cb4b5be8";
+      sha256 = "04jr99ks2m5lhjwmjj9ky9pncj5z553d3dbrqrpbac61x7iqkihz";
+    };
+
+    prePatch = ''
+      sed -i "s,/usr/,$out," lib/ansible/constants.py
+    '';
+
+    doCheck = false;
+    dontStrip = true;
+    dontPatchELF = true;
+    dontPatchShebangs = true;
+    windowsSupport = true;
+
+    propagatedBuildInputs = with self; [
+      paramiko jinja2 pyyaml httplib2 boto six
+    ] ++ optional windowsSupport pywinrm;
+
+    meta = with stdenv.lib; {
+      homepage    = "http://www.ansible.com";
+      description = "A simple automation tool";
+      license     = with licenses; [ gpl3 ];
+      maintainers = with maintainers; [ matejc ];
+      platforms   = with platforms; linux ++ darwin;
+    };
+  };
+
   apipkg = buildPythonPackage rec {
     name = "apipkg-1.4";
 
