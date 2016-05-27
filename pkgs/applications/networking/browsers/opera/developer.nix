@@ -23,13 +23,13 @@ in
 
 stdenv.mkDerivation rec {
   name = "opera-developer-${version}";
-  version = "39.0.2226.0";
+  version = "39.0.2234.0";
 
   src =
     if stdenv.system == "x86_64-linux" then
       fetchurl {
         url = "${mirror}/${version}/linux/opera-developer_${version}_amd64.deb";
-        sha256 = "0hqylddzk3r3rd671fmgvyb4nvqqsirfvnkvx0yih7gm4c00k6i8";
+        sha256 = "15m8ks01zsv28smzb7yka9k6d1321bmsq1dpg31vl7ljswfzw5wj";
       }
     else if stdenv.system == "i686-linux" then
       fetchurl {
