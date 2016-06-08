@@ -1,12 +1,14 @@
 { stdenv, fetchurl, makeWrapper, xorg, gnome, atk, cairo, fontconfig, expat
-, freetype, libnotify, glib, dbus, nss, nspr, alsaLib, ffmpeg, cups, systemd }:
+, freetype, libnotify, glib, dbus, nss, nspr, alsaLib, ffmpeg, cups, systemd
+, libappindicator-gtk2, libappindicator-gtk3, gtk2, gtk3 }:
 let
-  rpath = stdenv.lib.makeSearchPath "lib" [
-    gnome.gtk xorg.libX11 stdenv.cc.cc atk cairo gnome.pango fontconfig
-    freetype libnotify gnome.gdk_pixbuf glib dbus xorg.libXi xorg.libXcursor
+  rpath = stdenv.lib.makeSearchPathOutput "out" "lib" [
+    gnome.gtk xorg.libX11 stdenv.cc.cc.lib atk cairo gnome.pango fontconfig.lib
+    freetype libnotify gnome.gdk_pixbuf glib dbus.lib xorg.libXi xorg.libXcursor
     xorg.libXdamage xorg.libXext xorg.libXrandr xorg.libXcomposite
     xorg.libXfixes xorg.libXrender xorg.libXtst nss gnome.GConf nspr alsaLib
-    ffmpeg cups expat systemd
+    ffmpeg cups expat systemd libappindicator-gtk2 libappindicator-gtk3 gtk2
+    gtk3
   ];
 in
 stdenv.mkDerivation rec {
