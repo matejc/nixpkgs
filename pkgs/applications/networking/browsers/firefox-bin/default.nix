@@ -46,7 +46,7 @@ let
          else if channel == "beta"   then (import ./beta_sources.nix)
          else if channel == "developer"   then { version = "49.0a2"; sources = [
             { locale = "en-US"; arch = "linux-i686"; sha512 = "45dad182bf7a4e753c1be6b8f966393a06531e7b5530238d20cb67b26324e8f5d0eeec983a0855418f31187d3ae508c28810ab86269848b4e48ab2ca3b5d21e7"; }
-            { locale = "en-US"; arch = "linux-x86_64"; sha512 = "2ddq9wfj0lzgfisbk1xnk7grlj63av253grnnf3z3pq49l6qwrpsis92s2xifl9ggjb3sjss04drla886b1v3yvp9lcly7nf0cs8rdb"; }
+            { locale = "en-US"; arch = "linux-x86_64"; sha512 = "3ffz495vm277fr39s43m32ix53ssh7qrpb7287lzys4qw2lzdy86gq5lfwn9jsy50wvw463n354dma1ba6slnrc2l5787qg9f614s46"; }
           ]; }
          else builtins.abort "Wrong channel! Channel must be one of `stable`, `beta` or `developer`";
 
