@@ -1020,6 +1020,8 @@ with pkgs;
 
   playerctl = callPackage ../tools/audio/playerctl { };
 
+  push = callPackage ../applications/virtualization/push { };
+
   syscall_limiter = callPackage ../os-specific/linux/syscall_limiter {};
 
   syslogng = callPackage ../tools/system/syslog-ng { };
