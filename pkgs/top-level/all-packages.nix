@@ -12699,6 +12699,8 @@ in
 
   docker-distribution = callPackage ../applications/virtualization/docker-distribution { };
 
+  systemd-docker = callPackage ../applications/virtualization/systemd-docker { };
+
   doodle = callPackage ../applications/search/doodle { };
 
   drumgizmo = callPackage ../applications/audio/drumgizmo { };
