@@ -15383,6 +15383,8 @@ with pkgs;
 
   docker-credential-gcr = callPackage ../tools/admin/docker-credential-gcr { };
 
+  systemd-docker = callPackage ../applications/virtualization/systemd-docker { };
+
   doodle = callPackage ../applications/search/doodle { };
 
   dr14_tmeter = callPackage ../applications/audio/dr14_tmeter { };
