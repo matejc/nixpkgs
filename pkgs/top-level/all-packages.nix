@@ -12978,6 +12978,8 @@ with pkgs;
 
   docker-distribution = callPackage ../applications/virtualization/docker-distribution { };
 
+  systemd-docker = callPackage ../applications/virtualization/systemd-docker { };
+
   doodle = callPackage ../applications/search/doodle { };
 
   droopy = callPackage ../applications/networking/droopy {
