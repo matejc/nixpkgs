@@ -12981,6 +12981,8 @@ in
 
   fldigi = callPackage ../applications/audio/fldigi { };
 
+  flow-pomodoro = qt5.callPackage ../tools/misc/flow-pomodoro {};
+
   fluidsynth = callPackage ../applications/audio/fluidsynth {
      inherit (darwin.apple_sdk.frameworks) CoreServices CoreAudio AudioUnit;
   };
