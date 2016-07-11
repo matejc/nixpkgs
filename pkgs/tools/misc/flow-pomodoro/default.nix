@@ -1,4 +1,4 @@
-{ stdenv, fetchurl, qmakeHook, qtbase, qtquickcontrols }:
+{ stdenv, fetchurl, qmakeHook, qtbase, qtquickcontrols, makeQtWrapper }:
 
 let
   version = "1.1.1";
@@ -11,10 +11,14 @@ stdenv.mkDerivation {
   };
 
   buildInputs = [
-    qtbase qmakeHook qtquickcontrols
+    qtbase qmakeHook qtquickcontrols makeQtWrapper
   ];
 
   installFlags = [ "INSTALL_ROOT=$(out)" ];
+
+  postInstall = ''
+    wrapQtProgram "$out/bin/flow"
+  '';
 
   meta = {
     homepage = "https://github.com/iamsergio/flow-pomodoro";
