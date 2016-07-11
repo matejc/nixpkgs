@@ -4,7 +4,9 @@ buildGoPackage rec {
   name = "systemd-docker-${version}";
   version = "0.2.1";
 
-  goPackagePath = "github.com/ibuildthecloud/systemd-docker/Godeps/_workspace";
+  goPackagePath = "github.com/ibuildthecloud/systemd-docker";
+
+  preBuild = "export GOPATH=$GOPATH:$NIX_BUILD_TOP/go/src/github.com/ibuildthecloud/systemd-docker/Godeps/_workspace";
 
   src = fetchgit {
     rev = "refs/tags/v${version}";
