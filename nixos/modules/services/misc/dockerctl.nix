@@ -10,8 +10,14 @@ let
 
   runServiceFun = name: container:
   let
+    getTag = pkgs.runCommand "get_tag.sh" {} ''
+      tar -xf ${container.image} ./repositories
+      grep -oP '\w+' ./repositories | \
+        tr '\n' ',' | \
+        awk -F, '{printf $1":"$2}' > $out
+    '';
+    tag = builtins.readFile getTag;
     extraRunOptions = toString container.extraRunOptions;
-    tag = "dockerctl-${name}:latest";
   in
   {
     description = "Docker container ${name}";
@@ -21,7 +27,7 @@ let
     path = [ pkgs.docker ];
     serviceConfig = {
       ExecStartPre = "${pkgs.docker}/bin/docker load -i ${container.image}";  # takes few seconds, but even that is too much
-      ExecStart = "${pkgs.systemd-docker}/bin/systemd-docker run --rm --name=${name} ${extraRunOptions} '${imageName}:${imageTag}'";
+      ExecStart = "${pkgs.systemd-docker.bin}/bin/systemd-docker run --rm --name=${name} ${extraRunOptions} '${tag}'";
       ExecStop = "${pkgs.docker}/bin/docker kill ${name}";
       TimeoutStopSec = "10";
       Type = "notify";
