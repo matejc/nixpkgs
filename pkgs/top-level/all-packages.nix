@@ -16288,9 +16288,8 @@ in
   mate = recurseIntoAttrs (callPackage ../desktops/mate {
     callPackage = newScope pkgs.mate;
   });
-  lxqt = callPackage ../desktops/lxqt { qt5 = qt55; };
-  liboobs = callPackage ../desktops/lxqt/liboobs.nix { };
-  system-tools-backends = callPackage ../desktops/lxqt/system-tools-backends.nix { };
+
+  lxqt = recurseIntoAttrs (qt5.callPackage ../desktops/lxqt/build.nix { });
 
   pantheon = recurseIntoAttrs rec {
     callPackage = newScope pkgs.pantheon;
