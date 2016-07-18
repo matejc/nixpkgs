@@ -1,22 +1,48 @@
-{ stdenv, fetchgit, autogen, cmake, qt5, pkgconfig, libconfig, xlibs
-, liboobs, libfm, menu-cache, libexif, lib, automake, xorg, kde5
-, openbox, which, pango, imlib2, makeWrapper, glib, buildEnv, zlib
-, alsaPlugins, libpulseaudio, polkit, freetype, fontconfig, libxml2, autoconf }:
+{ stdenv, fetchgit, autogen, cmake, qtbase, pkgconfig, libconfig, xlibs
+, liboobs, libfm, menu-cache, libexif, lib, automake, xorg, kde5, polkit-qt
+, openbox, which, pango, imlib2, makeWrapper, glib, buildEnv, zlib, qtx11extras
+, alsaPlugins, libpulseaudio, polkit, freetype, fontconfig, libxml2, autoconf
+, qttools }:
 let
   lxqt_deps = "${lxqt_env.outPath}";
   lxqt_env = buildEnv {
     name = "lxqt-env";
-    paths = [ autogen cmake qt5.full pkgconfig libconfig
-      xlibs.libX11 xlibs.libXcursor liboobs
-      xlibs.libpthreadstubs libfm xlibs.libXdmcp
-      menu-cache libexif automake xorg.libxcb openbox which xlibs.libXft pango
-      imlib2 glib xlibs.libSM xlibs.libICE xlibs.libXext xlibs.xextproto
-      xlibs.libXau xlibs.xproto xlibs.kbproto zlib xlibs.libXfixes
-      xlibs.fixesproto alsaPlugins libpulseaudio xlibs.libXcomposite
-      xlibs.libXdamage xlibs.libXrender xlibs.xcbutil xlibs.damageproto
-      xlibs.renderproto xlibs.compositeproto polkit stdenv.glibc freetype
-      fontconfig libxml2 autoconf kde5.kwindowsystem kde5.kguiaddons
-      kde5.polkit-kde-agent qt5.polkit-qt ];
+    paths = [ autogen cmake pkgconfig libconfig
+      liboobs
+      libfm
+      menu-cache libexif automake openbox which xlibs.libXft.dev pango
+      imlib2
+      xlibs.libICE.dev
+      xlibs.libXext.dev
+      xlibs.xextproto
+      xlibs.xproto
+      xlibs.fixesproto alsaPlugins libpulseaudio
+      xlibs.libXrender.dev
+      xlibs.libXrender
+      xlibs.xcbutil.dev
+      xlibs.damageproto
+      xlibs.renderproto
+      xlibs.compositeproto
+      polkit.dev
+      stdenv.glibc
+      freetype
+      fontconfig libxml2 autoconf
+      kde5.polkit-kde-agent
+      polkit-qt.dev
+      xorg.kbproto
+
+      kde5.kwindowsystem.dev xorg.libxcb.dev xlibs.libX11 xlibs.libX11.dev
+      qtbase.dev
+      qtx11extras.dev qttools.dev xorg.libxcb xlibs.libXcursor.dev
+      xlibs.libXcursor zlib.dev xlibs.libXfixes.dev zlib xlibs.libXfixes
+      glib glib.dev kde5.kguiaddons.dev
+      xlibs.libXcomposite.dev
+      xlibs.libXcomposite
+      xlibs.libXau.dev xlibs.libXdmcp.dev
+      xlibs.libXdamage.dev
+      xlibs.libXdamage
+      xlibs.libpthreadstubs
+      xlibs.libSM.dev ];
     pathsToLink = [ "/" ];
     ignoreCollisions = true;
   };
@@ -29,7 +55,7 @@ let
       url = git://github.com/lxde/lxqt;
       rev = "refs/tags/${version}";
       fetchSubmodules = true;
-      sha256 = "1xf6m9prjnc23r4zr0bnghn9x9ypddn3ahzjxwgl0rn98nbkq3li";
+      sha256 = "14bc9zmrjq9mclg2syc9wqza8mc6alci8y09r37i6afjlbcapq9y";
     };
 
     buildInputs = [ lxqt_env makeWrapper ];
@@ -47,6 +73,7 @@ let
       export CMAKE_PREFIX_PATH="$out"
 
       substituteInPlace build_all_cmake_projects.sh --replace "sudo " ""
+      patchShebangs build_all_cmake_projects.sh
       substituteInPlace lxqt-qtplugin/src/CMakeLists.txt \
         --replace '"''${QT_PLUGINS_DIR}' "\"$out/plugins"
       substituteInPlace lxqt-common/config/CMakeLists.txt \
@@ -60,7 +87,7 @@ let
       substituteInPlace lxqt-panel/panel/CMakeLists.txt \
         --replace ' ''${LXQT_ETC_XDG_DIR}' " $out/etc/xdg"
       substituteInPlace lxqt-config/liblxqt-config-cursor/CMakeLists.txt \
-        --replace ' ''${X11_Xcursor_LIB}' " ${xlibs.libXcursor}/lib/libXcursor.so"
+        --replace ' ''${X11_Xcursor_LIB}' " ${lxqt_env}/lib/libXcursor.so"
 
       substituteInPlace lxqt-panel/CMakeLists.txt \
         --replace "setByDefault(VOLUME_USE_ALSA Yes)" "setByDefault(VOLUME_USE_ALSA No)"
