@@ -13,7 +13,7 @@ let
   })."nixui-git://github.com/matejc/nixui.git#0.2.1";
   script = writeScript "nixui" ''
     #! ${stdenv.shell}
-    export PATH="${nix}/bin:\$PATH"
+    export PATH="${nix.out}/bin:\$PATH"
     ${node_webkit}/bin/nw ${nixui}/lib/node_modules/nixui/
   '';
   desktop = makeDesktopItem {
