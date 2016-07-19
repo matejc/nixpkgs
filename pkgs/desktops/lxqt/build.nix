@@ -2,7 +2,7 @@
 , libfm, menu-cache, libexif, lib, automake, xorg, kde5, polkit-qt, gnome
 , openbox, which, pango, imlib2, makeWrapper, glib, buildEnv, zlib, qtx11extras
 , alsaPlugins, libpulseaudio, polkit, freetype, fontconfig, libxml2, autoconf
-, qttools, libtool, gnum4, intltool, gettext, m4, lxmenu-data }:
+, qttools, libtool, gnum4, intltool, gettext, m4, lxmenu-data, makeQtWrapper }:
 let
   lxqtSrc = fetchgit {
     url = git://github.com/lxde/lxqt;
@@ -57,6 +57,7 @@ let
     intltool
     gettext
     lxmenu-data
+    kde5.solid kde5.solid.dev
   ];
 
 
@@ -69,6 +70,9 @@ let
     { name, src ? null, buildInputs ? [], preConfigure ? "", preInstall ? "", substituteInstallPaths ? [] }:
     stdenv.mkDerivation ({
       inherit name;
+      nativeBuildInputs = [
+        makeQtWrapper
+      ];
       preConfigure = ''
         export USE_QT5=ON
         export NIX_CFLAGS_COMPILE=" $NIX_CFLAGS_COMPILE -I${libqtxdg}/include/qt5xdg "
@@ -78,6 +82,12 @@ let
           sed -ie "s|${p}|$out|g" $1
         ' sh "{}" \;
       '') substituteInstallPaths) + preInstall;
+      # postInstall = ''
+      #   for executable in $out/bin/*
+      #   do
+      #     wrapQtProgram "$executable"
+      #   done
+      # '';
       buildInputs = [ cmake libqtxdg liblxqt ] ++ lxqt_paths ++ buildInputs;
     } // (if src != null then {
       inherit src;
@@ -200,5 +210,13 @@ in rec {
   };
   obconf-qt = buildLxQt {
     name = "obconf-qt";
+  };
+  lxqt-connman-applet = buildLxQt {
+    name = "lxqt-connman-applet";
+    src = fetchgit {
+      url = git://github.com/surlykke/lxqt-connman-applet;
+      rev = "41126c9d9c5c348624488398aff24126be49a6c3";
+      sha256 = "1m9mq5k0inay0qhwqcsnj7lsdiq4nm7p57sydqrfkr43hxyyqhc8";
+    };
   };
 }

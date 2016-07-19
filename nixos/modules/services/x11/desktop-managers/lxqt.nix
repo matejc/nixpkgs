@@ -30,13 +30,16 @@ in
       lxqt.lxqt-openssh-askpass lxqt.lxqt-panel lxqt.lxqt-policykit
       lxqt.lxqt-powermanagement lxqt.lxqt-qtplugin lxqt.lxqt-runner
       lxqt.lxqt-session lxqt.obconf-qt lxqt.pcmanfm-qt pkgs.openbox
+      pkgs.compton pkgs.xscreensaver
+      # lxqt.lxqt-connman-applet
     ];
 
     environment.pathsToLink = [ "/" ];
 
     services.xserver.desktopManager.session = singleton {
-      name = "LXQT";
+      name = "LXQt";
       start = ''
+        export XDG_DESKTOP_DIR="$HOME/."
         ${lxqt.lxqt-common}/bin/startlxqt
         waitPID=$!
       '';
