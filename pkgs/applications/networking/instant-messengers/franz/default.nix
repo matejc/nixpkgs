@@ -13,11 +13,11 @@ let
 in
 stdenv.mkDerivation rec {
   name = "franz-${version}";
-  version = "3.1.0";
+  version = "3.1.1";
 
   src = fetchurl {
     url = "https://github.com/imprecision/franz-app/releases/download/${version}/Franz-linux-x64-${version}.tgz";
-    sha256 = "155f2j6zcvaplvqky1ph350mmg288wffr8il04rqklyygrbm52mz";
+    sha256 = "11cb0knddv2g2l3xk90w2rcyz4z1px3hk68chj72lxigvfpn0931";
   };
 
   sourceRoot = ".";
