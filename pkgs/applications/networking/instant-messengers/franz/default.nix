@@ -8,16 +8,16 @@ let
     xorg.libXdamage xorg.libXext xorg.libXrandr xorg.libXcomposite
     xorg.libXfixes xorg.libXrender xorg.libXtst nss gnome.GConf nspr alsaLib
     ffmpeg cups expat systemd libappindicator-gtk2 libappindicator-gtk3 gtk2
-    gtk3
+    gtk3 xorg.libXScrnSaver
   ];
 in
 stdenv.mkDerivation rec {
   name = "franz-${version}";
-  version = "3.1.1";
+  version = "4.0.2";
 
   src = fetchurl {
     url = "https://github.com/imprecision/franz-app/releases/download/${version}/Franz-linux-x64-${version}.tgz";
-    sha256 = "11cb0knddv2g2l3xk90w2rcyz4z1px3hk68chj72lxigvfpn0931";
+    sha256 = "05vyh5jg21mi8zgj4wwxqnzldnvj2rdyci84pfvk2b43jr0yjcq0";
   };
 
   sourceRoot = ".";
