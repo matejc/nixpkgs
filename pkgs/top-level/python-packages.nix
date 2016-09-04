@@ -21159,8 +21159,7 @@ EOF
       sha256 = "0j4ibc4mvq64ljya9max8832jafi04jciff9ia9qy0xhhlwkcx8x";
     };
 
-    propagatedBuildInputs = with self; [ pkgs.libarchive.lib ];
-    meta.broken = true;
+    propagatedBuildInputs = with self; [ pkgs.libarchive312 ];
   };
 
   libarchive-c = buildPythonPackage rec {
