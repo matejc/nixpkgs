@@ -14488,6 +14488,8 @@ in
     autoreconfHook = buildPackages.autoreconfHook269;
   };
 
+  libarchive312 = callPackage ../development/libraries/libarchive/3.1.2.nix { };
+
   libasr = callPackage ../development/libraries/libasr { };
 
   libass = callPackage ../development/libraries/libass { };
