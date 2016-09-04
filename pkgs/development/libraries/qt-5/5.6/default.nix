@@ -86,6 +86,7 @@ let
         inherit (pkgs.gst_all_1) gstreamer gst-plugins-base;
       };
       qtquickcontrols = callPackage ./qtquickcontrols.nix {};
+      qtquickcontrols2 = callPackage ./qtquickcontrols2.nix {};
       qtscript = callPackage ./qtscript {};
       qtsensors = callPackage ./qtsensors.nix {};
       qtserialport = callPackage ./qtserialport {};
