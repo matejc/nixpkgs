@@ -75,6 +75,11 @@ in rec {
     buildInputs = [ qt5.ecm qt5.qtdeclarative pkgconfig xorg.libpthreadstubs
       xorg.libXdmcp wayland xcb-util-cursor xorg.libXcursor libinput
       libxkbcommon.dev wayland-protocols ];
+    preConfigure = ''
+      export -f substitute
+      export -f substituteInPlace
+      find . -iname "CMakeLists.txt" -exec sh -c "substituteInPlace {} --replace  '\''${PLUGIN_INSTALL_DIR}' $out/lib/qt5/plugins" \;
+    '';
   };
   hawaii-shell = buildHawaii {
     name = "hawaii-shell";
