@@ -16761,7 +16761,7 @@ with pkgs;
     callPackage = newScope pkgs.mate;
   });
 
-  hawaii = recurseIntoAttrs (qt5.callPackage ../desktops/hawaii { qt5 = qt56; });
+  hawaii = recurseIntoAttrs (qt5.callPackage ../desktops/hawaii { qt5 = qt57; });
 
   pantheon = recurseIntoAttrs rec {
     callPackage = newScope pkgs.pantheon;
