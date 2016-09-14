@@ -15262,8 +15262,11 @@ with pkgs;
   };
 
   docker-distribution = callPackage ../applications/virtualization/docker-distribution { };
-
   docker-credential-gcr = callPackage ../tools/admin/docker-credential-gcr { };
+
+  docker-squash-go = callPackage ../applications/virtualization/docker-squash-go { };
+
+  docker-squash-py = callPackage ../applications/virtualization/docker-squash { };
 
   systemd-docker = callPackage ../applications/virtualization/systemd-docker { };
 
