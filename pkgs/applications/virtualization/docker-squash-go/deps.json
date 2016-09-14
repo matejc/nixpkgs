@@ -1,0 +1,11 @@
+[
+  {
+    "goPackagePath": "github.com/docker/docker",
+    "fetch": {
+      "type": "git",
+      "url": "https://github.com/docker/docker",
+      "rev": "2606a2e4d3bf810ec82e373a6cd334e22e504e83",
+      "sha256": "16f4s3x3qci4sm9wgh7z6b9a1anzcv2mw83q5v2l3337lrav7lrg"
+    }
+  }
+]
