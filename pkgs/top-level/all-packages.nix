@@ -16767,7 +16767,7 @@ in
 
   lxqt = recurseIntoAttrs (qt5.callPackage ../desktops/lxqt/build.nix { });
 
-  hawaii = recurseIntoAttrs (qt5.callPackage ../desktops/hawaii { qt5 = qt56; });
+  hawaii = recurseIntoAttrs (qt5.callPackage ../desktops/hawaii { qt5 = qt57; });
 
   pantheon = recurseIntoAttrs rec {
     callPackage = newScope pkgs.pantheon;
