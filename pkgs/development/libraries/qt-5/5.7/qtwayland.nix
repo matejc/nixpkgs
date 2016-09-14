@@ -1,8 +1,8 @@
-{ qtSubmodule, qtbase, qtquickcontrols, wayland, pkgconfig }:
+{ qtSubmodule, qtbase, qtquickcontrols, wayland, pkgconfig, libxkbcommon }:
 
 qtSubmodule {
   name = "qtwayland";
   qtInputs = [ qtbase qtquickcontrols ];
-  buildInputs = [ wayland ];
+  buildInputs = [ wayland libxkbcommon ];
   nativeBuildInputs = [ pkgconfig ];
 }
