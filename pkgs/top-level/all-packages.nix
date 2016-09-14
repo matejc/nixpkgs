@@ -13002,6 +13002,10 @@ in
 
   docker-machine = callPackage ../applications/networking/cluster/docker-machine { };
 
+  docker-squash-go = callPackage ../applications/virtualization/docker-squash-go { };
+
+  docker-squash-py = callPackage ../applications/virtualization/docker-squash { };
+
   systemd-docker = callPackage ../applications/virtualization/systemd-docker { };
 
   doodle = callPackage ../applications/search/doodle { };
