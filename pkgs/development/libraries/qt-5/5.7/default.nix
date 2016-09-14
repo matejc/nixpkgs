@@ -102,7 +102,7 @@ let
         qtconnectivity qtdeclarative qtdoc qtgraphicaleffects
         qtimageformats qtlocation qtmultimedia qtquickcontrols qtscript
         qtsensors qtserialport qtsvg qttools qttranslations qtwayland
-        qtwebsockets qtx11extras qtxmlpatterns
+        qtwebsockets qtx11extras qtxmlpatterns qtquickcontrols2
       ];
 
       makeQtWrapper =
