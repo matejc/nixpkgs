@@ -14189,6 +14189,10 @@ with pkgs;
 
   docker-distribution = callPackage ../applications/virtualization/docker-distribution { };
 
+  docker-squash-go = callPackage ../applications/virtualization/docker-squash-go { };
+
+  docker-squash-py = callPackage ../applications/virtualization/docker-squash { };
+
   systemd-docker = callPackage ../applications/virtualization/systemd-docker { };
 
   doodle = callPackage ../applications/search/doodle { };
