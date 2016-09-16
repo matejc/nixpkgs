@@ -1,6 +1,6 @@
 { stdenv, fetchurl, makeWrapper, xorg, gnome, atk, cairo, fontconfig, expat
 , freetype, libnotify, glib, dbus, nss, nspr, alsaLib, ffmpeg, cups, systemd
-, libappindicator-gtk2, libappindicator-gtk3, gtk2, gtk3 }:
+, libappindicator-gtk2, libappindicator-gtk3, gtk2, gtk3, libpulseaudio }:
 let
   rpath = stdenv.lib.makeSearchPathOutput "out" "lib" [
     gnome.gtk xorg.libX11 stdenv.cc.cc.lib atk cairo gnome.pango fontconfig.lib
@@ -8,7 +8,7 @@ let
     xorg.libXdamage xorg.libXext xorg.libXrandr xorg.libXcomposite
     xorg.libXfixes xorg.libXrender xorg.libXtst nss gnome.GConf nspr alsaLib
     ffmpeg cups expat systemd libappindicator-gtk2 libappindicator-gtk3 gtk2
-    gtk3 xorg.libXScrnSaver
+    gtk3 xorg.libXScrnSaver libpulseaudio
   ];
 in
 stdenv.mkDerivation rec {
@@ -26,20 +26,19 @@ stdenv.mkDerivation rec {
 
   buildInputs = [ makeWrapper ];
 
+  dontPatchELF = true;
+
   installPhase = ''
     mkdir -p $out/share/franz
     mkdir -p $out/bin
 
     cp -r * $out/share/franz
 
-    for file in $(find $out -type f ); do
-        patchelf --set-interpreter "$(cat $NIX_CC/nix-support/dynamic-linker)" "$file" || true
-        patchelf --set-rpath ${rpath}:$out/share/franz $file || true
-    done
+    patchelf --set-interpreter "$(cat $NIX_CC/nix-support/dynamic-linker)" $out/share/franz/Franz
+    ln -s ${systemd.lib}/lib/libudev.so.1 $out/share/franz/libudev.so.0
 
-    ln -s ${systemd}/lib/libudev.so.1 $out/share/franz/libudev.so.0
-
-    ln -s $out/share/franz/Franz $out/bin/Franz
+    makeWrapper $out/share/franz/Franz $out/bin/Franz \
+        --prefix LD_LIBRARY_PATH ":" "$out/share/franz:${rpath}"
   '';
 
   meta = {
