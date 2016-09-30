@@ -529,9 +529,9 @@ in
     pkgs_i686 = pkgsi686Linux;
   };
 
-  inherit (androidenv) androidsdk_4_4 androidndk;
+  inherit (self.androidenv) androidsdk_4_4 androidndk;
 
-  androidsdk = androidenv.androidsdk_6_0;
+  androidsdk = self.androidenv.androidsdk_6_0;
 
   androidsdk_extras = self.androidenv.androidsdk_6_0_extras;
 
@@ -13580,7 +13580,6 @@ in
   lighthouse = callPackage ../applications/misc/lighthouse { };
 
   lighttable = callPackage ../applications/editors/lighttable {};
-  lighttable-alpha = callPackage ../applications/editors/lighttable/alpha.nix {};
 
   links2 = callPackage ../applications/networking/browsers/links2 { };
 
@@ -14039,7 +14038,9 @@ in
 
   openmpt123 = callPackage ../applications/audio/openmpt123 {};
 
-  opera-developer = callPackage ../applications/networking/browsers/opera/developer.nix { };
+  opera-developer = callPackage ../applications/networking/browsers/opera/developer.nix {
+    gnome = gnome2;
+  };
 
   opusfile = callPackage ../applications/audio/opusfile { };
 
