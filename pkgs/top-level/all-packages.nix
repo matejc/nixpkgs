@@ -527,9 +527,9 @@ in
     pkgs_i686 = pkgsi686Linux;
   };
 
-  inherit (androidenv) androidsdk_4_4 androidndk;
+  inherit (self.androidenv) androidsdk_4_4 androidndk;
 
-  androidsdk = androidenv.androidsdk_6_0;
+  androidsdk = self.androidenv.androidsdk_6_0;
 
   androidsdk_extras = self.androidenv.androidsdk_6_0_extras;
 
@@ -13504,7 +13504,9 @@ in
 
   fomp = callPackage ../applications/audio/fomp { };
 
-  franz = callPackage ../applications/networking/instant-messengers/franz { };
+  franz = callPackage ../applications/networking/instant-messengers/franz {
+    gnome = gnome2;
+  };
 
   freecad = callPackage ../applications/graphics/freecad {
     boost = boost155;
@@ -14125,7 +14127,6 @@ in
   lighthouse = callPackage ../applications/misc/lighthouse { };
 
   lighttable = callPackage ../applications/editors/lighttable {};
-  lighttable-alpha = callPackage ../applications/editors/lighttable/alpha.nix {};
 
   links2 = callPackage ../applications/networking/browsers/links2 { };
 
@@ -14564,7 +14565,9 @@ in
 
   vivaldi = callPackage ../applications/networking/browsers/vivaldi {};
 
-  opera-developer = callPackage ../applications/networking/browsers/opera/developer.nix { };
+  opera-developer = callPackage ../applications/networking/browsers/opera/developer.nix {
+    gnome = gnome2;
+  };
 
   opusfile = callPackage ../applications/audio/opusfile { };
 
@@ -16769,7 +16772,9 @@ in
     callPackage = newScope pkgs.mate;
   });
 
-  lxqt = recurseIntoAttrs (qt5.callPackage ../desktops/lxqt/build.nix { });
+  lxqt = recurseIntoAttrs (qt5.callPackage ../desktops/lxqt/build.nix {
+    gnome = gnome2;
+  });
 
   hawaii = recurseIntoAttrs (qt5.callPackage ../desktops/hawaii { qt5 = qt57; });
 
