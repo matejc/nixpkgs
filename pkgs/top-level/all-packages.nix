@@ -555,7 +555,7 @@ in
     pkgs_i686 = pkgsi686Linux;
   };
 
-  inherit (androidenv) androidsdk_4_4 androidndk;
+  inherit (self.androidenv) androidsdk_4_4 androidndk;
 
   androidsdk = androidenv.androidsdk_7_0;
 
@@ -2255,7 +2255,7 @@ in
   ioping = callPackage ../tools/system/ioping { };
 
   iops = callPackage ../tools/system/iops { };
-  
+
   ior = callPackage ../tools/system/ior { };
 
   iodine = callPackage ../tools/networking/iodine { };
@@ -2606,7 +2606,7 @@ in
   libmbim = callPackage ../development/libraries/libmbim { };
 
   libmongo-client = callPackage ../development/libraries/libmongo-client { };
-  
+
   libmesode = callPackage ../development/libraries/libmesode { };
 
   libnabo = callPackage ../development/libraries/libnabo { };
@@ -13787,7 +13787,6 @@ in
   lighthouse = callPackage ../applications/misc/lighthouse { };
 
   lighttable = callPackage ../applications/editors/lighttable {};
-  lighttable-alpha = callPackage ../applications/editors/lighttable/alpha.nix {};
 
   links2 = callPackage ../applications/networking/browsers/links2 { };
 
@@ -14244,7 +14243,9 @@ in
 
   openmpt123 = callPackage ../applications/audio/openmpt123 {};
 
-  opera-developer = callPackage ../applications/networking/browsers/opera/developer.nix { };
+  opera-developer = callPackage ../applications/networking/browsers/opera/developer.nix {
+    gnome = gnome2;
+  };
 
   opusfile = callPackage ../applications/audio/opusfile { };
 
