@@ -23,20 +23,13 @@ in
 
 stdenv.mkDerivation rec {
   name = "opera-developer-${version}";
-  version = "40.0.2301.0";
+  version = "42.0.2372.0";
 
   src =
-    if stdenv.system == "x86_64-linux" then
       fetchurl {
         url = "${mirror}/${version}/linux/opera-developer_${version}_amd64.deb";
-        sha256 = "1yj74ks0yypyx49k9jdv8pib2wk21rf1jk6sw4a85ppbhd0iha9n";
-      }
-    else if stdenv.system == "i686-linux" then
-      fetchurl {
-        url = "${mirror}/${version}/linux/opera-developer_${version}_i386.deb";
-        sha256 = "fc736604a27c5283727dfe4bc4c69bb067f28ce4d77216caddfa843df39c07ec";
-      }
-    else throw "Opera-developer is not supported on ${stdenv.system} (only x86_64 and i686 linux is supported)";
+        sha256 = "0f093bgx08bcsrrr5q6hsv745ahjracypvwq7ydr22dadqbmvwgi";
+      };
 
   dontStrip = 1;
 
@@ -57,7 +50,7 @@ stdenv.mkDerivation rec {
       gstreamer libxml2 gst_plugins_base curl nss nspr gnome.GConf xlibs.libXi
       xlibs.libXcursor xlibs.libXfixes xlibs.libXScrnSaver xlibs.libXcomposite
       alsaLib xlibs.libXdamage xlibs.libXtst xlibs.libXrandr dbus cups libpulseaudio
-      systemd glib gtk2 gtk3 pango gdk_pixbuf cairo atk libnotify
+      systemd glib gtk2 gtk3 pango gdk_pixbuf cairo atk libnotify libxcb
     ];
   libPath = stdenv.lib.makeLibraryPath buildInputs;
 
@@ -89,5 +82,6 @@ stdenv.mkDerivation rec {
     homepage = http://www.opera.com;
     description = "Opera Developer Web browser";
     license = stdenv.lib.licenses.unfree;
+    platforms = ["x86_64-linux"];
   };
 }
