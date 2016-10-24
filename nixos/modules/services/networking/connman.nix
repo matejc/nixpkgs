@@ -44,6 +44,15 @@ in {
         '';
       };
 
+      extraArgs = mkOption {
+        type = types.lines;
+        example = "--nodnsproxy";
+        default = "";
+        description = ''
+          Extra arguments to pass to connman daemon.
+        '';
+      };
+
       networkInterfaceBlacklist = mkOption {
         type = with types; listOf string;
         default = [ "vmnet" "vboxnet" "virbr" "ifb" "ve" ];
@@ -81,7 +90,7 @@ in {
         Type = "dbus";
         BusName = "net.connman";
         Restart = "on-failure";
-        ExecStart = "${pkgs.connman}/sbin/connmand --config=${configFile} --nodaemon";
+        ExecStart = "${pkgs.connman}/sbin/connmand --config=${configFile} --nodaemon ${cfg.extraArgs}";
         StandardOutput = "null";
       };
     };
