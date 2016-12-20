@@ -547,7 +547,7 @@ in
 
   inherit (self.androidenv) androidsdk_4_4 androidndk;
 
-  androidsdk = androidenv.androidsdk_7_0;
+  androidsdk = self.androidenv.androidsdk_7_0;
 
   androidsdk_extras = self.androidenv.androidsdk_7_0_extras;
 
