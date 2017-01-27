@@ -28783,13 +28783,13 @@ EOF
 
   searx = buildPythonPackage rec {
     name = "searx-${version}";
-    version = "0.10.0";
+    version = "0.11.0";
 
     src = pkgs.fetchFromGitHub {
       owner = "asciimoo";
       repo = "searx";
       rev = "v${version}";
-      sha256 = "0j9pnifcrm4kzziip43w2fgadsg1sqlcm7dfxhnshdx03nby2dy2";
+      sha256 = "1m6q7yd45lfk19yp30x1jmisff6npa1y348wqc9ixa3ywvb28ky8";
     };
 
     patches = [ ../development/python-modules/searx.patch ];
