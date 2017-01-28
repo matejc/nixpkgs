@@ -1,20 +1,22 @@
 { stdenv, fetchFromGitHub, rustNightlyPlatform, freetype, fontconfig, xclip
-, cacert, cmake, pkgconfig, xorg }:
+, cacert, cmake, pkgconfig, xorg,
+
+curl, strace, busybox }:
 
 with rustNightlyPlatform;
 
 buildRustPackage rec {
   name = "alacritty-${version}";
-  version = "20170112";
+  version = "20170127";
 
   src = fetchFromGitHub {
     owner = "jwilm";
     repo = "alacritty";
-    rev = "32cfca772798d13e9c96c5d66250f6ca5ae9baef";
-    sha256 = "0615zfprfwklarh433n3k0575zrx9pz44z1v9vaqma7x59s23f9l";
+    rev = "08f348ecea0b782cd8539850abe6309d0e5b06c9";
+    sha256 = "0bjwb6y39721bhlgbk2hyy0hqgw8znvj4y0ms5pgsvckd7mjszi8";
   };
 
-  depsSha256 = "1v61i3cd2r1il115k9xxni1pnc9lwndgxfn00glg1n7ddpvdn31y";
+  depsSha256 = "1362zs86cavnsrq26kdb13m0bp64dcqb1vqsfhlvh8aagqjsan4r";
 
   buildInputs = [ cmake pkgconfig xorg.libX11 xorg.libXcursor xorg.libXxf86vm xorg.libXi freetype fontconfig xclip ];
 
