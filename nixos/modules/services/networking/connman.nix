@@ -135,6 +135,9 @@ in
         );
         StandardOutput = "null";
       };
+      preStart = ''
+        mkdir -p /var/run/connman
+      '';
     };
 
     systemd.services.connman-vpn = lib.mkIf cfg.enableVPN {
