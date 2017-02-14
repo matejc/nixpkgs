@@ -1,9 +1,7 @@
-{ stdenv, fetchFromGitHub, rustPlatform, freetype, fontconfig, xclip
-, cacert, cmake, pkgconfig, xorg,
+{ stdenv, fetchFromGitHub, rustNightlyPlatform, freetype, fontconfig, xclip
+, cacert, cmake, pkgconfig, xorg }:
 
-curl, strace, busybox }:
-
-with rustPlatform;
+with rustNightlyPlatform;
 
 buildRustPackage rec {
   name = "alacritty-${version}";
