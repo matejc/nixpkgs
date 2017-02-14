@@ -6215,6 +6215,7 @@ with pkgs;
   cargo-edit = callPackage ../tools/package-management/cargo-edit { };
 
   rustPlatform = recurseIntoAttrs (makeRustPlatform rust);
+  rustNightlyPlatform = recurseIntoAttrs (makeRustPlatform rustNightlyBin);
 
   makeRustPlatform = rust: lib.fix (self:
     let
