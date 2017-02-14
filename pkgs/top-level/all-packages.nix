@@ -5567,6 +5567,7 @@ with pkgs;
   rustc = rust.rustc;
 
   rustPlatform = recurseIntoAttrs (makeRustPlatform rust);
+  rustNightlyPlatform = recurseIntoAttrs (makeRustPlatform rustNightlyBin);
 
   makeRustPlatform = rust: lib.fix (self:
     let
