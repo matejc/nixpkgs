@@ -4381,6 +4381,8 @@ with pkgs;
 
   whois = callPackage ../tools/networking/whois { };
 
+  winusb = callPackage ../tools/cd-dvd/winusb { };
+
   wsmancli = callPackage ../tools/system/wsmancli {};
 
   wolfebin = callPackage ../tools/networking/wolfebin {
