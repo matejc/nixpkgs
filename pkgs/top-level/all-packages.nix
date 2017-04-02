@@ -1124,6 +1124,8 @@ with pkgs;
 
   fzy = callPackage ../tools/misc/fzy { };
 
+  g810-led = callPackage ../tools/misc/g810-led { };
+
   gbsplay = callPackage ../applications/audio/gbsplay { };
 
   gdrivefs = python27Packages.gdrivefs;
