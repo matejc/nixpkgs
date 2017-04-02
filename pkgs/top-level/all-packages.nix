@@ -7429,6 +7429,10 @@ with pkgs;
     gconf = pkgs.gnome2.GConf;
   };
 
+  nwjs_0_21 = callPackage ../development/tools/node-webkit/nw21.nix {
+    gconf = pkgs.gnome2.GConf;
+  };
+
   node_webkit_0_11 = callPackage ../development/tools/node-webkit/nw11.nix {
     gconf = pkgs.gnome2.GConf;
   };
