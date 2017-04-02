@@ -1858,6 +1858,8 @@ in
 
   g2o = callPackage ../development/libraries/g2o { };
 
+  g810-led = callPackage ../tools/misc/g810-led { };
+
   gbsplay = callPackage ../applications/audio/gbsplay { };
 
   gdrivefs = python27Packages.gdrivefs;
