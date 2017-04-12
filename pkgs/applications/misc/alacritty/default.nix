@@ -5,16 +5,16 @@ with rustNightlyPlatform;
 
 buildRustPackage rec {
   name = "alacritty-${version}";
-  version = "20170209";
+  version = "20170412";
 
   src = fetchFromGitHub {
     owner = "jwilm";
     repo = "alacritty";
-    rev = "fbc7b7227171b41d96ca52df52e4cf1833f5fc6f";
-    sha256 = "02ga89szr7qrbydibdgmn2grjnkhwk2rm4rla4pih52ibp7yd6cs";
+    rev = "7bc1691b0f592aeb0ccbe8f9c98cfabf5c6bbca4";
+    sha256 = "0nl9qmfyk450kapp3bprr1qqnhm77yas0k2bf6jh4rr6y4i92y8i";
   };
 
-  depsSha256 = "1yv7nhppixgf62yy3is8wlbcpsgid3qjwp2aaj54c456k4gzhxpd";
+  depsSha256 = "1vag8dxz67qvrp5x5xccy88aibxy2ih1bz14bmjgi9zwrv17gz6v";
 
   buildInputs = [ cmake pkgconfig xorg.libX11 xorg.libXcursor xorg.libXxf86vm xorg.libXi freetype fontconfig xclip ];
 
