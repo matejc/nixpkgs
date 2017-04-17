@@ -1,6 +1,6 @@
 { stdenv, ensureNewerSourcesHook, autoconf, automake, makeWrapper, pkgconfig
 , libtool, which, git, cmake, fetchgit
-, boost, python2Packages, libxml2, zlib, openldap, lttng-ust
+, boost, python2Packages, libxml2, zlib, openldap, lttng-ust, liburcu
 
 # Optional Dependencies
 , snappy ? null, leveldb ? null, yasm ? null, fcgi ? null, expat ? null
@@ -113,13 +113,11 @@ stdenv.mkDerivation rec {
     cmake
     autoconf automake makeWrapper pkgconfig libtool which git
     (ensureNewerSourcesHook { year = "1980"; })
-  ]
-    ++ optionals (versionAtLeast version "9.0.2") [
-      python2Packages.setuptools python2Packages.argparse
-    ];
+    python2Packages.setuptools python2Packages.argparse
+  ];
   buildInputs = cryptoLibsMap.${cryptoStr} ++ [
-    boost python libxml2 optYasm optLibatomic_ops optLibs3 malloc python2Packages.flask zlib python2Packages.cython openldap lttng-ust
-  ] ++ optionals (versionAtLeast version "9.0.0") [
+    boost python libxml2 optYasm optLibatomic_ops optLibs3 malloc
+    python2Packages.flask zlib python2Packages.cython openldap lttng-ust liburcu
     python2Packages.sphinx # Used for docs
   ] ++ optionals stdenv.isLinux [
     linuxHeaders libuuid udev keyutils.dev optLibaio optLibxfs optZfs
@@ -138,6 +136,9 @@ stdenv.mkDerivation rec {
   preConfigure = ''
     substituteInPlace cmake/modules/Findkeyutils.cmake \
       --replace "/usr/local/include" "${keyutils.dev}/include"
+
+    substituteInPlace src/key_value_store/kv_flat_btree_async.cc \
+      --replace "/usr/include/asm-generic" "${glibc.dev}/include/asm-generic"
   '';
 
   cmakeFlags = [ "-DENABLE_GIT_VERSION=OFF" ];
@@ -153,6 +154,4 @@ stdenv.mkDerivation rec {
     maintainers = with maintainers; [ matejc ];
     platforms = platforms.unix;
   };
-
-  passthru.version = version;
 }
