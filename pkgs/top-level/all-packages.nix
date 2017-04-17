@@ -1315,6 +1315,7 @@ with pkgs;
 
   libceph = ceph.lib;
   ceph = callPackage ../tools/filesystems/ceph { boost = boost159; };
+  ceph-stable = callPackage ../tools/filesystems/ceph/stable.nix { boost = boost163; };
   ceph-dev = ceph;
   #ceph-dev = lowPrio (callPackage ../tools/filesystems/ceph/dev.nix { });
 
