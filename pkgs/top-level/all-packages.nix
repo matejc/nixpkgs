@@ -14921,6 +14921,8 @@ with pkgs;
     go = go_1_7;
   };
 
+  kube-dns = callPackage ../applications/networking/cluster/kubernetes/dns.nix { };
+
   lame = callPackage ../development/libraries/lame { };
 
   larswm = callPackage ../applications/window-managers/larswm { };
