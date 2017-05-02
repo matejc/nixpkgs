@@ -715,16 +715,23 @@ in {
     };
 
     dns = {
-      enable = mkEnableOption "Kubernetes dns addon.";
+      enable = mkEnableOption "kubernetes dns service.";
+
+      port = mkOption {
+        description = "Kubernetes dns listening port";
+        default = 53;
+        type = types.int;
+      };
 
       domain = mkOption  {
-        description = "Kubernetes dns domain under which to create names.";
+        description = "Kuberntes dns domain under which to create names.";
         default = cfg.kubelet.clusterDomain;
         type = types.str;
       };
 
-      serverIp = mkOption  {
-        description = "Kubernetes dns server ip.";
+      extraOpts = mkOption {
+        description = "Kubernetes dns extra command line options.";
+        default = "";
         type = types.str;
       };
     };
@@ -1001,17 +1008,36 @@ in {
     })
 
     (mkIf cfg.addonManager.enable {
-      services.kubernetes.kubelet.manifests = import ./kubernetes-addons/kube-addon-manager.nix { inherit cfg addons; };
+      services.kubernetes.kubelet.manifests = import ./kube-addon-manager.nix { inherit cfg addons; };
     })
 
     (mkIf cfg.dns.enable {
-      services.kubernetes.addonManager.enable = mkDefault true;
-      services.kubernetes.addonManager.addons = import ./kubernetes-addons/dns.nix { inherit cfg; };
+      systemd.services.kube-dns = {
+        description = "Kubernetes Dns Service";
+        wantedBy = [ "kubernetes.target" ];
+        after = [ "kube-apiserver.service" ];
+        serviceConfig = {
+          Slice = "kubernetes.slice";
+          ExecStart = ''${pkgs.kube-dns}/bin/kube-dns \
+            --kubecfg-file=${kubeconfig} \
+            --dns-port=${toString cfg.dns.port} \
+            --domain=${cfg.dns.domain} \
+            ${optionalString cfg.verbose "--v=6"} \
+            ${optionalString cfg.verbose "--log-flush-frequency=1s"} \
+            ${cfg.dns.extraOpts}
+          '';
+          WorkingDirectory = cfg.dataDir;
+          User = "kubernetes";
+          Group = "kubernetes";
+          AmbientCapabilities = "cap_net_bind_service";
+          SendSIGHUP = true;
+        };
+      };
     })
 
     (mkIf cfg.dashboard.enable {
       services.kubernetes.addonManager.enable = mkDefault true;
-      services.kubernetes.addonManager.addons = import ./kubernetes-addons/dashboard.nix { inherit cfg; };
+      services.kubernetes.addonManager.addons = import ./dashboard.nix { inherit cfg; };
     })
 
     (mkIf (
