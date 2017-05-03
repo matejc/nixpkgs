@@ -109,7 +109,7 @@ in {
     };
 
     verbose = mkOption {
-      description = "Kubernetes enable verbose mode for debugging";
+      description = "Kubernetes enable verbose mode for debugging.";
       default = false;
       type = types.bool;
     };
@@ -122,19 +122,19 @@ in {
       };
 
       keyFile = mkOption {
-        description = "Etcd key file";
+        description = "Etcd key file.";
         default = null;
         type = types.nullOr types.path;
       };
 
       certFile = mkOption {
-        description = "Etcd cert file";
+        description = "Etcd cert file.";
         default = null;
         type = types.nullOr types.path;
       };
 
       caFile = mkOption {
-        description = "Etcd ca file";
+        description = "Etcd ca file.";
         default = null;
         type = types.nullOr types.path;
       };
@@ -142,25 +142,25 @@ in {
 
     kubeconfig = {
       server = mkOption {
-        description = "Kubernetes apiserver server address";
+        description = "Kubernetes apiserver server address.";
         default = "http://${cfg.apiserver.address}:${toString cfg.apiserver.port}";
         type = types.str;
       };
 
       caFile = mkOption {
-        description = "Certificate authrority file to use to connect to kuberentes apiserver";
+        description = "Certificate authrority file to use to connect to Kubernetes apiserver.";
         type = types.nullOr types.path;
         default = null;
       };
 
       certFile = mkOption {
-        description = "Client certificate file to use to connect to kubernetes";
+        description = "Client certificate file to use to connect to Kubernetes.";
         type = types.nullOr types.path;
         default = null;
       };
 
       keyFile = mkOption {
-        description = "Client key file to use to connect to kubernetes";
+        description = "Client key file to use to connect to Kubernetes.";
         type = types.nullOr types.path;
         default = null;
       };
@@ -174,7 +174,7 @@ in {
 
     apiserver = {
       enable = mkOption {
-        description = "Whether to enable kubernetes apiserver.";
+        description = "Whether to enable Kubernetes apiserver.";
         default = false;
         type = types.bool;
       };
@@ -359,19 +359,19 @@ in {
       };
 
       autorizationRBACSuperAdmin = mkOption {
-        description = "Role based authorization super admin";
+        description = "Role based authorization super admin.";
         default = "admin";
         type = types.str;
       };
 
       allowPrivileged = mkOption {
-        description = "Whether to allow privileged containers on kubernetes.";
+        description = "Whether to allow privileged containers on Kubernetes.";
         default = true;
         type = types.bool;
       };
 
       portalNet = mkOption {
-        description = "Kubernetes CIDR notation IP range from which to assign portal IPs";
+        description = "Kubernetes CIDR notation IP range from which to assign portal IPs.";
         default = "10.10.10.10/24";
         type = types.str;
       };
@@ -410,25 +410,25 @@ in {
       };
 
       kubeletClientCaFile = mkOption {
-        description = "Path to a cert file for connecting to kubelet";
+        description = "Path to a cert file for connecting to kubelet.";
         default = null;
         type = types.nullOr types.path;
       };
 
       kubeletClientCertFile = mkOption {
-        description = "Client certificate to use for connections to kubelet";
+        description = "Client certificate to use for connections to kubelet.";
         default = null;
         type = types.nullOr types.path;
       };
 
       kubeletClientKeyFile = mkOption {
-        description = "Key to use for connections to kubelet";
+        description = "Key to use for connections to kubelet.";
         default = null;
         type = types.nullOr types.path;
       };
 
       kubeletHttps = mkOption {
-        description = "Whether to use https for connections to kubelet";
+        description = "Whether to use https for connections to kubelet.";
         default = true;
         type = types.bool;
       };
@@ -442,7 +442,7 @@ in {
 
     scheduler = {
       enable = mkOption {
-        description = "Whether to enable kubernetes scheduler.";
+        description = "Whether to enable Kubernetes scheduler.";
         default = false;
         type = types.bool;
       };
@@ -460,7 +460,7 @@ in {
       };
 
       leaderElect = mkOption {
-        description = "Whether to start leader election before executing main loop";
+        description = "Whether to start leader election before executing main loop.";
         type = types.bool;
         default = false;
       };
@@ -474,7 +474,7 @@ in {
 
     controllerManager = {
       enable = mkOption {
-        description = "Whether to enable kubernetes controller manager.";
+        description = "Whether to enable Kubernetes controller manager.";
         default = false;
         type = types.bool;
       };
@@ -492,7 +492,7 @@ in {
       };
 
       leaderElect = mkOption {
-        description = "Whether to start leader election before executing main loop";
+        description = "Whether to start leader election before executing main loop.";
         type = types.bool;
         default = false;
       };
@@ -524,7 +524,7 @@ in {
 
     kubelet = {
       enable = mkOption {
-        description = "Whether to enable kubernetes kubelet.";
+        description = "Whether to enable Kubernetes kubelet.";
         default = false;
         type = types.bool;
       };
@@ -574,13 +574,13 @@ in {
       };
 
       hostname = mkOption {
-        description = "Kubernetes kubelet hostname override";
+        description = "Kubernetes kubelet hostname override.";
         default = config.networking.hostName;
         type = types.str;
       };
 
       allowPrivileged = mkOption {
-        description = "Whether to allow kubernetes containers to request privileged mode.";
+        description = "Whether to allow Kubernetes containers to request privileged mode.";
         default = true;
         type = types.bool;
       };
@@ -592,7 +592,7 @@ in {
       };
 
       clusterDns = mkOption {
-        description = "Use alternative dns.";
+        description = "Use alternative DNS.";
         default = "10.10.0.1";
         type = types.str;
       };
@@ -604,20 +604,20 @@ in {
       };
 
       networkPlugin = mkOption {
-        description = "Network plugin to use by kubernetes";
+        description = "Network plugin to use by Kubernetes.";
         type = types.nullOr (types.enum ["cni" "kubenet"]);
         default = "kubenet";
       };
 
       cni = {
         packages = mkOption {
-          description = "List of network plugin packages to install";
+          description = "List of network plugin packages to install.";
           type = types.listOf types.package;
           default = [];
         };
 
         config = mkOption {
-          description = "Kubernetes CNI configuration";
+          description = "Kubernetes CNI configuration.";
           type = types.listOf types.attrs;
           default = [];
           example = literalExample ''
@@ -676,7 +676,7 @@ in {
 
     proxy = {
       enable = mkOption {
-        description = "Whether to enable kubernetes proxy.";
+        description = "Whether to enable Kubernetes proxy.";
         default = false;
         type = types.bool;
       };
@@ -696,41 +696,41 @@ in {
 
     addonManager = {
       enable = mkOption {
-        description = "Whether to enable kubernetes addon manager.";
+        description = "Whether to enable Kubernetes addon manager.";
         default = false;
         type = types.bool;
       };
 
       versionTag = mkOption {
-        description = "Version tag of kubernetes addon manager image.";
+        description = "Version tag of Kubernetes addon manager image.";
         default = "v6.4-beta.1";
         type = types.str;
       };
 
       addons = mkOption {
-        description = "Kubernetes addons (any kind of kubernetes resource can be an addon).";
+        description = "Kubernetes addons (any kind of Kubernetes resource can be an addon).";
         default = { };
         type = types.attrsOf types.attrs;
       };
     };
 
     dns = {
-      enable = mkEnableOption "kubernetes dns service.";
+      enable = mkEnableOption "Kubernetes DNS service.";
 
       port = mkOption {
-        description = "Kubernetes dns listening port";
+        description = "Kubernetes DNS listening port.";
         default = 53;
         type = types.int;
       };
 
       domain = mkOption  {
-        description = "Kuberntes dns domain under which to create names.";
+        description = "Kubernetes DNS domain under which to create names.";
         default = cfg.kubelet.clusterDomain;
         type = types.str;
       };
 
       extraOpts = mkOption {
-        description = "Kubernetes dns extra command line options.";
+        description = "Kubernetes DNS extra command line options.";
         default = "";
         type = types.str;
       };
@@ -741,13 +741,13 @@ in {
     };
 
     path = mkOption {
-      description = "Packages added to the services' PATH environment variable. Both the bin and sbin subdirectories of each package are added";
+      description = "Packages added to the services' PATH environment variable. Both the bin and sbin subdirectories of each package are added.";
       type = types.listOf types.package;
       default = [];
     };
 
     clusterCidr = mkOption {
-      description = "Kubernetes controller manager and proxy CIDR Range for Pods in cluster";
+      description = "Kubernetes controller manager and proxy CIDR Range for Pods in cluster.";
       default = "10.10.0.0/16";
       type = types.str;
     };
@@ -1013,7 +1013,7 @@ in {
 
     (mkIf cfg.dns.enable {
       systemd.services.kube-dns = {
-        description = "Kubernetes Dns Service";
+        description = "Kubernetes DNS Service";
         wantedBy = [ "kubernetes.target" ];
         after = [ "kube-apiserver.service" ];
         serviceConfig = {
