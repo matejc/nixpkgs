@@ -22,6 +22,8 @@ stdenv.mkDerivation rec {
     mkdir $GOPATH/src/k8s.io/dns
     ln -s $(pwd)/cmd $GOPATH/src/k8s.io/dns/cmd
     ln -s $(pwd)/pkg $GOPATH/src/k8s.io/dns/pkg
+
+    # build only kube-dns, we do not need anything else
     go build -o kube-dns ./cmd/kube-dns
   '';
 
