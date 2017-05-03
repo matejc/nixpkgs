@@ -711,6 +711,20 @@ in {
         description = "Kubernetes addons (any kind of Kubernetes resource can be an addon).";
         default = { };
         type = types.attrsOf types.attrs;
+        example = literalExample ''
+          {
+            "my-service" = {
+              "apiVersion" = "v1";
+              "kind" = "Service";
+              "metadata" = {
+                "name" = "my-service";
+                "namespace" = "default";
+              };
+              "spec" = { ... };
+            };
+          }
+          // import <nixpkgs/nixos/modules/services/cluster/kubernetes/dashboard.nix> { cfg = config.services.kubernetes; };
+        '';
       };
     };
 
@@ -734,10 +748,6 @@ in {
         default = "";
         type = types.str;
       };
-    };
-
-    dashboard = {
-      enable = mkEnableOption "Kubernetes dashboard addon.";
     };
 
     path = mkOption {
@@ -990,9 +1000,7 @@ in {
       services.kubernetes.apiserver.enable = mkDefault true;
       services.kubernetes.scheduler.enable = mkDefault true;
       services.kubernetes.controllerManager.enable = mkDefault true;
-      services.kubernetes.addonManager.enable = mkDefault true;
       services.kubernetes.dns.enable = mkDefault true;
-      services.kubernetes.dashboard.enable = mkDefault false;
       services.etcd.enable = mkDefault (cfg.etcd.servers == ["http://127.0.0.1:2379"]);
     })
 
@@ -1035,19 +1043,13 @@ in {
       };
     })
 
-    (mkIf cfg.dashboard.enable {
-      services.kubernetes.addonManager.enable = mkDefault true;
-      services.kubernetes.addonManager.addons = import ./dashboard.nix { inherit cfg; };
-    })
-
     (mkIf (
         cfg.apiserver.enable ||
         cfg.scheduler.enable ||
         cfg.controllerManager.enable ||
         cfg.kubelet.enable ||
         cfg.proxy.enable ||
-        cfg.dns.enable ||
-        cfg.dashboard.enable
+        cfg.dns.enable
     ) {
       systemd.targets.kubernetes = {
         description = "Kubernetes";
