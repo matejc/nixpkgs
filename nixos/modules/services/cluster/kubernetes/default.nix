@@ -967,7 +967,7 @@ in {
         description = "Kubernetes Proxy Service";
         wantedBy = [ "kubernetes.target" ];
         after = [ "kube-apiserver.service" ];
-        path = [pkgs.iptables];
+        path = [pkgs.iptables pkgs.conntrack_tools];
         serviceConfig = {
           Slice = "kubernetes.slice";
           ExecStart = ''${cfg.package}/bin/kube-proxy \
@@ -982,10 +982,6 @@ in {
           WorkingDirectory = cfg.dataDir;
         };
       };
-    })
-
-    (mkIf cfg.addonManager.enable {
-      environment.etc."kubernetes/addons".source = "${addons}/";
     })
 
     (mkIf cfg.kubelet.enable {
@@ -1017,6 +1013,7 @@ in {
 
     (mkIf cfg.addonManager.enable {
       services.kubernetes.kubelet.manifests = import ./kube-addon-manager.nix { inherit cfg addons; };
+      environment.etc."kubernetes/addons".source = "${addons}/";
     })
 
     (mkIf cfg.dns.enable {
