@@ -16,6 +16,10 @@ let
 
     ${pkgs.lib.readFile ("${pkgs.cacert}/etc/ssl/certs/ca-bundle.crt")}
   '';
+
+  mkHosts =
+    pkgs.lib.concatMapStringsSep "\n" (v: "${v.ip} ${v.name}.nixos.xyz") (pkgs.lib.mapAttrsToList (n: v: {name = n; ip = v;}) servers);
+
 in
 {
   programs.bash.enableCompletion = true;
@@ -33,17 +37,17 @@ in
       ];
     };
     extraHosts = ''
+      # register "external" domains
       ${servers.master} etcd.kubernetes.nixos.xyz
       ${servers.master} kubernetes.nixos.xyz
-      ${servers.master} master.nixos.xyz
-      ${servers.one} one.nixos.xyz
-      ${servers.two} two.nixos.xyz
-      ${servers.three} three.nixos.xyz
+      ${mkHosts}
     '';
   };
   virtualisation.docker.extraOptions = ''
     --iptables=false $DOCKER_OPTS
   '';
+
+  # lets create environment file for docker startup - network stuff
   systemd.services."pre-docker" = {
     description = "Pre-Docker Actions";
     wantedBy = [ "flannel.service" ];
@@ -52,8 +56,9 @@ in
     path = [ pkgs.gawk pkgs.gnugrep ];
     script = ''
       mkdir -p /run/flannel
+      # bashInteractive needed for `compgen`
       ${pkgs.bashInteractive}/bin/bash ${mkDockerOpts} -d /run/flannel/docker
-      cat /run/flannel/docker
+      cat /run/flannel/docker  # just for debugging
     '';
     serviceConfig.Type = "simple";
   };
@@ -106,7 +111,10 @@ in
       certFile = worker_cert;
       keyFile = worker_key;
     };
+
+    # make sure you cover kubernetes.apiserver.portalNet and flannel networks
     clusterCidr = "10.0.0.0/8";
+
     dns.enable = true;
     dns.port = 4453;
   };
