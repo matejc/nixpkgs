@@ -59,6 +59,10 @@ in
       # bashInteractive needed for `compgen`
       ${pkgs.bashInteractive}/bin/bash ${mkDockerOpts} -d /run/flannel/docker
       cat /run/flannel/docker  # just for debugging
+
+      # allow container to host communication for DNS traffic
+      ${pkgs.iptables}/bin/iptables -I nixos-fw -p tcp -m tcp -i docker0 --dport 53 -j nixos-fw-accept
+      ${pkgs.iptables}/bin/iptables -I nixos-fw -p udp -m udp -i docker0 --dport 53 -j nixos-fw-accept
     '';
     serviceConfig.Type = "simple";
   };
