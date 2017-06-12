@@ -2,13 +2,13 @@
 
 mkDerivation rec {
   name = "cura-${version}";
-  version = "2.4.0";
+  version = "2.5.0";
 
   src = fetchFromGitHub {
     owner = "Ultimaker";
     repo = "Cura";
     rev = version;
-    sha256 = "04iglmjg9rzmlfrll6g7bcckkla327938xh8qmbdfrh215aivdlp";
+    sha256 = "1lr9fkfb7sd2h11msbi707g33lqa5jvywiwj0l6k2n40y41yngas";
   };
 
   buildInputs = [ qtbase ];
