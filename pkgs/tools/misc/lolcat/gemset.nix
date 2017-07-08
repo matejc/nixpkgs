@@ -1,9 +1,9 @@
 {
   "lolcat" = {
-    version = "42.1.0";
+    version = "42.24.1";
     source = {
       type = "gem";
-      sha256 = "1jp0g7k958dg709dm1qs7nr8dmi4vlgvmcvqcr1zhk8ygx89rwgc";
+      sha256 = "0v6scdvfaah658bdnah8plbskam9varkfgqqgdnw0fvwaam76vxj";
     };
     dependencies = [
       "paint"
@@ -11,17 +11,17 @@
     ];
   };
   "paint" = {
-    version = "0.8.7";
+    version = "2.0.0";
     source = {
       type = "gem";
-      sha256 = "0nl1x0190d44bfczlxdy16gxsvm95y14kxv3k9n92h9ap2zvdyd8";
+      sha256 = "08izkpljgf7szmq0slsyvfi8clw716bn5li794rsi7rh2r6kii57";
     };
   };
   "trollop" = {
-    version = "1.16.2";
+    version = "2.1.2";
     source = {
       type = "gem";
-      sha256 = "0frrp90dw266h3kf9g925dppir9l7p8jxknw6dn5nz6fa6c4g5lg";
+      sha256 = "0415y63df86sqj43c0l82and65ia5h64if7n0znkbrmi6y0jwhl8";
     };
   };
 }
