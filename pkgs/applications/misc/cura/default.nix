@@ -1,21 +1,30 @@
-{ mkDerivation, lib, fetchFromGitHub, cmake, python3, qtbase, curaengine }:
-
-mkDerivation rec {
+{ stdenv, lib, fetchFromGitHub, cmake, python3, qtbase, curaengine }:
+let
+  materials = fetchFromGitHub {
+    owner = "Ultimaker";
+    repo = "fdm_materials";
+    rev = version;
+    sha256 = "1ng1p9q6xsxn8yxpgcwnwibnlspccgzjqjwlkmqhmhr8387xzdq2";
+  };
+  version = "2.6.1";
+in
+stdenv.mkDerivation rec {
   name = "cura-${version}";
-  version = "2.5.0";
 
   src = fetchFromGitHub {
     owner = "Ultimaker";
     repo = "Cura";
     rev = version;
-    sha256 = "1lr9fkfb7sd2h11msbi707g33lqa5jvywiwj0l6k2n40y41yngas";
+    sha256 = "03rsw6nafg3y9if2dlnzsj6c9x3x7cv6gs4a1w84jaq4p1f8fcsd";
   };
 
   buildInputs = [ qtbase ];
   propagatedBuildInputs = with python3.pkgs; [ uranium zeroconf pyserial ];
   nativeBuildInputs = [ cmake python3.pkgs.wrapPython ];
 
-  cmakeFlags = [ "-DCMAKE_MODULE_PATH=${python3.pkgs.uranium}/share/cmake-${cmake.majorVersion}/Modules" ];
+  cmakeFlags = [
+    "-DURANIUM_DIR=${python3.pkgs.uranium.src}"
+  ];
 
   postPatch = ''
     sed -i 's,/python''${PYTHON_VERSION_MAJOR}/dist-packages,/python''${PYTHON_VERSION_MAJOR}.''${PYTHON_VERSION_MINOR}/site-packages,g' CMakeLists.txt
@@ -26,7 +35,12 @@ mkDerivation rec {
     wrapPythonPrograms
   '';
 
-  meta = with lib; {
+  postInstall = ''
+    mkdir -p $out/share/cura/resources/materials
+    cp ${materials}/*.fdm_material $out/share/cura/resources/materials/
+  '';
+
+  meta = with stdenv.lib; {
     description = "3D printer / slicing GUI built on top of the Uranium framework";
     homepage = "https://github.com/Ultimaker/Cura";
     license = licenses.agpl3;

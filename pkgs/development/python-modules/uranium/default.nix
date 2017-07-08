@@ -5,7 +5,7 @@ then throw "Uranium not supported for interpreter ${python.executable}"
 else
 
 stdenv.mkDerivation rec {
-  version = "2.5.0";
+  version = "2.6.0";
   pname = "uranium";
   name = "${pname}-${version}";
 
@@ -13,7 +13,7 @@ stdenv.mkDerivation rec {
     owner = "Ultimaker";
     repo = "Uranium";
     rev = version;
-    sha256 = "107npbw7zg9sl6zjbhffnxvhkkh4ayi85i7jrbz49gichlad7319";
+    sha256 = "1682xwxf6xs1d1cfv1s7xnabqv58jjdb6szz8624b3k9rsj5l2yq";
   };
 
   buildInputs = [ python ];
@@ -26,6 +26,10 @@ stdenv.mkDerivation rec {
      -e "s,Resources.addSearchPath(os.path.join(os.path.abspath(os.path.dirname(__file__)).*,Resources.addSearchPath(\"$out/share/uranium/resources\")," \
      -e "s,self._plugin_registry.addPluginLocation(os.path.join(os.path.abspath(os.path.dirname(__file__)).*,self._plugin_registry.addPluginLocation(\"$out/lib/uranium/plugins\")," \
      UM/Application.py
+  '';
+
+  postInstall = ''
+    cp -r $out/share/cmake-3.8 $out/share/cmake
   '';
 
   meta = with stdenv.lib; {
