@@ -44,6 +44,11 @@ in
           type = types.bool;
           description = "Whether the Synergy client should be started automatically.";
         };
+        user = mkOption {
+          default = "root";
+          type = types.str;
+          description = "Run Synergy client as this user.";
+        };
       };
 
       server = {
@@ -73,6 +78,11 @@ in
           type = types.bool;
           description = "Whether the Synergy server should be started automatically.";
         };
+        user = mkOption {
+          default = "root";
+          type = types.str;
+          description = "Run Synergy server as this user.";
+        };
       };
     };
 
@@ -90,6 +100,7 @@ in
         path = [ pkgs.synergy ];
         serviceConfig.ExecStart = ''${pkgs.synergy}/bin/synergyc -f ${optionalString (cfgC.screenName != "") "-n ${cfgC.screenName}"} ${cfgC.serverAddress}'';
         serviceConfig.Restart = "on-failure";
+        serviceConfig.User = cfgC.user;
       };
     })
     (mkIf cfgS.enable {
@@ -100,6 +111,7 @@ in
         path = [ pkgs.synergy ];
         serviceConfig.ExecStart = ''${pkgs.synergy}/bin/synergys -c ${cfgS.configFile} -f ${optionalString (cfgS.address != "") "-a ${cfgS.address}"} ${optionalString (cfgS.screenName != "") "-n ${cfgS.screenName}" }'';
         serviceConfig.Restart = "on-failure";
+        serviceConfig.User = cfgS.user;
       };
     })
   ];
