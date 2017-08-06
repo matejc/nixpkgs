@@ -4960,6 +4960,10 @@ with pkgs;
 
   souper = callPackage ../development/compilers/souper { };
 
+  sparkleshare = callPackage ../applications/networking/sparkleshare { };
+  dazzle = callPackage ../applications/networking/sparkleshare/dazzle.nix { };
+  webkit2gtk-sharp = callPackage ../development/libraries/webkit2gtk-sharp { };
+
   sparsehash = callPackage ../development/libraries/sparsehash { };
 
   spectre-meltdown-checker = callPackage ../tools/security/spectre-meltdown-checker { };
