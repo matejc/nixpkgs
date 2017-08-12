@@ -665,9 +665,9 @@ with pkgs;
     pkgs_i686 = pkgsi686Linux;
   };
 
-  inherit (androidenv) androidndk;
+  inherit (self.androidenv) androidndk;
 
-  androidsdk = androidenv.androidsdk_8_0;
+  androidsdk = self.androidenv.androidsdk_8_0;
 
   androidsdk_extras = self.androidenv.androidsdk_8_0_extras;
 
