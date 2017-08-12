@@ -15,6 +15,7 @@ stdenv.mkDerivation rec {
   installPhase = ''
     substituteInPlace src/makefile --replace "CC=c99" "cc=gcc"
     substituteInPlace src/makefile --replace "-lcurses" "-lncurses"
+    substituteInPlace src/makefile --replace "/usr/local/share/ne" "$out/share/ne"
     substituteInPlace makefile --replace "./version.pl" "perl version.pl"
     cd doc && make && cd ..
     cd src && make && cd ..
