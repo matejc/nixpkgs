@@ -1,5 +1,13 @@
 { mkDerivation, lib, fetchFromGitHub, cmake, python3, qtbase, curaengine }:
-
+let
+  materials = fetchFromGitHub {
+    owner = "Ultimaker";
+    repo = "fdm_materials";
+    rev = version;
+    sha256 = "1ng1p9q6xsxn8yxpgcwnwibnlspccgzjqjwlkmqhmhr8387xzdq2";
+  };
+  version = "2.6.1";
+in
 mkDerivation rec {
   name = "cura-${version}";
   version = "2.6.1";
@@ -20,6 +28,11 @@ mkDerivation rec {
   postPatch = ''
     sed -i 's,/python''${PYTHON_VERSION_MAJOR}/dist-packages,/python''${PYTHON_VERSION_MAJOR}.''${PYTHON_VERSION_MINOR}/site-packages,g' CMakeLists.txt
     sed -i 's, executable_name = .*, executable_name = "${curaengine}/bin/CuraEngine",' plugins/CuraEngineBackend/CuraEngineBackend.py
+  '';
+
+  postInstall = ''
+    mkdir -p $out/share/cura/resources/materials
+    cp ${materials}/*.fdm_material $out/share/cura/resources/materials/
   '';
 
   postFixup = ''
