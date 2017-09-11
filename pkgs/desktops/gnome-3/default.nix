@@ -366,8 +366,6 @@ let
 
   california = callPackage ./misc/california { };
 
-  connman-gtk = callPackage ./apps/connman-gtk { };
-
   geary = callPackage ./misc/geary {
     # https://bugzilla.gnome.org/show_bug.cgi?id=728002
     webkitgtk = pkgs.webkitgtk24x-gtk3;
