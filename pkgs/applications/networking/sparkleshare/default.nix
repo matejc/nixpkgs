@@ -3,11 +3,10 @@
 , gnome3, dbus-sharp-glib-2_0, dbus-sharp-2_0 }:
 stdenv.mkDerivation rec {
   name = "sparkleshare-${version}";
-  version = "2.0-${versionSuffix}";
-  versionSuffix = "beta-1";
+  version = "2.0.0";
   src = fetchurl {
     url = "https://github.com/hbons/SparkleShare/archive/${version}.tar.gz";
-    sha256 = "0qg24by63l54lrg92xwia9h2638yizmillbrnll367k6vc7221n0";
+    sha256 = "1ghxvlqj28rsi0dsa0wk0j24dxl3sjikn3zxx4j7dqvb5jkicrwk";
   };
   buildInputs = [ which libtool automake autoconf pkgconfig mono gtk-sharp-3_0
     notify-sharp webkit2gtk-sharp makeWrapper dbus-sharp-glib-2_0 dbus-sharp-2_0 ];
