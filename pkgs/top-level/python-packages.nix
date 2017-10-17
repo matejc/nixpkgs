@@ -24389,8 +24389,8 @@ EOF
     src = pkgs.fetchFromGitHub {
       owner = "mps-youtube";
       repo = "mps-youtube";
-      rev = "v${version}";
-      sha256 = "16zn5gwb3568w95lr21b88zkqlay61p1541sa9c3x69zpi8v0pys";
+      rev = "b55a8e6972af2ef82411d99d2eed42fcf5a64c8e";
+      sha256 = "1ccgn58q2k0m0h6g3r05p8nsr26yz9rzxrgfxxvvyf9z2yiyq43j";
     };
 
     propagatedBuildInputs = with self; [ pafy ];
