@@ -8738,6 +8738,8 @@ with pkgs;
 
   isocodes = callPackage ../development/libraries/iso-codes { };
 
+  isolate = callPackage ../tools/security/isolate { };
+
   ispc = callPackage ../development/compilers/ispc {
     llvmPackages = llvmPackages_4;
     stdenv = llvmPackages_4.stdenv;
