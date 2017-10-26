@@ -10073,6 +10073,8 @@ with pkgs;
 
   isocodes = callPackage ../development/libraries/iso-codes { };
 
+  isolate = callPackage ../tools/security/isolate { };
+
   ispc = callPackage ../development/compilers/ispc {
     llvmPackages = llvmPackages_6;
     stdenv = llvmPackages_6.stdenv;
