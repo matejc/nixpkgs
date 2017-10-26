@@ -12605,6 +12605,8 @@ in
 
   isocodes = callPackage ../development/libraries/iso-codes { };
 
+  isolate = callPackage ../tools/security/isolate { };
+
   ispc = callPackage ../development/compilers/ispc {
     stdenv = llvmPackages_10.stdenv;
     llvmPackages = llvmPackages_10;
