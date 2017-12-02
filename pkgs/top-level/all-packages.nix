@@ -7581,6 +7581,8 @@ with pkgs;
 
   kube-aws = callPackage ../development/tools/kube-aws { };
 
+  kail = callPackage ../applications/misc/kail { };
+
   kubemrr = callPackage ../applications/misc/kubemrr { };
 
   lcov = callPackage ../development/tools/analysis/lcov { };
