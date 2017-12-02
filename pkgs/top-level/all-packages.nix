@@ -7971,6 +7971,8 @@ with pkgs;
 
   Literate = callPackage ../development/tools/literate-programming/Literate {};
 
+  kail = callPackage ../applications/misc/kail { };
+
   lcov = callPackage ../development/tools/analysis/lcov { };
 
   leiningen = callPackage ../development/tools/build-managers/leiningen { };
