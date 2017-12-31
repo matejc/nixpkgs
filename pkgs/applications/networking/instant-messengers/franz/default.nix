@@ -1,26 +1,24 @@
-{ stdenv, fetchurl, makeDesktopItem, makeWrapper
+{ stdenv, fetchurl, makeDesktopItem, makeWrapper, dpkg, glibc
 , xorg, gtk2, atk, glib, pango, gdk_pixbuf, cairo, freetype, fontconfig
 , gnome2, dbus, nss, nspr, alsaLib, cups, expat, udev, libnotify, xdg_utils }:
 
 let
-  bits = if stdenv.system == "x86_64-linux" then "x64"
-         else "ia32";
-
-  version = "4.0.4";
+  version = "5.0.0";
+  versionSuffix = "beta.14";
 
   runtimeDeps = [
     udev libnotify
   ];
   deps = (with xorg; [
     libXi libXcursor libXdamage libXrandr libXcomposite libXext libXfixes
-    libXrender libX11 libXtst libXScrnSaver
+    libXrender libX11 libXtst libXScrnSaver libxcb
   ]) ++ [
     gtk2 atk glib pango gdk_pixbuf cairo freetype fontconfig dbus
     gnome2.GConf nss nspr alsaLib cups expat stdenv.cc.cc
   ] ++ runtimeDeps;
 
   desktopItem = makeDesktopItem rec {
-    name = "Franz";
+    name = "franz";
     exec = name;
     icon = "franz";
     desktopName = name;
@@ -28,48 +26,47 @@ let
     categories = "Network;";
   };
 in stdenv.mkDerivation rec {
-  name = "franz-${version}";
+  name = "franz-${version}-${versionSuffix}";
   src = fetchurl {
-    url = "https://github.com/meetfranz/franz-app/releases/download/${version}/Franz-linux-${bits}-${version}.tgz";
-    sha256 = if bits == "x64" then
-      "0ssym0jfrig474g6j67g1jfybjkxnyhbqqjvrs8z6ihwlyd3rrk5" else
-      "16l9jma2hiwzl9l41yhrwribcgmxca271rq0cfbbm9701mmmciyy";
+    url = "https://github.com/meetfranz/franz/releases/download/v${version}-${versionSuffix}/franz_${version}-${versionSuffix}_amd64.deb";
+    sha256 = "0wza3bfh45ggjqzr95rxj4cr96mryrwsfkfgikpj9xlsk5va3xq5";
   };
 
   # don't remove runtime deps
   dontPatchELF = true;
 
-  buildInputs = [ makeWrapper ];
+  buildInputs = [ dpkg makeWrapper ];
 
   unpackPhase = ''
-    tar xzf $src
+    dpkg -x $src .
   '';
 
   installPhase = ''
-    patchelf --set-interpreter "$(cat $NIX_CC/nix-support/dynamic-linker)" Franz
-    patchelf --set-rpath "$out/opt/franz:${stdenv.lib.makeLibraryPath deps}" Franz
+    mkdir -p $out/{lib/franz,bin,share}
+    mv opt/Franz/* $out/lib/franz/
+    mv usr/share/* $out/share/
 
-    mkdir -p $out/bin $out/opt/franz
-    cp -r * $out/opt/franz
-    ln -s $out/opt/franz/Franz $out/bin
+    patchelf --set-interpreter "$(cat $NIX_CC/nix-support/dynamic-linker)" $out/lib/franz/franz
+    # patchelf --set-rpath "$out/lib/franz:${stdenv.lib.makeLibraryPath deps}" $out/lib/franz/franz
 
     # provide desktop item and icon
     mkdir -p $out/share/applications $out/share/pixmaps
-    ln -s ${desktopItem}/share/applications/* $out/share/applications
-    ln -s $out/opt/franz/resources/app.asar.unpacked/assets/franz.png $out/share/pixmaps
+    ln -sf ${desktopItem}/share/applications/* $out/share/applications
   '';
 
   postFixup = ''
-    paxmark m $out/opt/franz/Franz
-    wrapProgram $out/opt/franz/Franz --prefix PATH : ${xdg_utils}/bin
+    # paxmark m $out/lib/franz/franz
+    makeWrapper $out/lib/franz/franz $out/bin/franz \
+      --prefix PATH : ${xdg_utils}/bin \
+      --prefix LD_LIBRARY_PATH : "$out/lib/franz:${stdenv.lib.makeLibraryPath deps}"
   '';
 
   meta = with stdenv.lib; {
     description = "A free messaging app that combines chat & messaging services into one application";
     homepage = http://meetfranz.com;
     license = licenses.free;
-    maintainers = [ maintainers.gnidorah ];
-    platforms = ["i686-linux" "x86_64-linux"];
+    maintainers = [ maintainers.gnidorah maintainers.matejc ];
+    platforms = ["x86_64-linux"];
     hydraPlatforms = [];
   };
 }
