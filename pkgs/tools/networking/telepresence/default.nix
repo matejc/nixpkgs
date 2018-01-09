@@ -16,29 +16,34 @@ let
   });
 in stdenv.mkDerivation rec {
   pname = "telepresence";
-  version = "0.71";
+  version = "0.73";
   name = "${pname}-${version}";
 
   src = fetchFromGitHub {
     owner = "datawire";
     repo = "telepresence";
     rev = version;
-    sha256 = "06kfy6grm517gk7dcnaq8ws0fa7hzpk5hljprxbhwqnxd76zvlpd";
+    sha256 = "1r6xmvrr8j6afnq676al3yldj96fbmwnq89k1zsc5nm4w7c0kxm7";
   };
 
-  buildInputs = [ makeWrapper ];
+  buildInputs = [ makeWrapper python3 ];
 
   phases = ["unpackPhase" "installPhase"];
 
   installPhase = ''
     mkdir -p $out/libexec $out/bin
-    cp cli/telepresence $out/libexec/telepresence
-    cp cli/stamp-telepresence $out/libexec/stamp-telepresence
 
-    makeWrapper $out/libexec/telepresence $out/bin/telepresence \
+    export PREFIX=$out
+    substituteInPlace ./install.sh \
+      --replace "#!/bin/bash" "#!${stdenv.shell}" \
+      --replace '"''${VENVDIR}/bin/pip" -q install "git+https://github.com/datawire/sshuttle.git@telepresence"' "" \
+      --replace '"''${VENVDIR}/bin/sshuttle-telepresence"' '"${sshuttle-telepresence}/bin/sshuttle-telepresence"'
+    ./install.sh
+
+    wrapProgram $out/bin/telepresence \
       --prefix PATH : ${lib.makeBinPath [python3 sshfs-fuse torsocks conntrack_tools sshuttle-telepresence]}
 
-    makeWrapper $out/libexec/stamp-telepresence $out/bin/stamp-telepresence \
+    wrapProgram $out/bin/stamp-telepresence \
       --prefix PATH : ${lib.makeBinPath [python3 sshfs-fuse torsocks conntrack_tools sshuttle-telepresence]}
   '';
 
