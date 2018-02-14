@@ -1,15 +1,25 @@
-{ stdenv, fetchurl, pkgconfig, libusb, pixman, glib, nss, nspr, gdk_pixbuf }:
+{ stdenv, fetchgit, pkgconfig, libtool, automake, autoconf, xorg, libusb
+, pixman, glib, nss, nspr, gdk_pixbuf }:
 
 stdenv.mkDerivation rec {
-  name = "libfprint-0.7.0";
+  name = "libfprint-2017-12-12";
 
-  src = fetchurl {
-    url = "https://people.freedesktop.org/~anarsoul/${name}.tar.xz";
-    sha256 = "1wzi12zvdp8sw3w5pfbd9cwz6c71627bkr88rxv6gifbyj6fwgl6";
+  src = fetchgit {
+    url = "git://cgit.freedesktop.org/libfprint/libfprint";
+    rev = "d35da0ce99c11bf43d06c2400f9fec6580814919";
+    sha256 = "1z9f3cwyhi10q2xqy33z516s259c56njzq1fbl5zn1yngfzlshk6";
   };
 
+  preConfigure = ''
+    substituteInPlace autogen.sh --replace "--enable-examples-build" ""
+    substituteInPlace autogen.sh --replace "--enable-x11-examples-build" ""
+    substituteInPlace Makefile.am --replace "--enable-examples-build --enable-x11-examples-build" ""
+    cat Makefile.am
+    ./autogen.sh
+  '';
+
   buildInputs = [ libusb pixman glib nss nspr gdk_pixbuf ];
-  nativeBuildInputs = [ pkgconfig ];
+  nativeBuildInputs = [ libtool automake autoconf pkgconfig xorg.libXv ];
 
   configureFlags = [ "--with-udev-rules-dir=$(out)/lib/udev/rules.d" ];
 
