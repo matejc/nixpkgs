@@ -14,7 +14,7 @@ let
     wantedBy = [ "multi-user.target" ];
     after = [ "network-interfaces.target" ];
 
-    serviceConfig.ExecStart = "${openssh}/bin/ssh -N -i ${cfg.identity_file} -L ${if cfg.bind_address == "" then "" else "${cfg.bind_address}:"}${toString cfg.port}:${cfg.host}:${toString cfg.hostport} -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no ${cfg.extraFlags} ${cfg.server}";
+    serviceConfig.ExecStart = "${openssh}/bin/ssh -N -i ${cfg.identity_file} ${if cfg.remote == true then "-R" else "-L"} ${if cfg.bind_address == "" then "" else "${cfg.bind_address}:"}${toString cfg.port}:${cfg.host}:${toString cfg.hostport} -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no ${cfg.extraFlags} ${cfg.server}";
     serviceConfig.Restart = "always";
     serviceConfig.Type = "simple";
     serviceConfig.User = "${cfg.user}";
@@ -46,6 +46,13 @@ in
           example = "someone@some.example.com";
           description = ''
             Server address to connect to.
+          '';
+        };
+
+        remote = mkOption {
+          type = types.bool;
+          description = ''
+            If you want to open port on the remote.
           '';
         };
 
