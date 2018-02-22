@@ -6,7 +6,7 @@ let
 
   porttunnels = config.services.porttunnels;
 
-  inherit (pkgs) openssh;
+  inherit (pkgs) autossh;
 
   makePortTunnelJob = cfg: name: {
     description = "Port Tunnel ‘${name}’";
@@ -14,7 +14,9 @@ let
     wantedBy = [ "multi-user.target" ];
     after = [ "network-interfaces.target" ];
 
-    serviceConfig.ExecStart = "${openssh}/bin/ssh -N -i ${cfg.identity_file} ${if cfg.remote == true then "-R" else "-L"} ${if cfg.bind_address == "" then "" else "${cfg.bind_address}:"}${toString cfg.port}:${cfg.host}:${toString cfg.hostport} -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no ${cfg.extraFlags} ${cfg.server}";
+    serviceConfig.ExecStart = ''
+      ${autossh}/bin/autossh -M0 -- -N -i ${cfg.identity_file} ${if cfg.remote == true then "-R" else "-L"} ${if cfg.bind_address == "" then "" else "${cfg.bind_address}:"}${toString cfg.port}:${cfg.host}:${toString cfg.hostport} -o "UserKnownHostsFile=/dev/null" -o "PubkeyAuthentication=yes" -o "StrictHostKeyChecking=false" -o "PasswordAuthentication=no" -o "ServerAliveInterval 30" -o "ServerAliveCountMax 3" ${cfg.extraFlags} ${cfg.server}
+    '';
     serviceConfig.Restart = "always";
     serviceConfig.Type = "simple";
     serviceConfig.User = "${cfg.user}";
@@ -50,6 +52,7 @@ in
         };
 
         remote = mkOption {
+          default = true;
           type = types.bool;
           description = ''
             If you want to open port on the remote.
