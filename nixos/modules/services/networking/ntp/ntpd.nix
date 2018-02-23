@@ -126,6 +126,9 @@ in
         serviceConfig = {
           ExecStart = "@${ntp}/bin/ntpd ntpd -g ${ntpFlags}";
           Type = "forking";
+          KillMode = "mixed";
+          KillSignal = "SIGINT";
+          TimeoutSec = 10;
         };
       };
 
