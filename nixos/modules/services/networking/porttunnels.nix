@@ -4,7 +4,7 @@ with lib;
 
 let
 
-  porttunnels = config.services.porttunnels;
+  portTunnels = config.services.portTunnels;
 
   inherit (pkgs) autossh;
 
@@ -15,7 +15,7 @@ let
     after = [ "network-interfaces.target" ];
 
     serviceConfig.ExecStart = ''
-      ${autossh}/bin/autossh -M0 -- -N -i ${cfg.identity_file} ${if cfg.remote == true then "-R" else "-L"} ${if cfg.bind_address == "" then "" else "${cfg.bind_address}:"}${toString cfg.port}:${cfg.host}:${toString cfg.hostport} -o "UserKnownHostsFile=/dev/null" -o "PubkeyAuthentication=yes" -o "StrictHostKeyChecking=false" -o "PasswordAuthentication=no" -o "ServerAliveInterval 30" -o "ServerAliveCountMax 3" ${cfg.extraFlags} ${cfg.server}
+      ${autossh}/bin/autossh -M ${toString (cfg.port+1)}:${toString (cfg.port+2)} -- -T -N -i ${cfg.identityFile} ${if cfg.remote == true then "-R" else "-L"} ${if cfg.bindAddress == "" then "" else "${cfg.bindAddress}:"}${toString cfg.port}:${cfg.host}:${toString cfg.hostPort} -o "UserKnownHostsFile=/dev/null" -o "PubkeyAuthentication=yes" -o "StrictHostKeyChecking=false" -o "PasswordAuthentication=no" -o "ServerAliveInterval=30" -o "ServerAliveCountMax=3" ${cfg.extraFlags} ${cfg.server}
     '';
     serviceConfig.Restart = "always";
     serviceConfig.Type = "simple";
@@ -33,7 +33,7 @@ in
 
   options = {
 
-    services.porttunnels = mkOption {
+    services.portTunnels = mkOption {
       default = {};
 
       description = ''
@@ -59,7 +59,7 @@ in
           '';
         };
 
-        identity_file = mkOption {
+        identityFile = mkOption {
           type = types.path;
           example = "/home/someone/.ssh/id_rsa";
           description = ''
@@ -67,7 +67,7 @@ in
           '';
         };
 
-        bind_address = mkOption {
+        bindAddress = mkOption {
           default = "";
           type = types.str;
           description = ''
@@ -90,7 +90,7 @@ in
           '';
         };
 
-        hostport = mkOption {
+        hostPort = mkOption {
           type = types.int;
           description = ''
             Host port.
@@ -122,9 +122,9 @@ in
 
   ###### implementation
 
-  config = mkIf (porttunnels != {}) {
+  config = mkIf (portTunnels != {}) {
 
-    systemd.services = listToAttrs (mapAttrsFlatten (name: value: nameValuePair "porttunnel-${name}" (makePortTunnelJob value name)) porttunnels);
+    systemd.services = listToAttrs (mapAttrsFlatten (name: value: nameValuePair "porttunnel-${name}" (makePortTunnelJob value name)) portTunnels);
 
   };
 
