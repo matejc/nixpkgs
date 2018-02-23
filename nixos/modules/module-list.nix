@@ -694,6 +694,7 @@
   ./services/networking/teamspeak3.nix
   ./services/networking/tedicross.nix
   ./services/networking/thelounge.nix
+  ./services/networking/teleport.nix
   ./services/networking/tinc.nix
   ./services/networking/tinydns.nix
   ./services/networking/tftpd.nix
