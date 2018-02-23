@@ -139,6 +139,9 @@ in
         serviceConfig = {
           ExecStart = "@${ntp}/bin/ntpd ntpd -g ${builtins.toString ntpFlags}";
           Type = "forking";
+          KillMode = "mixed";
+          KillSignal = "SIGINT";
+          TimeoutSec = 10;
         };
       };
 
