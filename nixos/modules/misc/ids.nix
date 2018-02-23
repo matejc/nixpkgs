@@ -339,6 +339,8 @@
       rss2email = 312;
       cockroachdb = 313;
 
+      teleport = 399;
+
       # When adding a uid, make sure it doesn't match an existing gid. And don't use uids above 399!
 
       nixbld = 30000; # start of range of uids
@@ -636,6 +638,8 @@
       minetest = 311;
       rss2email = 312;
       cockroachdb = 313;
+
+      teleport = 399;
 
       # When adding a gid, make sure it doesn't match an existing
       # uid. Users and groups with the same name should have equal
