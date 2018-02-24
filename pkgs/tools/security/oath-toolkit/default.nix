@@ -6,11 +6,11 @@ let
     else pam;
 in
 stdenv.mkDerivation rec {
-  name = "oath-toolkit-2.6.2";
+  name = "oath-toolkit-2.6.1";
 
   src = fetchurl {
     url = "mirror://savannah/oath-toolkit/${name}.tar.gz";
-    sha256 = "182ah8vfbg0yhv6mh1b6ap944d0na6x7lpfkwkmzb6jl9gx4cd5h";
+    sha256 = "0ybg0gnddmhxga0jwdipyz8jv5mxs0kiiflhvzffl9mw0wcq6mww";
   };
 
 
