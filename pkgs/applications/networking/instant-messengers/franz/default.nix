@@ -4,7 +4,7 @@
 
 let
   version = "5.0.0";
-  versionSuffix = "beta.15";
+  versionSuffix = "beta.16";
 
   runtimeDeps = [
     udev libnotify
@@ -29,7 +29,7 @@ in stdenv.mkDerivation rec {
   name = "franz-${version}-${versionSuffix}";
   src = fetchurl {
     url = "https://github.com/meetfranz/franz/releases/download/v${version}-${versionSuffix}/franz_${version}-${versionSuffix}_amd64.deb";
-    sha256 = "0abjlcw1dy4db58x3br7dqdw6b4hwsiz010i0advmy2pl8pzlz8w";
+    sha256 = "0fh3b6hmd5j8gqlqxwkf5f2m8725h9s9mnk1dhx27h13p26s24k7";
   };
 
   # don't remove runtime deps
