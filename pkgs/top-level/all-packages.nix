@@ -20383,6 +20383,8 @@ in
 
   curaByDagoma = callPackage ../applications/misc/curabydagoma { };
 
+  ideaMaker = callPackage ../applications/misc/ideamaker { };
+
   peru = callPackage ../applications/version-management/peru {};
 
   petrinizer = haskellPackages.callPackage ../applications/science/logic/petrinizer {};
