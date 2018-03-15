@@ -18842,6 +18842,8 @@ with pkgs;
 
   curaByDagoma = callPackage ../applications/misc/curabydagoma { };
 
+  ideaMaker = callPackage ../applications/misc/ideamaker { };
+
   peru = callPackage ../applications/version-management/peru {};
 
   pmidi = callPackage ../applications/audio/pmidi { };
