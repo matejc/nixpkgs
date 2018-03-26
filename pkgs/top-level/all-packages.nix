@@ -824,9 +824,9 @@ in
     licenseAccepted = (config.android_sdk.accept_license or false);
   };
 
-  inherit (androidenv) androidndk;
+  androidndk = self.androidenv.androidndk;
 
-  androidsdk = androidenv.androidsdk_8_0;
+  androidsdk = self.androidenv.androidsdk_8_0;
 
   androidsdk_extras = res.androidenv.androidsdk_8_0_extras;
 
