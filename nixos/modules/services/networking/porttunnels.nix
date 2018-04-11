@@ -15,7 +15,7 @@ let
     after = [ "network-interfaces.target" ];
 
     serviceConfig.ExecStart = ''
-      ${autossh}/bin/autossh -M ${toString (cfg.port+1)}:${toString (cfg.port+2)} -- -T -N -i ${cfg.identityFile} ${if cfg.remote == true then "-R" else "-L"} ${if cfg.bindAddress == "" then "" else "${cfg.bindAddress}:"}${toString cfg.port}:${cfg.host}:${toString cfg.hostPort} -o "UserKnownHostsFile=/dev/null" -o "PubkeyAuthentication=yes" -o "StrictHostKeyChecking=false" -o "PasswordAuthentication=no" -o "ServerAliveInterval=30" -o "ServerAliveCountMax=3" ${cfg.extraFlags} ${cfg.server}
+      ${autossh}/bin/autossh -M 0 -- -T -N -i ${cfg.identityFile} ${if cfg.remote == true then "-R" else "-L"} ${if cfg.bindAddress == "" then "" else "${cfg.bindAddress}:"}${toString cfg.port}:${cfg.host}:${toString cfg.hostPort} -o "UserKnownHostsFile=/dev/null" -o "PubkeyAuthentication=yes" -o "StrictHostKeyChecking=false" -o "PasswordAuthentication=no" -o "ServerAliveInterval=30" -o "ServerAliveCountMax=3" ${cfg.extraFlags} ${cfg.server}
     '';
     serviceConfig.Restart = "always";
     serviceConfig.Type = "simple";
