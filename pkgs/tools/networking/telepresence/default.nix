@@ -16,14 +16,14 @@ let
   });
 in stdenv.mkDerivation rec {
   pname = "telepresence";
-  version = "0.75";
+  version = "0.81";
   name = "${pname}-${version}";
 
   src = fetchFromGitHub {
     owner = "datawire";
     repo = "telepresence";
     rev = version;
-    sha256 = "19vrg3fs7jsijz87nv8hpwq2mba0wzfyh8asjrpqv66gbpl87h19";
+    sha256 = "1724idhaibhwpy8kyzl8d65j6ysbjh9vxxmm8fffar54ixhaqynn";
   };
 
   buildInputs = [ makeWrapper python3 ];
@@ -41,9 +41,6 @@ in stdenv.mkDerivation rec {
     ./install.sh
 
     wrapProgram $out/bin/telepresence \
-      --prefix PATH : ${lib.makeBinPath [python3 sshfs-fuse torsocks conntrack_tools sshuttle-telepresence]}
-
-    wrapProgram $out/bin/stamp-telepresence \
       --prefix PATH : ${lib.makeBinPath [python3 sshfs-fuse torsocks conntrack_tools sshuttle-telepresence]}
   '';
 
