@@ -6415,6 +6415,8 @@ with pkgs;
 
   colm = callPackage ../development/compilers/colm { };
 
+  colmap = callPackage ../applications/graphics/colmap { };
+
   fetchegg = callPackage ../build-support/fetchegg { };
 
   eggDerivation = callPackage ../development/compilers/chicken/eggDerivation.nix { };
