@@ -12109,6 +12109,7 @@ with pkgs;
   vcdimager = callPackage ../development/libraries/vcdimager { };
 
   vcg = callPackage ../development/libraries/vcg { };
+  vcg-devel = callPackage ../development/libraries/vcg/devel.nix { };
 
   vid-stab = callPackage ../development/libraries/vid-stab { };
 
