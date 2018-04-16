@@ -1,50 +1,33 @@
-{ stdenv, fetchFromGitHub, libGLU, qtbase, qtscript, qtxmlpatterns }:
+{ stdenv, fetchFromGitHub, libGLU, qtbase, qtscript, qtxmlpatterns, qmake
+, vcg }:
 
-let
-  meshlabRev = "5700f5474c8f90696a8925e2a209a0a8ab506662";
-  vcglibRev = "a8e87662b63ee9f4ded5d4699b28d74183040803";
-in stdenv.mkDerivation {
-  name = "meshlab-2016.12";
+stdenv.mkDerivation {
+  name = "meshlab-20180413-beta";
 
-  srcs =
-    [
-      (fetchFromGitHub {
-        owner = "cnr-isti-vclab";
-        repo = "meshlab";
-        rev = meshlabRev;
-        sha256 = "0srrp7zhi86dsg4zsx1615gr26barz38zdl8s03zq6vm1dgzl3cc";
-        name = "meshlab-${meshlabRev}";
-      })
-      (fetchFromGitHub {
-        owner = "cnr-isti-vclab";
-        repo = "vcglib";
-        rev = vcglibRev;
-        sha256 = "0jh8jc8rn7rci8qr3q03q574fk2hsc3rllysck41j8xkr3rmxz2f";
-        name = "vcglib-${vcglibRev}";
-      })
-    ];
+  src = fetchFromGitHub {
+    owner = "cnr-isti-vclab";
+    repo = "meshlab";
+    rev = "4ec5ed53ff06c350e57baca1dded78d81abb8b19";
+    sha256 = "09y437ip6w5q36fjxzz30gdndp945gzfmm66cfj9clgbg0ajzwhv";
+  };
 
-  sourceRoot = "meshlab-${meshlabRev}";
+  nativeBuildInputs = [ qmake ];
 
-  patches = [ ./fix-2016.02.patch ];
+  patches = [ ];
+
+  configurePhase = "true";
+
+  buildPhase = ''
+    cd src/external
+    qmake
+    make -j4
+    cd ..
+    qmake meshlab_full.pro
+    make -j4
+  '';
 
   hardeningDisable = [ "format" ];
   enableParallelBuilding = true;
-
-  buildPhase = ''
-    # MeshLab has ../vcglib hardcoded everywhere, so move the source dir
-    mv ../vcglib-${vcglibRev} ../vcglib
-
-    cd src
-    export NIX_LDFLAGS="-rpath $out/opt/meshlab $NIX_LDFLAGS"
-
-    pushd external
-    qmake -recursive external.pro
-    buildPhase
-    popd
-    qmake -recursive meshlab_full.pro
-    buildPhase
-  '';
 
   installPhase = ''
     mkdir -p $out/opt/meshlab $out/bin
@@ -53,7 +36,7 @@ in stdenv.mkDerivation {
     ln -s $out/opt/meshlab/meshlabserver $out/bin/meshlabserver
   '';
 
-  buildInputs = [ libGLU qtbase qtscript qtxmlpatterns ];
+  buildInputs = [ libGLU qtbase qtscript qtxmlpatterns vcg ];
 
   meta = {
     description = "A system for processing and editing 3D triangular meshes.";
