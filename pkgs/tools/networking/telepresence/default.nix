@@ -16,14 +16,14 @@ let
   });
 in stdenv.mkDerivation rec {
   pname = "telepresence";
-  version = "0.81";
+  version = "0.83";
   name = "${pname}-${version}";
 
   src = fetchFromGitHub {
     owner = "datawire";
     repo = "telepresence";
     rev = version;
-    sha256 = "1724idhaibhwpy8kyzl8d65j6ysbjh9vxxmm8fffar54ixhaqynn";
+    sha256 = "1n2hvlvn47zyqrix195k0zmzmffxnbvnmbj1bw9sc62h9nlr4pgv";
   };
 
   buildInputs = [ makeWrapper python3 ];
