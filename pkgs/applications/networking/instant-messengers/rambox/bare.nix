@@ -3,13 +3,13 @@
 
 stdenv.mkDerivation rec {
   name = "rambox-bare-${version}";
-  version = "0.5.13";
+  version = "0.5.17";
 
   src = fetchFromGitHub {
     owner = "saenzramiro";
     repo = "rambox";
     rev = version;
-    sha256 = "0c770a9z017y6gcrpyri7s1gifm8zi5f29bq5nvh3zzg4wgqh326";
+    sha256 = "18adga0symhb825db80l4c7kjl3lzzh54p1qibqsfa087rjxx9ay";
   };
 
   nativeBuildInputs = [ nodejs-8_x ruby sencha ];
