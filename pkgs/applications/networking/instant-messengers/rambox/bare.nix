@@ -18,10 +18,10 @@ stdenv.mkDerivation rec {
     inherit src;
 
     nodejs = nodejs-8_x;
-    sha256 = "1y3q8ggyvfywxqi5hn9mvr1sjfylspis43iyf4b7snyr1a1br3r4";
+    sha256 = "1v7zwp8vs2pgy04qi92lvnxgfwkyxbid04lab8925wg1pvm2pk3k";
   };
 
-  patches = [ ./hide-check-for-updates.patch ./isDev.patch ]
+  patches = [ ./isDev.patch ]
     ++ stdenv.lib.optionals disableTooltips [ ./disable-tooltips.patch ];
 
   configurePhase = ''
