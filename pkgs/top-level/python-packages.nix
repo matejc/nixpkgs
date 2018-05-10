@@ -8277,11 +8277,11 @@ in {
 
   pymysql = buildPythonPackage rec {
     name = "pymysql-${version}";
-    version = "0.6.6";
+    version = "0.8.1";
     src = pkgs.fetchgit {
       url = https://github.com/PyMySQL/PyMySQL.git;
-      rev = "refs/tags/pymysql-${version}";
-      sha256 = "0kpw11rxpyyhs9b139hxhbnx9n5kzjjw10wgwvhnf9m3mv7j4n71";
+      rev = "refs/tags/v${version}";
+      sha256 = "1kysy3rv79ag7avpcxbj5480pl0jks849kmr32i1vng5ism6brjf";
     };
 
     buildInputs = with self; [ unittest2 ];
@@ -8291,6 +8291,20 @@ in {
     '';
 
     # Wants to connect to MySQL
+    doCheck = false;
+  };
+
+  cli-helpers = buildPythonPackage rec {
+    name = "cli-helpers-${version}";
+    version = "1.0.2";
+    src = pkgs.fetchgit {
+      url = https://github.com/dbcli/cli_helpers;
+      rev = "refs/tags/v${version}";
+      sha256 = "0jwky5w3h6x3gmy6pfif0vwm1373mynn68mwqi2g647d80wgx1lb";
+    };
+
+    propagatedBuildInputs = with self; [ terminaltables tabulate backports_csv ];
+
     doCheck = false;
   };
 

@@ -2,6 +2,7 @@
 , buildPythonPackage
 , fetchPypi
 , nose
+, wcwidth
 }:
 
 buildPythonPackage rec {
@@ -12,6 +13,8 @@ buildPythonPackage rec {
     inherit pname version;
     sha256 = "e4ca13f26d0a6be2a2915428dc21e732f1e44dad7f76d7030b2ef1ec251cf7f2";
   };
+
+  propagatedBuildInputs = [ wcwidth ];
 
   checkInputs = [ nose ];
 

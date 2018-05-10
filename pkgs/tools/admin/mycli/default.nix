@@ -6,16 +6,16 @@ with python.pkgs;
 
 buildPythonApplication rec {
   pname = "mycli";
-  version = "1.6.0";
+  version = "1.16.0";
   name = "${pname}-${version}";
 
   src = fetchPypi {
     inherit pname version;
-    sha256 = "0qg4b62kizyb16kk0cvpk70bfs3gg4q4hj2b15nnc7a3gqqfp67j";
+    sha256 = "0jcnisfr01ylmxf6xsgf3risdjk2cskhymanb6s1jrk1nqvmbii9";
   };
 
   propagatedBuildInputs = [
-    pymysql configobj sqlparse prompt_toolkit pygments click pycrypto
+    pymysql configobj sqlparse prompt_toolkit pygments click pycrypto cryptography cli-helpers
   ];
 
   postPatch = ''
