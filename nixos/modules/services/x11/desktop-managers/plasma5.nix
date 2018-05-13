@@ -166,7 +166,7 @@ in
 
           kde-gtk-config breeze-gtk
 
-          qtvirtualkeyboard
+          # qtvirtualkeyboard
 
           xdg-user-dirs # Update user dirs as described in https://freedesktop.org/wiki/Software/xdg-user-dirs/
         ]
