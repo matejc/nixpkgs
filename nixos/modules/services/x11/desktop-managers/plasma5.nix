@@ -159,7 +159,7 @@ in
 
           kde-gtk-config breeze-gtk
 
-          qtvirtualkeyboard
+          # qtvirtualkeyboard
 
           libsForQt5.phonon-backend-gstreamer
 
