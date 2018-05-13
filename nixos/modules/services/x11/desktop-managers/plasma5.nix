@@ -342,7 +342,7 @@ in
           kde-gtk-config
           breeze-gtk
 
-          qtvirtualkeyboard
+          # qtvirtualkeyboard
 
           pkgs.xdg-user-dirs # Update user dirs as described in https://freedesktop.org/wiki/Software/xdg-user-dirs/
         ]
