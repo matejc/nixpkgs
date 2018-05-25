@@ -3,20 +3,20 @@ let
   materials = fetchFromGitHub {
     owner = "Ultimaker";
     repo = "fdm_materials";
-    rev = version;
-    sha256 = "1haazpjcyvjqkv1zxj8pnrn7290m315c0q26zml6hd3aqjgilgif";
+    rev = "3.3.0";
+    sha256 = "0vf7s4m14aqhdg4m2yjj87kjxi2gpa46mgx86p0a91jwvkxa8a1q";
   };
-  version = "3.0.3";
+  version = "3.3.1";
 in
-mkDerivation rec {
+mkDerivation {
   name = "cura-${version}";
-  version = "3.2.1";
+  inherit version;
 
   src = fetchFromGitHub {
     owner = "Ultimaker";
     repo = "Cura";
     rev = version;
-    sha256 = "0yaya0ww92qjm7g31q85m5f95nwdapldjx1kdf1ar4yzwh4r15rp";
+    sha256 = "0a2xxiw1h5cq4nd4pdkq757hap85p2i29msxs57kbfdd78izrjlx";
   };
 
   buildInputs = [ qtbase qtquickcontrols ];
