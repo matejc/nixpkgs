@@ -12105,6 +12105,8 @@ in
 
   protozero = callPackage ../development/libraries/protozero { };
 
+  protonvpn-cli = callPackage ../tools/networking/protonvpn-cli { };
+
   flatbuffers = callPackage ../development/libraries/flatbuffers { };
 
   gnupth = callPackage ../development/libraries/pth { };
