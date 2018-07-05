@@ -11365,6 +11365,8 @@ with pkgs;
 
   protobufc = callPackage ../development/libraries/protobufc/1.3.nix { };
 
+  protonvpn-cli = callPackage ../tools/networking/protonvpn-cli { };
+
   flatbuffers = callPackage ../development/libraries/flatbuffers { };
 
   gnupth = callPackage ../development/libraries/pth { };
