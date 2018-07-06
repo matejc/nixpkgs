@@ -7,6 +7,7 @@ assert mpi != null;
 
 let
   pythonPackages = python27Packages;
+  boostWithPython = boost.override { enablePython = true; };
 in stdenv.mkDerivation rec {
   name = "freecad-${version}";
   version = "0.17";
@@ -16,10 +17,12 @@ in stdenv.mkDerivation rec {
     sha256 = "1yv6abdzlpn4wxy315943xwrnbywxqfgkjib37qwfvbb8y9p60df";
   };
 
-  buildInputs = with pythonPackages; [ cmake coin3d xercesc ode eigen qt4 opencascade gts
-    zlib  swig gfortran soqt libf2c makeWrapper  mpi vtk hdf5 medfile
+  buildInputs = with pythonPackages; [ cmake coin3d xercesc ode eigen qt4
+    opencascade gts zlib swig gfortran soqt libf2c makeWrapper mpi vtk hdf5
+    medfile
   ] ++ (with pythonPackages; [
-    matplotlib pycollada pyside pysideShiboken pysideTools pivy python boost
+    matplotlib pycollada pyside pysideShiboken pysideTools pivy python
+    boostWithPython
   ]);
 
   patches = [
