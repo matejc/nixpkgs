@@ -360,6 +360,8 @@ in
       inherit kernel firmware rootModules allowMissing;
     };
 
+  mkchromecast = callPackage ../applications/video/mkchromecast { python = python3; };
+
   mkShell = callPackage ../build-support/mkshell { };
 
   nixBufferBuilders = import ../build-support/emacs/buffer.nix { inherit (pkgs) lib writeText; inherit (emacsPackagesNg) inherit-local; };
