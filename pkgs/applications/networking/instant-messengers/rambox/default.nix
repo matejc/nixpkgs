@@ -1,4 +1,4 @@
-{ stdenv, newScope, makeWrapper, electron, xdg_utils, makeDesktopItem
+{ stdenv, newScope, makeWrapper, electron, xdg_utils, makeDesktopItem, gnome3
 , auth0ClientID ? "0spuNKfIGeLAQ_Iki9t3fGxbfJl3k8SU"
 , auth0Domain ? "nixpkgs.auth0.com" }:
 
@@ -33,7 +33,8 @@ stdenv.mkDerivation {
   installPhase = ''
     makeWrapper ${electron}/bin/electron $out/bin/rambox \
       --add-flags "${rambox-bare} --without-update" \
-      --prefix PATH : ${xdg_utils}/bin
+      --prefix PATH : ${xdg_utils}/bin \
+      --prefix XDG_DATA_DIRS : "$(echo ${gnome3.gsettings-desktop-schemas}/share/gsettings-schemas/gsettings-desktop-schemas-*):$(echo ${gnome3.gtk}/share/gsettings-schemas/gtk*)"
     mkdir -p $out/share/applications
     ln -s ${desktopItem}/share/applications/* $out/share/applications
   '';
