@@ -1816,6 +1816,8 @@ with pkgs;
 
   brotli = callPackage ../tools/compression/brotli { };
 
+  browsh = callPackage ../applications/networking/browsers/browsh { };
+
   biosdevname = callPackage ../tools/networking/biosdevname { };
 
   c14 = callPackage ../applications/networking/c14 { };
