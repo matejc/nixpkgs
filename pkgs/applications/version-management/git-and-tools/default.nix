@@ -115,6 +115,8 @@ let
 
   pre-commit = callPackage ./pre-commit { };
 
+  lazygit = callPackage ./lazygit { };
+
   qgit = qt5.callPackage ./qgit { };
 
   stgit = callPackage ./stgit {
