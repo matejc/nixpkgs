@@ -8471,6 +8471,8 @@ with pkgs;
 
   kcov = callPackage ../development/tools/analysis/kcov { };
 
+  kcli = callPackage ../applications/virtualization/kcli { pythonPackages = python27Packages; };
+
   kube-aws = callPackage ../development/tools/kube-aws { };
 
   kubectx = callPackage ../development/tools/kubectx { };
