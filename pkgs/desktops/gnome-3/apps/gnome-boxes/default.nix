@@ -3,19 +3,19 @@
 , spice-protocol, libsoup, libosinfo, systemd, tracker, tracker-miners, vala
 , libcap, yajl, gmp, gdbm, cyrus_sasl, gnome3, librsvg, desktop-file-utils
 , mtools, cdrkit, libcdio, libusb, libarchive, acl, libgudev, qemu, libsecret
-, libcap_ng, numactl, xen, libapparmor, json-glib, webkitgtk
+, libcap_ng, numactl, xen, libapparmor, json-glib, webkitgtk, freerdp
 }:
 
 # TODO: ovirt (optional)
 
 let
-  version = "3.28.5";
+  version = "3.29.4";
 in stdenv.mkDerivation rec {
   name = "gnome-boxes-${version}";
 
   src = fetchurl {
     url = "mirror://gnome/sources/gnome-boxes/${gnome3.versionBranch version}/${name}.tar.xz";
-    sha256 = "1z1qimspx1nw7l79rardxcx2bydj9nmk60vsdb611xzlqa3hkppm";
+    sha256 = "092fq90xyflanwa1laahfrbl7zp536vm1qv8mzh97yfl3108s34v";
   };
 
   doCheck = true;
@@ -32,8 +32,12 @@ in stdenv.mkDerivation rec {
     libvirt spice-gtk spice-protocol libsoup json-glib webkitgtk libosinfo systemd
     tracker tracker-miners libcap yajl gmp gdbm cyrus_sasl libusb libarchive
     gnome3.defaultIconTheme librsvg acl libgudev libsecret
-    libcap_ng numactl xen libapparmor
+    libcap_ng numactl xen libapparmor freerdp gnome3.glib-networking
   ];
+
+  preConfigure = ''
+    substituteInPlace src/vm-configurator.vala --replace "add_smartcard_support (domain);" ""
+  '';
 
   preFixup = ''
     gappsWrapperArgs+=(--prefix PATH : "${stdenv.lib.makeBinPath [ mtools cdrkit libcdio qemu ]}")
