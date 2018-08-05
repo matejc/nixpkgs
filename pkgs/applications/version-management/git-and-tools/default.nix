@@ -132,6 +132,8 @@ let
 
   pass-git-helper = python3Packages.callPackage ./pass-git-helper { };
 
+  lazygit = callPackage ./lazygit { };
+
   qgit = qt5.callPackage ./qgit { };
 
   stgit = callPackage ./stgit {
