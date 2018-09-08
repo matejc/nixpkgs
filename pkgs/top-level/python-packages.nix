@@ -2135,11 +2135,11 @@ in {
   dogpile_core = callPackage ../development/python-modules/dogpile.core { };
 
   dopy = buildPythonPackage rec {
-    version = "2016-01-04";
+    version = "0.3.7a";
     name = "dopy-${version}";
 
     src = pkgs.fetchFromGitHub {
-      owner = "Wiredcraft";
+      owner = "rolylolypoly";
       repo = "dopy";
       rev = "cb443214166a4e91b17c925f40009ac883336dc3";
       sha256 ="0ams289qcgna96aak96jbz6wybs6qb95h2gn8lb4lmx2p5sq4q56";
@@ -2149,9 +2149,9 @@ in {
 
     meta = {
       description = "Digital Ocean API python wrapper";
-      homepage = "https://github.com/Wiredcraft/dopy";
+      homepage = "https://github.com/rolylolypoly/dopy";
       license = licenses.mit;
-      maintainers = with maintainers; [ lihop ];
+      maintainers = with maintainers; [ lihop matejc ];
       platforms = platforms.all;
     };
   };
