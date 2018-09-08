@@ -24,6 +24,7 @@ let
       for m in docs/man/man1/*; do
         install -vD $m -t $man/share/man/man1
       done
+      wrapProgram $out/bin/ansible-playbook --prefix PYTHONPATH : "$PYTHONPATH"
     '';
 
     doCheck = false;
