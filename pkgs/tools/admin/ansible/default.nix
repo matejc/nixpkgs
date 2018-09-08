@@ -22,6 +22,7 @@ let
       for m in docs/man/man1/*; do
         install -vD $m -t $man/share/man/man1
       done
+      wrapProgram $out/bin/ansible-playbook --prefix PYTHONPATH : "$PYTHONPATH"
     '';
 
     doCheck = false;
@@ -30,7 +31,7 @@ let
     dontPatchShebangs = false;
 
     propagatedBuildInputs = with py.pkgs; [
-      pycrypto paramiko jinja2 pyyaml httplib2 boto six netaddr dnspython jmespath
+      pycrypto paramiko jinja2 pyyaml httplib2 boto six netaddr dnspython dopy jmespath
     ] ++ stdenv.lib.optional windowsSupport pywinrm;
 
     meta = with stdenv.lib; {
