@@ -1064,6 +1064,7 @@
   ./services/system/self-deploy.nix
   ./services/system/systembus-notify.nix
   ./services/system/uptimed.nix
+  ./services/system/usernetes.nix
   ./services/torrent/deluge.nix
   ./services/torrent/flexget.nix
   ./services/torrent/magnetico.nix
