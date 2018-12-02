@@ -43,10 +43,12 @@ derekwyatt/vim-scala
 dhruvasagar/vim-table-mode
 digitaltoad/vim-jade
 direnv/direnv.vim
+dkprice/vim-easygrep
 dleonard0/pony-vim-syntax
 dracula/vim
 drmingdrmer/xptemplate
 dylanaraps/wal.vim
+dyng/ctrlsf.vim
 eagletmt/ghcmod-vim
 eagletmt/neco-ghc
 easymotion/vim-easymotion
@@ -90,6 +92,7 @@ ianks/vim-tsx
 idris-hackers/idris-vim
 inkarkat/vim-SyntaxRange
 int3/vim-extradite
+isRuslan/vim-es6
 itchyny/calendar.vim
 itchyny/lightline.vim
 itchyny/thumbnail.vim
@@ -113,6 +116,7 @@ JuliaEditorSupport/deoplete-julia
 JuliaEditorSupport/julia-vim
 junegunn/fzf.vim
 junegunn/goyo.vim
+junegunn/gv.vim
 junegunn/limelight.vim
 junegunn/vim-easy-align
 junegunn/vim-github-dashboard
@@ -177,6 +181,8 @@ mbbill/undotree
 megaannum/forms
 megaannum/self
 mfukar/robotframework-vim
+mg979/vim-visual-multi
+mhartington/nvim-typescript
 mhinz/vim-grepper
 mhinz/vim-janah
 mhinz/vim-sayonara
@@ -210,6 +216,7 @@ osyo-manga/shabadou.vim
 osyo-manga/vim-anzu
 osyo-manga/vim-textobj-multiblock
 osyo-manga/vim-watchdogs
+othree/yajs.vim
 pangloss/vim-javascript
 parsonsmatt/intero-neovim
 peterhoeg/vim-qml
@@ -263,6 +270,7 @@ Shougo/unite.vim
 Shougo/vimproc.vim
 Shougo/vimshell.vim
 shumphrey/fugitive-gitlab.vim
+sickill/vim-pasta
 SirVer/ultisnips
 sjl/gundo.vim
 sjl/splice.vim
@@ -315,6 +323,7 @@ valloric/youcompleteme
 vhda/verilog_systemverilog.vim
 vim-airline/vim-airline
 vim-airline/vim-airline-themes
+vimlab/neojs
 vimoutliner/vimoutliner
 vim-pandoc/vim-pandoc
 vim-pandoc/vim-pandoc-after
