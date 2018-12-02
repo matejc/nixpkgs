@@ -4986,6 +4986,8 @@ in
 
   rocket = libsForQt5.callPackage ../tools/graphics/rocket { };
 
+  rootlesskit = callPackage ../tools/system/rootlesskit { };
+
   rtaudio = callPackage ../development/libraries/audio/rtaudio { };
 
   rtmidi = callPackage ../development/libraries/audio/rtmidi { };
