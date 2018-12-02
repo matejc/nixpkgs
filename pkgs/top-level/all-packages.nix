@@ -5453,6 +5453,8 @@ in
 
   sleepyhead = callPackage ../applications/misc/sleepyhead {};
 
+  slirp4netns = callPackage ../tools/system/slirp4netns { };
+
   slimrat = callPackage ../tools/networking/slimrat {
     inherit (perlPackages) WWWMechanize LWP;
   };
