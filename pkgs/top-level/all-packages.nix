@@ -16103,6 +16103,8 @@ in
 
   usermount = callPackage ../os-specific/linux/usermount { };
 
+  usernetes = callPackage ../tools/system/usernetes { };
+
   utillinux = if stdenv.isLinux then callPackage ../os-specific/linux/util-linux { }
               else unixtools.utillinux;
 
