@@ -8709,6 +8709,8 @@ in
     autoconf = buildPackages.autoconf269;
   };
 
+  uhk-agent = callPackage ../applications/misc/uhk-agent { };
+
   uhub = callPackage ../servers/uhub { };
 
   unclutter = callPackage ../tools/misc/unclutter { };
