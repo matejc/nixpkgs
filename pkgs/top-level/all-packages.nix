@@ -7915,6 +7915,8 @@ in
 
   uim = callPackage ../tools/inputmethods/uim { };
 
+  uhk-agent = callPackage ../applications/misc/uhk-agent { };
+
   uhub = callPackage ../servers/uhub { };
 
   unclutter = callPackage ../tools/misc/unclutter { };
