@@ -7044,6 +7044,8 @@ in
 
   netboot = callPackage ../tools/networking/netboot {};
 
+  netcap = callPackage ../applications/networking/netcap {};
+
   netcat = libressl.nc;
 
   netcat-gnu = callPackage ../tools/networking/netcat { };
