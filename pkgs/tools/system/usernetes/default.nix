@@ -1,4 +1,4 @@
-{ stdenv, buildEnv, fetchurl, makeWrapper, slirp4netns, utillinux, coreutils
+{ stdenv, buildEnv, fetchurl, makeWrapper, utillinux, coreutils
 , shadow, iproute, gnused, iptables, git, kmod, gnugrep, pigz, strace, glib }:
 let
   env = buildEnv {
