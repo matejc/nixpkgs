@@ -15,8 +15,8 @@ in stdenv.mkDerivation rec {
   src = fetchFromGitHub {
     owner = "dequis";
     repo = "purple-facebook";
-    rev = "v0.9.5-9ff9acf9fa14";
-    sha256 = "0a1860bkzrmyxahm9rlxi80z335w491wzdaqaw6j9ccavbymhwhs";
+    rev = "v0.9.6";
+    sha256 = "0lfibm34sl1khh62x4j9579gxx257lrd58p5iw7jklyak386s7aa";
   };
 
   postPatch = ''
