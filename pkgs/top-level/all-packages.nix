@@ -18971,6 +18971,8 @@ in
 
   openscad = callPackage ../applications/graphics/openscad {};
 
+  openscad-dev = callPackage ../applications/graphics/openscad/dev.nix {};
+
   opentimestamps-client = python3Packages.callPackage ../tools/misc/opentimestamps-client {};
 
   opentx = callPackage ../applications/misc/opentx {
