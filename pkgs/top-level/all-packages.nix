@@ -2035,6 +2035,8 @@ in
 
   go-neb = callPackage ../applications/networking/instant-messengers/go-neb { };
 
+  gonvim = callPackage ../applications/editors/gonvim { };
+
   geckodriver = callPackage ../development/tools/geckodriver { };
 
   geekbench = callPackage ../tools/misc/geekbench { };
