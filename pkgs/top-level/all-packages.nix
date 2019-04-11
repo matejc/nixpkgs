@@ -27103,6 +27103,8 @@ in
 
   neovim-remote = callPackage ../applications/editors/neovim/neovim-remote.nix { };
 
+  veonim = callPackage ../applications/editors/veonim { };
+
   vis = callPackage ../applications/editors/vis {
     inherit (lua52Packages) lpeg;
   };
