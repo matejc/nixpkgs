@@ -1579,6 +1579,8 @@ in
 
   go-dependency-manager = callPackage ../development/tools/gdm { };
 
+  gonvim = callPackage ../applications/editors/gonvim { };
+
   geckodriver = callPackage ../development/tools/geckodriver { };
 
   geekbench = callPackage ../tools/misc/geekbench { };
