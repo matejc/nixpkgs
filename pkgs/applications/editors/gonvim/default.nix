@@ -10,11 +10,11 @@ let
 in
 stdenv.mkDerivation rec {
   name = "gonvim-${version}";
-  version = "0.3.4";
+  version = "0.3.5";
 
   src = fetchurl {
     url = "https://github.com/akiyosi/gonvim/releases/download/v${version}/Gonvim-${version}-linux.tar.gz";
-    sha256 = "0m798ybspzvk36nsmf3v7mqik4bpsn86s0drwrppdiz4gf4sjdg6";
+    sha256 = "0hrh3vlfzn1a4hk5xr6crc8i9pd0mm1qbkcc9w1fb0p1m0nlk8h5";
   };
 
   buildInputs = [ makeWrapper ];
