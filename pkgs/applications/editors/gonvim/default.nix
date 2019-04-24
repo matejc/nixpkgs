@@ -1,5 +1,5 @@
 { lib, stdenv, fetchurl, makeWrapper, gcc, libGL, pulseaudio, glib, zlib, dbus
-, nss, nspr, expat, xorg, freetype, fontconfig, alsaLib, udev }:
+, nss, nspr, expat, xorg, freetype, fontconfig, alsaLib, udev, ctags }:
 let
   libPath = lib.makeLibraryPath [
     gcc.cc libGL pulseaudio glib zlib dbus nss nspr expat xorg.libX11
@@ -30,7 +30,8 @@ stdenv.mkDerivation rec {
       --set QT_PLUGIN_PATH "$out/share/gonvim/plugins" \
       --set QML_IMPORT_PATH "$out/share/gonvim/qml" \
       --set QML2_IMPORT_PATH "$out/share/gonvim/qml" \
-      --set QTWEBENGINEPROCESS_PATH "$out/share/gonvim/QtWebEngineProcess"
+      --set QTWEBENGINEPROCESS_PATH "$out/share/gonvim/QtWebEngineProcess" \
+      --prefix "PATH" ":" "${ctags}/bin"
   '';
 
   # TODO: add metadata https://nixos.org/nixpkgs/manual/#sec-standard-meta-attributes
