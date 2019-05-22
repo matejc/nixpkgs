@@ -25663,6 +25663,8 @@ with pkgs;
 
   kubetail = callPackage ../applications/networking/cluster/kubetail { } ;
 
+  kubewatch = callPackage ../tools/networking/kubewatch { } ;
+
   kupfer = callPackage ../applications/misc/kupfer {
     # using python36 as there appears to be a waf issue with python37
     # see https://github.com/NixOS/nixpkgs/issues/60498
