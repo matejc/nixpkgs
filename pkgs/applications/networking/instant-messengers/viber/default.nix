@@ -1,6 +1,7 @@
 {fetchurl, stdenv, dpkg, makeWrapper,
  alsaLib, cups, curl, dbus, expat, fontconfig, freetype, glib, gst_all_1, harfbuzz, libcap,
- libpulseaudio, libxml2, libxslt, libGLU_combined, nspr, nss, openssl, systemd, wayland, xorg, zlib, ...
+ libpulseaudio, libxml2, libxslt, libGLU_combined, nspr, nss, openssl_1_0_2, systemd, wayland, xorg, zlib,
+ pciutils, ...
 }:
 
 stdenv.mkDerivation {
@@ -9,7 +10,7 @@ stdenv.mkDerivation {
 
   src = fetchurl {
     url = "https://download.cdn.viber.com/cdn/desktop/Linux/viber.deb";
-    sha256 = "06mp2wvqx4y6rd5gs2mh442qcykjrrvwnkhlpx0lara331i2p0lj";
+    sha256 = "0z7ykrhj3iq4y319c614yh2whkwwfaj54c9rs51nc64czjddkmx5";
   };
 
   buildInputs = [ dpkg makeWrapper ];
@@ -35,11 +36,12 @@ stdenv.mkDerivation {
       libGLU_combined
       nspr
       nss
-      openssl
+      openssl_1_0_2
       stdenv.cc.cc
       systemd
       wayland
       zlib
+      pciutils
 
       xorg.libICE
       xorg.libSM
@@ -74,12 +76,16 @@ stdenv.mkDerivation {
       patchelf --set-rpath $libPath:$out/opt/viber/lib $file || true
     done
 
-    # qt.conf is not working, so override everything using environment variables
     wrapProgram $out/opt/viber/Viber \
-      --set QT_PLUGIN_PATH "$out/opt/viber/plugins" \
-      --set QT_XKB_CONFIG_ROOT "${xorg.xkeyboardconfig}/share/X11/xkb" \
       --set QTCOMPOSE "${xorg.libX11.out}/share/X11/locale"
+
     ln -s $out/opt/viber/Viber $out/bin/viber
+
+    substituteInPlace $out/opt/viber/libexec/qt.conf \
+      --replace /opt/viber/ $out/opt/viber/
+
+    substituteInPlace $out/opt/viber/qt.conf \
+      --replace /opt/viber/ $out/opt/viber/
 
     mv $out/usr/share $out/share
     rm -rf $out/usr
