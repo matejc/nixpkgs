@@ -77,7 +77,10 @@ stdenv.mkDerivation {
     done
 
     wrapProgram $out/opt/viber/Viber \
-      --set QTCOMPOSE "${xorg.libX11.out}/share/X11/locale"
+      --set QT_PLUGIN_PATH "$out/opt/viber/plugins" \
+      --set QT_XKB_CONFIG_ROOT "${xorg.xkeyboardconfig}/share/X11/xkb" \
+      --set QTCOMPOSE "${xorg.libX11.out}/share/X11/locale" \
+      --prefix LD_LIBRARY_PATH : $libPath:$out/opt/viber/lib
 
     ln -s $out/opt/viber/Viber $out/bin/viber
 
@@ -92,7 +95,7 @@ stdenv.mkDerivation {
 
     # Fix the desktop link
     substituteInPlace $out/share/applications/viber.desktop \
-      --replace /opt/viber/Viber $out/opt/viber/Viber \
+      --replace /opt/viber/Viber $out/bin/viber \
       --replace /usr/share/ $out/share/
   '';
 
