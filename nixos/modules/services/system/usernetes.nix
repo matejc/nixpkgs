@@ -63,7 +63,7 @@ in {
 
   config = mkIf cfg.enable {
     systemd.user.services.usernetes = {
-      description = "Usernetes process";
+      description = "Usernetes ${tasks.${cfg.mode}} process";
       wantedBy = [ "multi-user.target" ];
       after = [ "network.target" ];
       restartIfChanged = true;
@@ -71,6 +71,16 @@ in {
       environment.CONTROLLER_MANAGER_ARGS = "--enable-hostpath-provisioner";
       serviceConfig = {
         ExecStart = "${pkgs.usernetes}/bin/usernetes-run ${tasks.${cfg.mode}}";
+        Restart = "on-failure";
+      };
+    };
+    systemd.user.services.rootlesskit = {
+      description = "Usernetes rootlesskit process";
+      wantedBy = [ "multi-user.target" ];
+      after = [ "network.target" ];
+      restartIfChanged = true;
+      serviceConfig = {
+        ExecStart = "${pkgs.usernetes}/bin/usernetes-run rootlesskit";
         Restart = "on-failure";
       };
     };
