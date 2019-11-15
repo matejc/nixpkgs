@@ -1,24 +1,26 @@
-{ stdenv, buildEnv, fetchurl, makeWrapper, utillinux, coreutils
+{ stdenv, buildEnv, fetchurl, makeWrapper, utillinux, coreutils, hostname
 , shadow, iproute, gnused, iptables, git, kmod, gnugrep, pigz, strace, glib }:
 let
   env = buildEnv {
     name = "usernetes-env";
     paths = [
       utillinux coreutils shadow iproute gnused iptables git kmod gnugrep pigz
-      strace glib
+      strace glib hostname
     ];
   };
 in
 stdenv.mkDerivation rec {
   name = "usernetes-${version}";
-  version = "20181109.0";
+  version = "20190826.0";
 
   src = fetchurl {
     url = "https://github.com/rootless-containers/usernetes/releases/download/v${version}/usernetes-x86_64.tbz";
-    sha256 = "1pzpk7l81966ljz25bgggq0i2b8s2jwk5r02j452apfy4rqikzrv";
+    sha256 = "10m2ragajnzv03phgd8zpcaqjhk80kvzyycgf3nzy1mvsyn1wfk1";
   };
 
   nativeBuildInputs = [ makeWrapper ];
+
+  dontBuild = true;
 
   installPhase = ''
     mkdir -p $out/{libexec/usernetes,bin}
@@ -27,8 +29,11 @@ stdenv.mkDerivation rec {
       --replace 'dockerd --experimental' 'dockerd --experimental $DOCKERD_ARGS' \
       --replace 'hyperkube kube-controller-manager' 'hyperkube kube-controller-manager $CONTROLLER_MANAGER_ARGS' \
       --replace '--feature-gates DevicePlugins=false' '--feature-gates DevicePlugins=false $KUBELET_ARGS'
+    substituteInPlace $out/libexec/usernetes/boot/rootlesskit.sh \
+      --replace 'hostname -I' 'hostname -i'
     makeWrapper $out/libexec/usernetes/run.sh $out/bin/usernetes-run \
-      --set PATH "/run/wrappers/bin:${env}/bin"
+      --set PATH "/run/wrappers/bin:${env}/bin" \
+      --add-flags "-d $out/libexec/usernetes/"
     makeWrapper $out/libexec/usernetes/dockercli.sh $out/bin/usernetes-dockercli \
       --set PATH "/run/wrappers/bin:${env}/bin"
     makeWrapper $out/libexec/usernetes/cleanup.sh $out/bin/usernetes-cleanup \
