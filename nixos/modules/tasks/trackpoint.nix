@@ -37,6 +37,16 @@ with lib;
         '';
       };
 
+     driftTime = mkOption {
+        default = 5;
+        example = 25;
+        type = types.int;
+        description = ''
+          Configure the trackpoint drift time. By default, the kernel
+          configures 5 (.5 seconds).
+        '';
+      };
+
       emulateWheel = mkOption {
         default = false;
         type = types.bool;
@@ -77,7 +87,7 @@ with lib;
     (mkIf cfg.enable {
       services.udev.extraRules =
       ''
-        ACTION=="add|change", SUBSYSTEM=="input", ATTR{name}=="${cfg.device}", ATTR{device/speed}="${toString cfg.speed}", ATTR{device/sensitivity}="${toString cfg.sensitivity}"
+        ACTION=="add|change", SUBSYSTEM=="input", ATTR{name}=="${cfg.device}", ATTR{device/speed}="${toString cfg.speed}", ATTR{device/sensitivity}="${toString cfg.sensitivity}", ATTR{device/drift_time}="${toString cfg.driftTime}
       '';
 
       system.activationScripts.trackpoint =
