@@ -18793,6 +18793,11 @@ in
     pulseaudio = pulseaudioFull;
   };
 
+  pulseaudio-module-xrdp = callPackage ../applications/audio/pulseaudio-module-xrdp {
+    # pulseaudio-modules-xrdp is most likely to be used with pulseaudioFull
+    pulseaudio = pulseaudioFull;
+  };
+
   bluez = bluez5;
 
   inherit (python3Packages) bedup;
