@@ -5636,6 +5636,10 @@ in {
 
   robotframework-databaselibrary = callPackage ../development/python-modules/robotframework-databaselibrary { };
 
+  robotframework-dev = callPackage ../development/python-modules/robotframework/dev.nix { };
+
+  robotframework-lsp = callPackage ../development/python-modules/robotframework-lsp { };
+
   robotframework-requests = callPackage ../development/python-modules/robotframework-requests { };
 
   robotframework-ride = callPackage ../development/python-modules/robotframework-ride { };
