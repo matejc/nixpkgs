@@ -1,42 +1,50 @@
-{ thinkpad ? false
-, stdenv
-, fetchurl
-, fetchpatch
+{ stdenv
+, fetchFromGitLab
 , pkgconfig
+, meson
+, ninja
 , intltool
-, libfprint-thinkpad ? null
-, libfprint ? null
+, libpam-wrapper
+, cairo
+, gtk-doc
 , glib
 , dbus-glib
 , polkit
 , nss
 , pam
 , systemd
-, autoreconfHook
-, gtk-doc
+, libfprint
+, python37Packages
 }:
 
 stdenv.mkDerivation rec {
-  pname = "fprintd" + stdenv.lib.optionalString thinkpad "-thinkpad";
-  version = "0.9.0";
+  pname = "fprintd";
+  version = "1.90.1";
 
-  src = fetchurl {
-    url = "https://gitlab.freedesktop.org/libfprint/fprintd/uploads/9dec4b63d1f00e637070be1477ce63c0/fprintd-${version}.tar.xz";
-    sha256 = "182gcnwb6zjwmk0dn562rjmpbk7ac7dhipbfdhfic2sn1jzis49p";
+  src = fetchFromGitLab {
+    domain = "gitlab.freedesktop.org";
+    owner = "libfprint";
+    repo = "fprintd";
+    rev = "b90b21f26b23094da16be2fa7ec4862e865b32dc";
+    sha256 = "0gj2f48zs49l2zrs49qhqy99mdznpvw6vkqlxvq32amr15pqdpsd";
   };
 
-  patches = [
-    (fetchpatch {
-      url = "https://gitlab.freedesktop.org/libfprint/fprintd/merge_requests/16.patch";
-      sha256 = "1y39zsmxjll9hip8464qwhq5qg06c13pnafyafgxdph75lvhdll7";
-    })
+  pythonPath = with python37Packages; [
+    python-dbusmock
+    dbus-python
+    pygobject3
+    pycairo
+    libpam-wrapper
+    gtk-doc
   ];
 
   nativeBuildInputs = [
-    intltool
     pkgconfig
-    autoreconfHook # Drop with above patch
-    gtk-doc # Drop with above patch
+    meson
+    ninja
+    intltool
+    libpam-wrapper
+    pythonPath
   ];
 
   buildInputs = [
@@ -46,16 +54,29 @@ stdenv.mkDerivation rec {
     nss
     pam
     systemd
-  ]
-  ++ stdenv.lib.optional thinkpad libfprint-thinkpad
-  ++ stdenv.lib.optional (!thinkpad) libfprint
-  ;
+    libfprint
+  ];
 
-  configureFlags = [
-    # is hardcoded to /var/lib/fprint, this is for the StateDirectory install target
-    "--localstatedir=${placeholder "out"}/var"
-    "--sysconfdir=${placeholder "out"}/etc"
-    "--with-systemdsystemunitdir=${placeholder "out"}/lib/systemd/system"
+  preConfigure = ''
+    substituteInPlace meson.build --replace \
+      "polkit_gobject_dep.get_pkgconfig_variable('policydir')" \
+      "'$out/share/polkit-1/actions'"
+
+    substituteInPlace meson.build --replace \
+      "dbus_dep.get_pkgconfig_variable('interfaces_dir')" \
+      "'$out/share/dbus-1/interfaces'"
+
+    substituteInPlace meson.build --replace \
+      "dbus_data_dir / 'dbus-1/system.d'" \
+      "'$out/share/dbus-1/system.d'"
+  '';
+
+  mesonFlags = [
+    "-Dpam_modules_dir=${placeholder "out"}/lib/security"
+    "-Dsysconfdir=${placeholder "out"}/etc"
+    "-Ddbus_service_dir=${placeholder "out"}/share/dbus-1/system-services"
+    "-Dpolicydir=${placeholder "out"}/share/polkit-1/actions"
+    "-Dsystemd_system_unit_dir=${placeholder "out"}/lib/systemd/system"
   ];
 
   meta = with stdenv.lib; {
@@ -63,6 +84,6 @@ stdenv.mkDerivation rec {
     description = "D-Bus daemon that offers libfprint functionality over the D-Bus interprocess communication bus";
     license = licenses.gpl2;
     platforms = platforms.linux;
-    maintainers = with maintainers; [ abbradar ];
+    maintainers = with maintainers; [ abbradar elyhaka ];
   };
 }
