@@ -13217,6 +13217,8 @@ in
 
   libow = callPackage ../development/libraries/libow { };
 
+  libpam-wrapper = callPackage ../development/libraries/libpam-wrapper { };
+
   libp11 = callPackage ../development/libraries/libp11 { };
 
   libpar2 = callPackage ../development/libraries/libpar2 { };
