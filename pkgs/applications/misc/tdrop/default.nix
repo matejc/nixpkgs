@@ -1,15 +1,15 @@
 { stdenv, lib, fetchFromGitHub, makeWrapper
 , xwininfo, xdotool, xprop }:
 
-stdenv.mkDerivation {
+stdenv.mkDerivation rec {
   pname = "tdrop";
-  version = "unstable-2018-11-13";
+  version = "0.3.0";
 
   src = fetchFromGitHub {
     owner = "noctuid";
     repo = "tdrop";
-    rev = "198795c0d2573a31979330d6a2ae946eb81deebf";
-    sha256 = "1fhibqgmls64mylcb6q46ipmg1q6pvaqm26vz933gqav6cqsbdzs";
+    rev = "refs/tags/${version}";
+    sha256 = "04hxxmryhn1c7kwz1xbh4f8j1yxka0j806dh8y3wa9pqds2ls8wh";
   };
 
   dontBuild = true;
