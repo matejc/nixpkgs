@@ -25247,6 +25247,8 @@ in
 
   openmolcas = callPackage ../applications/science/chemistry/openmolcas { };
 
+  ops = callPackage ../applications/virtualization/ops { };
+
   pymol = callPackage ../applications/science/chemistry/pymol { };
 
   quantum-espresso = callPackage ../applications/science/chemistry/quantum-espresso { };
