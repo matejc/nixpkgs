@@ -4,14 +4,14 @@
 
 stdenv.mkDerivation rec {
   pname = "nsjail";
-  version = "2.9";
+  version = "3.0";
 
   src = fetchFromGitHub {
     owner           = "google";
     repo            = "nsjail";
     rev             = version;
     fetchSubmodules = true;
-    sha256          = "0218n0qjb45fawqqfj3gdxgd0fw5k0vxn9iggi0ciljmr9zywkgh";
+    sha256          = "1w6x8xcrs0i1y3q41gyq8z3cq9x24qablklc4jiydf855lhqn4dh";
   };
 
   postPatch = ''
