@@ -33,6 +33,8 @@ stdenv.mkDerivation rec {
     cp -r lib $out/lib/diff-so-fancy
     ln -s $out/lib/diff-so-fancy/diff-so-fancy $out/bin
 
+    patchShebangs $out/lib/diff-so-fancy
+
     # ncurses is needed for `tput`
     wrapProgram $out/lib/diff-so-fancy/diff-so-fancy \
       --prefix PATH : "${git}/share/git/contrib/diff-highlight" \
