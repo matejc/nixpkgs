@@ -349,7 +349,7 @@ in {
     systemd = {
       services.xrdp = {
         wantedBy = [ "multi-user.target" ];
-        after = [ "network.target" "xrdp-sesman.service" ];
+        after = [ "network.target" ];
         description = "xrdp daemon";
         preStart = ''
           # create run directory
@@ -380,10 +380,8 @@ in {
           fi
         '';
         serviceConfig = {
-          Type = "forking";
-          PIDFile = "/run/xrdp/xrdp.pid";
-          ExecStart = "${cfg.package}/bin/xrdp";
-          ExecStop = "${cfg.package}/bin/xrdp --kill";
+          Type = "simple";
+          ExecStart = "${cfg.package}/bin/xrdp --nodaemon";
           User = "xrdp";
           Group = "xrdp";
           PermissionsStartOnly = true;
@@ -393,7 +391,6 @@ in {
       services.xrdp-sesman = {
         wantedBy = [ "multi-user.target" ];
         after = [ "network.target" ];
-        bindsTo = [ "xrdp.service" ];
         description = "xrdp session manager";
         restartIfChanged = false; # do not restart on "nixos-rebuild switch". like "display-manager", it can have many interactive programs as children
         preStart = ''
@@ -402,10 +399,8 @@ in {
           chown xrdp:xrdp /run/xrdp
         '';
         serviceConfig = {
-          Type = "forking";
-          PIDFile = "/run/xrdp/xrdp-sesman.pid";
-          ExecStart = "${cfg.package}/bin/xrdp-sesman";
-          ExecStop  = "${cfg.package}/bin/xrdp-sesman --kill";
+          Type = "simple";
+          ExecStart = "${cfg.package}/bin/xrdp-sesman --nodaemon";
         };
       };
 
