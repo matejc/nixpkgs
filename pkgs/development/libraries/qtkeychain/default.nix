@@ -1,7 +1,7 @@
 { lib, stdenv, fetchFromGitHub, cmake, pkg-config, qt4 ? null
 , withQt5 ? false, qtbase ? null, qttools ? null
 , darwin ? null
-, libsecret
+, libsecret, fetchpatch
 }:
 
 assert withQt5 -> qtbase != null;
@@ -19,9 +19,17 @@ stdenv.mkDerivation rec {
     sha256 = "0h4wgngn2yl35hapbjs24amkjfbzsvnna4ixfhn87snjnq5lmjbc"; # v0.9.1
   };
 
-  patches = (if withQt5 then [] else [ ./0001-Fixes-build-with-Qt4.patch ]) ++ (if stdenv.isDarwin then [ ./0002-Fix-install-name-Darwin.patch ] else []);
+  patches = [
+    (fetchpatch {
+      url = "https://github.com/frankosterfeld/qtkeychain/commit/94d719168f874c07a1edfb1aca7e21875063b292.patch";
+      sha256 = "1mz72xalmsy336xijazlh8ffzsaqag2pch6mg8pgxiq7xy31fvxk";
+    })
+  ] ++ (if withQt5 then [] else [ ./0001-Fixes-build-with-Qt4.patch ]) ++ (if stdenv.isDarwin then [ ./0002-Fix-install-name-Darwin.patch ] else []);
 
-  cmakeFlags = [ "-DQT_TRANSLATIONS_DIR=share/qt/translations" ];
+  cmakeFlags = [
+    "-DQT_TRANSLATIONS_DIR=share/qt/translations"
+    ("-DLIBSECRET_SUPPORT=" + (if stdenv.isDarwin then "OFF" else "ON"))
+  ];
 
   nativeBuildInputs = [ cmake ]
     ++ lib.optionals (!stdenv.isDarwin) [ pkg-config ] # for finding libsecret
