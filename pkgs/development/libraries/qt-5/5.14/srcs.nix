@@ -6,7 +6,7 @@
   qt3d = {
     version = "5.14.2";
     src = fetchurl {
-      url = "${mirror}/official_releases/qt/5.14/5.14.2/submodules/qt3d-everywhere-src-5.14.2.tar.xz";
+      url = "${mirror}/archive/qt/5.14/5.14.2/submodules/qt3d-everywhere-src-5.14.2.tar.xz";
       sha256 = "9da82f1cc4b7d416d31ec96224c59d221473a48f6e579eef978f7d2e3932c674";
       name = "qt3d-everywhere-src-5.14.2.tar.xz";
     };
@@ -54,7 +54,7 @@
   qtdatavis3d = {
     version = "5.14.2";
     src = fetchurl {
-      url = "${mirror}/official_releases/qt/5.14/5.14.2/submodules/qtdatavis3d-everywhere-src-5.14.2.tar.xz";
+      url = "${mirror}/archive/qt/5.14/5.14.2/submodules/qtdatavis3d-everywhere-src-5.14.2.tar.xz";
       sha256 = "723c03db2d2805b1be4ca534ac7bc867a1a21894d33a7e9261a382f3fa9d0e20";
       name = "qtdatavis3d-everywhere-src-5.14.2.tar.xz";
     };
@@ -78,7 +78,7 @@
   qtgamepad = {
     version = "5.14.2";
     src = fetchurl {
-      url = "${mirror}/official_releases/qt/5.14/5.14.2/submodules/qtgamepad-everywhere-src-5.14.2.tar.xz";
+      url = "${mirror}/archive/qt/5.14/5.14.2/submodules/qtgamepad-everywhere-src-5.14.2.tar.xz";
       sha256 = "f77daadb4755cf760e11812264259fb103396fd1b06df1e06b5df162081c8d03";
       name = "qtgamepad-everywhere-src-5.14.2.tar.xz";
     };
@@ -110,7 +110,7 @@
   qtlottie = {
     version = "5.14.2";
     src = fetchurl {
-      url = "${mirror}/official_releases/qt/5.14/5.14.2/submodules/qtlottie-everywhere-src-5.14.2.tar.xz";
+      url = "${mirror}/archive/qt/5.14/5.14.2/submodules/qtlottie-everywhere-src-5.14.2.tar.xz";
       sha256 = "55d1392dc92cbec11263084360075dc5fc3fdc25c1969adfbdec84299b285978";
       name = "qtlottie-everywhere-src-5.14.2.tar.xz";
     };
@@ -142,7 +142,7 @@
   qtpurchasing = {
     version = "5.14.2";
     src = fetchurl {
-      url = "${mirror}/official_releases/qt/5.14/5.14.2/submodules/qtpurchasing-everywhere-src-5.14.2.tar.xz";
+      url = "${mirror}/archive/qt/5.14/5.14.2/submodules/qtpurchasing-everywhere-src-5.14.2.tar.xz";
       sha256 = "69b087001e8fcec5bb49ca333d5f44e6b7eb09f76421dc792fc9cd76dee9e851";
       name = "qtpurchasing-everywhere-src-5.14.2.tar.xz";
     };
@@ -182,7 +182,7 @@
   qtremoteobjects = {
     version = "5.14.2";
     src = fetchurl {
-      url = "${mirror}/official_releases/qt/5.14/5.14.2/submodules/qtremoteobjects-everywhere-src-5.14.2.tar.xz";
+      url = "${mirror}/archive/qt/5.14/5.14.2/submodules/qtremoteobjects-everywhere-src-5.14.2.tar.xz";
       sha256 = "a6a601c4f4aab6fe41a462dae57033819f697e3317240a382cee45c08be614d6";
       name = "qtremoteobjects-everywhere-src-5.14.2.tar.xz";
     };
@@ -214,7 +214,7 @@
   qtserialbus = {
     version = "5.14.2";
     src = fetchurl {
-      url = "${mirror}/official_releases/qt/5.14/5.14.2/submodules/qtserialbus-everywhere-src-5.14.2.tar.xz";
+      url = "${mirror}/archive/qt/5.14/5.14.2/submodules/qtserialbus-everywhere-src-5.14.2.tar.xz";
       sha256 = "0b7762175a649a40c4dd619c5de61d772235dc86099343278e2c3229d0836a91";
       name = "qtserialbus-everywhere-src-5.14.2.tar.xz";
     };
