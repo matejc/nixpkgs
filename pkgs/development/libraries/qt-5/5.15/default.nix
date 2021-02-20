@@ -217,6 +217,13 @@ let
       qtwebview = callPackage ../modules/qtwebview.nix {};
       qtx11extras = callPackage ../modules/qtx11extras.nix {};
       qtxmlpatterns = callPackage ../modules/qtxmlpatterns.nix {};
+      qtremoteobjects = callPackage ../modules/qtremoteobjects.nix {};
+      qt3d = callPackage ../modules/qt3d.nix {};
+      qtpurchasing = callPackage ../modules/qtpurchasing.nix {};
+      qtdatavis3d = callPackage ../modules/qtdatavis3d.nix {};
+      qtlottie = callPackage ../modules/qtlottie.nix {};
+      qtserialbus = callPackage ../modules/qtserialbus.nix {};
+      qtgamepad = callPackage ../modules/qtgamepad.nix {};
 
       env = callPackage ../qt-env.nix {};
       full = env "qt-full-${qtbase.version}" ([
