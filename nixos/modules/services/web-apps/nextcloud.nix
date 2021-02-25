@@ -44,7 +44,7 @@ let
     fi
     export NEXTCLOUD_CONFIG_DIR="${datadir}/config"
     $sudo \
-      ${phpPackage}/bin/php \
+      ${phpPackage}/bin/php --define apc.enable_cli=1 \
       occ "$@"
   '';
 
@@ -844,7 +844,7 @@ in {
           environment.NEXTCLOUD_CONFIG_DIR = "${datadir}/config";
           serviceConfig.Type = "oneshot";
           serviceConfig.User = "nextcloud";
-          serviceConfig.ExecStart = "${phpPackage}/bin/php -f ${cfg.package}/cron.php";
+          serviceConfig.ExecStart = "${phpPackage}/bin/php --define apc.enable_cli=1 -f ${cfg.package}/cron.php";
         };
         nextcloud-update-plugins = mkIf cfg.autoUpdateApps.enable {
           after = [ "nextcloud-setup.service" ];
