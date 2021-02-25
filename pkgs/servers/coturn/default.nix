@@ -23,6 +23,8 @@ stdenv.mkDerivation rec {
     sha256 = "1s7ncc82ny4bb3qkn3fqr0144xsr7h2y8xmzsf5037h6j8f7j3v8";
   };
 
+  TURN_NO_PROMETHEUS = "1";
+
   nativeBuildInputs = [ pkg-config ];
   buildInputs = [
     openssl
