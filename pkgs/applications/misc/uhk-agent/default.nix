@@ -47,7 +47,6 @@ let
     libusb1
     udev
     dbus-glib
-    libav
     atk
     libudev0-shim
     networkmanager098
@@ -84,8 +83,6 @@ let
     SDL_mixer
     SDL2_ttf
     SDL2_mixer
-    gstreamer
-    gst-plugins-base
     libappindicator-gtk2
     libcaca
     libcanberra
@@ -96,15 +93,19 @@ let
     libvdpau
     alsaLib
     stdenv.cc.cc
+
+    at-spi2-atk
+    at-spi2-core
+    gnome3.gtk
   ];
 in
 stdenv.mkDerivation rec {
   name = "uhk-agent-${version}";
-  version = "1.2.12";
+  version = "1.5.10";
 
   src = fetchurl {
     url = "https://github.com/UltimateHackingKeyboard/agent/releases/download/v${version}/UHK.Agent-${version}-linux-x86_64.AppImage";
-    sha256 = "1gr3q37ldixcqbwpxchhldlfjf7wcygxvnv6ff9nl7l8gxm732l6";
+    sha256 = "sha256-McWC5An0HegqBD8fqfYwYauRR6TA6i5yMa10tgtTPsM=";
   };
 
   buildInputs = [ makeWrapper ];
@@ -123,7 +124,7 @@ stdenv.mkDerivation rec {
     cp -r ./squashfs-root/* $out/libexec/uhk-agent/
 
     patchelf --set-interpreter "$(cat $NIX_CC/nix-support/dynamic-linker)" \
-      $out/libexec/uhk-agent/uhk-agent
+      $out/libexec/uhk-agent/uhk-agent-ui
 
     makeWrapper $out/libexec/uhk-agent/uhk-agent $out/bin/uhk-agent \
       --set LD_LIBRARY_PATH "$out/libexec/uhk-agent:${lib.makeLibraryPath pks}"
