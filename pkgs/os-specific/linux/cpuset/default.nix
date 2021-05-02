@@ -19,6 +19,10 @@ pythonPackages.buildPythonApplication rec {
       url = "https://github.com/MawKKe/cpuset/commit/a4b6b275d0a43d2794ab9e82922d3431aeea9903.patch";
       sha256 = "1mi1xrql81iczl67s4dk2rm9r1mk36qhsa19wn7zgryf95krsix2";
     })
+    (fetchpatch {
+      url = "https://github.com/lpechacek/cpuset/files/5792001/cpuset2.txt";
+      sha256 = "sha256-9Fs0K46OzctKhVs1VlPHRkhr0ohh/Kmgqt5D+3t0L2c=";
+    })
   ];
 
   makeFlags = [ "prefix=$(out)" ];
