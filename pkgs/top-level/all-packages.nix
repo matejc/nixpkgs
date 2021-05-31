@@ -2867,6 +2867,8 @@ in
 
   kalker = callPackage ../tools/misc/kalker { };
 
+  kalk = callPackage ../applications/misc/kalk { };
+
   kisslicer = callPackage ../tools/misc/kisslicer { };
 
   klaus = with python3Packages; toPythonApplication klaus;
