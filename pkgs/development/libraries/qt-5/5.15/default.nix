@@ -224,7 +224,6 @@ let
       qtdatavis3d = callPackage ../modules/qtdatavis3d.nix {};
       qtlottie = callPackage ../modules/qtlottie.nix {};
       qtserialbus = callPackage ../modules/qtserialbus.nix {};
-      qtgamepad = callPackage ../modules/qtgamepad.nix {};
 
       env = callPackage ../qt-env.nix {};
       full = env "qt-full-${qtbase.version}" ([
