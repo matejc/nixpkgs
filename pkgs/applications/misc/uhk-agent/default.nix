@@ -31,6 +31,7 @@ let
     xorg.libXi
     xorg.libSM
     xorg.libICE
+    xorg.libxshmfence
     gnome2.GConf
     freetype
     (curl.override { gnutlsSupport = true; sslSupport = false; })
@@ -101,11 +102,11 @@ let
 in
 stdenv.mkDerivation rec {
   name = "uhk-agent-${version}";
-  version = "1.5.10";
+  version = "1.5.15";
 
   src = fetchurl {
     url = "https://github.com/UltimateHackingKeyboard/agent/releases/download/v${version}/UHK.Agent-${version}-linux-x86_64.AppImage";
-    sha256 = "sha256-McWC5An0HegqBD8fqfYwYauRR6TA6i5yMa10tgtTPsM=";
+    sha256 = "sha256-t2Jwd/x0eTZ4xBaCb/FomH/zSRLt7IIERUF9n9ONCpE=";
   };
 
   buildInputs = [ makeWrapper ];
