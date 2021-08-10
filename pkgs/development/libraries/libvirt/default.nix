@@ -32,7 +32,7 @@ let
   };
 in stdenv.mkDerivation rec {
   pname = "libvirt";
-  version = "7.0.0";
+  version = "7.2.0";
 
   src =
     if buildFromTarball then
@@ -44,7 +44,7 @@ in stdenv.mkDerivation rec {
       fetchgit {
         url = "https://gitlab.com/libvirt/libvirt.git";
         rev = "v${version}";
-        sha256 = "0xg9d410008mny73r2cp5ipghqpk0gz9gy7j32vcfk691dq75b3c";
+        sha256 = "sha256-zNlcA3FUqsIlS2wrKmsP8miWGCHufZDxlyD8bFIpMpc=";
         fetchSubmodules = true;
       };
 
