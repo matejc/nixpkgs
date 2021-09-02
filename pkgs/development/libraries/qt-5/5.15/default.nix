@@ -233,7 +233,6 @@ let
       qtpurchasing = callPackage ../modules/qtpurchasing.nix {};
       qtdatavis3d = callPackage ../modules/qtdatavis3d.nix {};
       qtlottie = callPackage ../modules/qtlottie.nix {};
-      qtserialbus = callPackage ../modules/qtserialbus.nix {};
 
       env = callPackage ../qt-env.nix {};
       full = env "qt-full-${qtbase.version}" ([
