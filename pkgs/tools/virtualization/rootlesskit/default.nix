@@ -1,16 +1,18 @@
-{ lib, buildGoPackage, fetchFromGitHub }:
+{ lib, buildGoModule, fetchFromGitHub }:
 
-buildGoPackage rec {
+buildGoModule rec {
   pname = "rootlesskit";
-  version = "0.11.1";
-  goPackagePath = "github.com/rootless-containers/rootlesskit";
+  version = "0.14.5";
 
   src = fetchFromGitHub {
     owner = "rootless-containers";
     repo = "rootlesskit";
     rev = "v${version}";
-    sha256 = "15k0503077ang9ywvmhpr1l7ax0v3wla0x8n6lqpmd71w0j2zm5r";
+    sha256 = "sha256-dj0SBer8sEIdzajynlTf351SprQfHewRHZjDQC1eQYU=";
   };
+
+  runVend = true;
+  vendorSha256 = "sha256-Yhgx7VsfFietl5G93GH4Kz/ZKx+pWmRRQF4tiXG9C2s=";
 
   meta = with lib; {
     homepage = "https://github.com/rootless-containers/rootlesskit";
