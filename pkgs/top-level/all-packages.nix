@@ -8068,7 +8068,7 @@ with pkgs;
   inherit (callPackage ../servers/nextcloud {})
     nextcloud20 nextcloud21 nextcloud22 nextcloud23;
 
-  nextcloud-client = libsForQt5.callPackage ../applications/networking/nextcloud-client { };
+  nextcloud-client = libsForQt512.callPackage ../applications/networking/nextcloud-client { };
 
   nextcloud-news-updater = callPackage ../servers/nextcloud/news-updater.nix { };
 
