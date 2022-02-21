@@ -72,7 +72,7 @@ let
 in
 stdenv.mkDerivation rec {
   pname = "libvirt";
-  version = "7.10.0";
+  version = "8.0.0";
 
   src =
     if buildFromTarball then
@@ -87,7 +87,7 @@ stdenv.mkDerivation rec {
           owner = pname;
           repo = pname;
           rev = "v${version}";
-          sha256 = "sha256-bB8LsjZFeJbMmmC0YRPyMag2MBhwagUFC7aB1KhZEkA=";
+          sha256 = "sha256-Is3kiOCv8U60/nDJxZl8zwM02FK+jRiNmSeqwKSS/14=";
           fetchSubmodules = true;
         };
 
