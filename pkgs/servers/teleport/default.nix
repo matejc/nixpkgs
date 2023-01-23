@@ -23,13 +23,13 @@ let
     owner = "gravitational";
     repo = "teleport";
     rev = "v${version}";
-    hash = "sha256-9YBaC8zjdJ7Hh8Gd5NlG+Riq2b59Fs9J8ofP6SjpUGM=";
+    hash = "sha256-cfUg8gXHYrgxppTwY75A/qOXdBiXRLvZagyECdhMjBI=";
   };
-  version = "10.3.6";
+  version = "11.2.2";
 
   rdpClient = rustPlatform.buildRustPackage rec {
     pname = "teleport-rdpclient";
-    cargoHash = "sha256-8TY/rmZckF1LCSJDrkrl6NB7XMdTnmEbD/f61MdreFM=";
+    cargoHash = "sha256-hJ2D/GL4YgEV2Wgcw55HCFqVlgoKdxfNfGpoAjN4zmY=";
     inherit version src;
 
     buildAndTestSubdir = "lib/srv/desktop/rdp/rdpclient";
@@ -53,16 +53,16 @@ let
   webassets = fetchFromGitHub {
     owner = "gravitational";
     repo = "webassets";
-    # Submodule rev from https://github.com/gravitational/teleport/tree/v10.3.6
-    rev = "7ca9f50745194d9dbbdd02b86b6b4e38a9938e2b";
-    hash = "sha256-ZvORknjkeBCdEZKzsMmy94lWvOOtblKe6DJC62UW694=";
+    # Submodule rev from https://github.com/gravitational/teleport/tree/v11.2.2
+    rev = "0b47033b29153248e870b791bdc0714e0e034c9d";
+    hash = "sha256-Oi/gMXIucSQJBH7GfFwJ7uqKm7V41kuv1SaGcfmpJQ0=";
   };
 in
 buildGoModule rec {
   pname = "teleport";
 
   inherit src version;
-  vendorHash = "sha256-F5oaAtyAGjgZN/IBaqFofgyUCmEX0dv8XyCMI3DDKOU=";
+  vendorHash = "sha256-1AmpuRZJQadGkTMWkS+nQPSEy3jGRxS3z/ZEeaFuXVY=";
 
   subPackages = [ "tool/tbot" "tool/tctl" "tool/teleport" "tool/tsh" ];
   tags = [ "libfido2" "webassets_embed" ]
