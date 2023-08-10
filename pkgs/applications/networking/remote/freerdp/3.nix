@@ -47,16 +47,22 @@
 , cjson
 , fuse3
 , SDL2
+, pkcs11helper
+, SDL2_ttf
+, qt5
+, openh264
+, webkitgtk
+, glib-networking
 }:
 
 let
   cmFlag = flag: if flag then "ON" else "OFF";
   disabledTests = [
     # this one is probably due to our sandbox
-    #{
-    #  dir = "libfreerdp/crypto/test";
-    #  file = "Test_x509_cert_info.c";
-    #}
+    {
+      dir = "libfreerdp/core/test";
+      file = "TestConnect.c";
+    }
   ] ++ lib.optionals stdenv.isDarwin [
     {
       dir = "winpr/libwinpr/sysinfo/test";
@@ -72,8 +78,8 @@ stdenv.mkDerivation rec {
   src = fetchFromGitHub {
     owner = "FreeRDP";
     repo = "FreeRDP";
-    rev = "73911425d4fcedeaf2c87bd4fd156283f3bfbd79";
-    sha256 = "sha256-wdv8866Gtyxidi3iZEW3e/SHXRnY6ZvCegTDvqiJOHw=";
+    rev = "5be5553e0da72178a4b94cc1ffbdace9ceb153e5";
+    sha256 = "sha256-nm0u91C5t88k3C6lo27FqpHK1M434yB8JWlcLVg7YOE=";
   };
 
   postPatch = ''
@@ -134,6 +140,13 @@ stdenv.mkDerivation rec {
     cjson
     fuse3
     SDL2
+    pkcs11helper
+    SDL2_ttf
+    qt5.qtbase
+    qt5.qtwebengine
+    openh264
+    webkitgtk
+    glib-networking
   ] ++ lib.optionals stdenv.isLinux [
     alsa-lib
     systemd
@@ -146,7 +159,7 @@ stdenv.mkDerivation rec {
     CoreMedia
   ];
 
-  nativeBuildInputs = [ cmake pkg-config ];
+  nativeBuildInputs = [ cmake pkg-config qt5.wrapQtAppsHook ];
 
   doCheck = true;
 
@@ -156,24 +169,32 @@ stdenv.mkDerivation rec {
     WITH_CUNIT = doCheck;
     WITH_CUPS = (cups != null);
     WITH_OSS = false;
-    WITH_PCSC = (pcsclite != null);
-    WITH_PULSE = (libpulseaudio != null);
+    #WITH_PCSC = (pcsclite != null);
+    WITH_PCSC = false;
+    #WITH_PULSE = (libpulseaudio != null);
+    WITH_PULSE = false;
     WITH_SERVER = buildServer;
     WITH_SSE2 = stdenv.isx86_64;
-    WITH_VAAPI = true;
+    #WITH_VAAPI = true;
     WITH_JPEG = (libjpeg_turbo != null);
     WITH_CAIRO = (cairo != null);
     WITH_X11 = true;
     WITH_SPNEGO = true;
-    #WITH_KRB5 = true;
+    WITH_KRB5 = false;
     WITH_MANPAGES = false;
     WITH_CJSON = true;
-    #WITH_WAYLAND = true;
+    WITH_WAYLAND = false;
+    WITH_WEBKIT = true;
+    WITH_WEBVIEW_QT = true;
     WITH_SDL2 = true;
     WITH_PCSC_WINPR = true;
     WITH_OPENSSL = true;
+    #WITH_MBEDTLS = true;
     #WITH_DEBUG_NEGO = true;
     #WITH_DEBUG_ALL = true;
+    WITH_OPENH264 = true;
+    WITH_FFMPEG = true;
+    WITH_DSP_FFMPEG = true;
   };
 
   NIX_CFLAGS_COMPILE = [ "-DCMAKE_BUILD_TYPE=Debug" "-O0" ] ++ (lib.optionals stdenv.isDarwin [
@@ -185,6 +206,13 @@ stdenv.mkDerivation rec {
   NIX_LDFLAGS = lib.optionals stdenv.isDarwin [
     "-framework AudioToolbox"
   ];
+
+  postInstall = ''
+    for bin in $out/bin/*
+    do
+      wrapProgram $bin --prefix GIO_MODULE_DIR ":" ${glib-networking}/lib/gio/modules/
+    done
+  '';
 
   separateDebugInfo = true;
 
