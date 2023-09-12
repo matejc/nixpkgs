@@ -78,8 +78,8 @@ stdenv.mkDerivation rec {
   src = fetchFromGitHub {
     owner = "FreeRDP";
     repo = "FreeRDP";
-    rev = "5be5553e0da72178a4b94cc1ffbdace9ceb153e5";
-    sha256 = "sha256-nm0u91C5t88k3C6lo27FqpHK1M434yB8JWlcLVg7YOE=";
+    rev = "9a9db5b7f31c644d75ba4a5239f5c09f8bf4b792";
+    sha256 = "sha256-Jrw/8AEQ4FA7hvHPGwIdWbPgkKvUzwl5BW6Xdln3TBc=";
   };
 
   postPatch = ''
@@ -169,13 +169,11 @@ stdenv.mkDerivation rec {
     WITH_CUNIT = doCheck;
     WITH_CUPS = (cups != null);
     WITH_OSS = false;
-    #WITH_PCSC = (pcsclite != null);
-    WITH_PCSC = false;
-    #WITH_PULSE = (libpulseaudio != null);
-    WITH_PULSE = false;
+    WITH_PCSC = (pcsclite != null);
+    WITH_PULSE = (libpulseaudio != null);
     WITH_SERVER = buildServer;
     WITH_SSE2 = stdenv.isx86_64;
-    #WITH_VAAPI = true;
+    WITH_VAAPI = true;
     WITH_JPEG = (libjpeg_turbo != null);
     WITH_CAIRO = (cairo != null);
     WITH_X11 = true;
@@ -183,10 +181,11 @@ stdenv.mkDerivation rec {
     WITH_KRB5 = false;
     WITH_MANPAGES = false;
     WITH_CJSON = true;
-    WITH_WAYLAND = false;
-    WITH_WEBKIT = true;
-    WITH_WEBVIEW_QT = true;
-    WITH_SDL2 = true;
+    # WITH_WAYLAND = true;
+    WITH_WEBVIEW = false;
+    WITH_WEBVIEW_QT = false;
+    # WITH_WEBVIEW_QT = true;
+    # WITH_SDL2 = true;
     WITH_PCSC_WINPR = true;
     WITH_OPENSSL = true;
     #WITH_MBEDTLS = true;
@@ -197,11 +196,11 @@ stdenv.mkDerivation rec {
     WITH_DSP_FFMPEG = true;
   };
 
-  NIX_CFLAGS_COMPILE = [ "-DCMAKE_BUILD_TYPE=Debug" "-O0" ] ++ (lib.optionals stdenv.isDarwin [
+  NIX_CFLAGS_COMPILE = lib.optionals stdenv.isDarwin [
     "-DTARGET_OS_IPHONE=0"
     "-DTARGET_OS_WATCH=0"
     "-include AudioToolbox/AudioToolbox.h"
-  ]);
+  ];
 
   NIX_LDFLAGS = lib.optionals stdenv.isDarwin [
     "-framework AudioToolbox"
@@ -213,8 +212,6 @@ stdenv.mkDerivation rec {
       wrapProgram $bin --prefix GIO_MODULE_DIR ":" ${glib-networking}/lib/gio/modules/
     done
   '';
-
-  separateDebugInfo = true;
 
   meta = with lib; {
     description = "A Remote Desktop Protocol Client";
