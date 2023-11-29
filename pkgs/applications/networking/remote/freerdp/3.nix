@@ -78,8 +78,8 @@ stdenv.mkDerivation rec {
   src = fetchFromGitHub {
     owner = "FreeRDP";
     repo = "FreeRDP";
-    rev = "9a9db5b7f31c644d75ba4a5239f5c09f8bf4b792";
-    sha256 = "sha256-Jrw/8AEQ4FA7hvHPGwIdWbPgkKvUzwl5BW6Xdln3TBc=";
+    rev = "954f6d69cfdbf250da8329e32540df8049512b24";
+    sha256 = "sha256-HlwYjEnR7MFnfZ3Qfs0cz0G1sskqMDtaSnKWmN9iGEU=";
   };
 
   postPatch = ''
