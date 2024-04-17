@@ -322,7 +322,7 @@
   (fetchNuGet { pname = "NexusMods.Paths"; version = "0.1.8"; sha256 = "0gid7zdhcfilhlvs1fm19z6sgp63zcjx522fw1ghgngj7dwgqpp6"; })
   (fetchNuGet { pname = "NexusMods.Paths"; version = "0.4.0"; sha256 = "0kyhpn2dha2d9fri3nm2zfpd5ly2lgc1bqs1k06fxnmsxljy7vd8"; })
   (fetchNuGet { pname = "NexusMods.Paths"; version = "0.8.0"; sha256 = "0sw49xdj6h3n38kdzb46gc99z05klhgjr33fjrdg0ln8j1m9q3gv"; })
-  (fetchNuGet { pname = "NexusMods.Paths"; version = "0.9.0"; sha256 = "19lxmzhd12q0xka1kjf2qxxy1mzvdpss8qfqg8prn41gs90ihky6"; })
+  (fetchNuGet { pname = "NexusMods.Paths"; version = "0.9.2"; sha256 = "0a550hb48rdj5y9pazixl90gzyvwqf6zhmam5q90z11k2mifp0gp"; })
   (fetchNuGet { pname = "NexusMods.Paths.TestingHelpers"; version = "0.8.0"; sha256 = "0wcmpskfn9pw0jhjq7hdwgnvflqpl9a1rasx3ck3ansmh0my1f3z"; })
   (fetchNuGet { pname = "NexusMods.ProxyConsole"; version = "0.6.0"; sha256 = "1iajcv1z2xc6851h4xxymbp4085hh236la9pwivd71rlcilikjln"; })
   (fetchNuGet { pname = "NexusMods.ProxyConsole.Abstractions"; version = "0.6.0"; sha256 = "10icz41zjd0jfyg9v8c4cfjm5ivg23klll3cbsyj4k8v70dwf7x0"; })

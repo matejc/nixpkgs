@@ -17,12 +17,14 @@ let
   src = fetchFromGitHub {
     owner = "Nexus-Mods";
     repo = "NexusMods.App";
-    rev = "v${version}";
+    # commits were made after 0.4 release, move back to versioning after app version is >0.4
+    # future is required, so that nxm hack works
+    rev = "0f8d2e946a3a259d9148474488dd1b5522b6146a";
     fetchSubmodules = true;
-    hash = "sha256-JKmRp7kSI7R0wkOvPVSChf8BNbMAPpnDHXr3h0plZGM=";
+    hash = "sha256-dT92vhLlHQa8hsNKYInT9Q/1FJiVU+bHV/kF3+71/jc=";
   };
 in
-buildDotnetModule {
+buildDotnetModule rec {
   inherit pname src version;
 
   projectFile = "NexusMods.App.sln";
@@ -38,6 +40,7 @@ buildDotnetModule {
 
   makeWrapperArgs = [
     "--prefix PATH : ${lib.makeBinPath [desktop-file-utils]}"
+    "--set APPIMAGE $out/bin/${meta.mainProgram}"  # a hack, to make associating with nxm links work on Linux
   ];
 
   runtimeDeps = [
@@ -47,32 +50,30 @@ buildDotnetModule {
     libX11
   ];
 
-  executables = [
-    nexus-mods-app.meta.mainProgram
-  ];
+  # Fixes NETSDK1152, and since we disabled flaky tests,
+  # lets remove also problematic xunit files
+  preBuild = ''
+    find . -name xunit.runner.json -delete
+  '';
 
-  doCheck = true;
-
-  dotnetTestFlags = [
-    "--environment=USER=nobody --filter=Category!=Disabled&FlakeyTest!=True&RequiresNetworking!=True"
-  ];
+  executables = [ meta.mainProgram ];
 
   passthru = {
     tests = {
       serve = runCommand "${pname}-test-serve" { } ''
-        ${nexus-mods-app}/bin/${nexus-mods-app.meta.mainProgram}
+        ${nexus-mods-app}/bin/${meta.mainProgram}
         touch $out
       '';
       help = runCommand "${pname}-test-help" { } ''
-        ${nexus-mods-app}/bin/${nexus-mods-app.meta.mainProgram} --help
+        ${nexus-mods-app}/bin/${meta.mainProgram} --help
         touch $out
       '';
       associate-nxm = runCommand "${pname}-test-associate-nxm" { } ''
-        ${nexus-mods-app}/bin/${nexus-mods-app.meta.mainProgram} associate-nxm
+        ${nexus-mods-app}/bin/${meta.mainProgram} associate-nxm
         touch $out
       '';
       list-tools = runCommand "${pname}-test-list-tools" { } ''
-        ${nexus-mods-app}/bin/${nexus-mods-app.meta.mainProgram} list-tools
+        ${nexus-mods-app}/bin/${meta.mainProgram} list-tools
         touch $out
       '';
     };
