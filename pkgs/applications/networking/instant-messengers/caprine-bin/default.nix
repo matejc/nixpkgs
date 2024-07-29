@@ -1,7 +1,7 @@
 { lib, callPackage, stdenvNoCC }:
 let
   pname = "caprine";
-  version = "2.59.1";
+  version = "2.60.1";
   metaCommon = with lib; {
     description = "Elegant Facebook Messenger desktop app";
     homepage = "https://sindresorhus.com/caprine";
@@ -11,7 +11,7 @@ let
   };
   x86_64-appimage = callPackage ./build-from-appimage.nix {
     inherit pname version metaCommon;
-    sha256 = "sha256-stMv4KQoWPmK5jcfdhamC27Rb51zjbeEn40u6YUvXz4=";
+    sha256 = "sha256-qeJZ3DoeI46/JUJq0jA6HiefzI8AlxdbTuDhTiLmZ8w=";
   };
   x86_64-dmg = callPackage ./build-from-dmg.nix {
     inherit pname version metaCommon;
