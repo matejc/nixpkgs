@@ -19,9 +19,13 @@
 , makeWrapper
 , writeShellScript
 , patchelf
+, cmake
+, fontconfig
+, bzip2
+, freetype
 }:
 let
-  version = "0.10.0";
+  version = "0.11.0";
   # Patch for airshipper to install veloren
   patch = let
     runtimeLibs = [
@@ -59,7 +63,7 @@ rustPlatform.buildRustPackage {
     owner = "Veloren";
     repo = "airshipper";
     rev = "v${version}";
-    hash = "sha256-5zP1Ye1fJNQp8eWKwdxLqBr4qzBfWEEBsJ9s7+8idL4=";
+    hash = "sha256-Ks+AfCjBWkzrx8R4TaPKGbLFjVg02X2uO5YvGl1cZUk=";
   };
 
   cargoLock = {
@@ -78,8 +82,9 @@ rustPlatform.buildRustPackage {
     libXrandr
     libXi
     libXcursor
+    fontconfig
   ];
-  nativeBuildInputs = [ pkg-config makeWrapper ];
+  nativeBuildInputs = [ pkg-config makeWrapper cmake ];
 
   RUSTC_BOOTSTRAP = 1; # We need rust unstable features
 
@@ -100,6 +105,9 @@ rustPlatform.buildRustPackage {
         libXrandr
         libXi
         libXcursor
+        bzip2
+        freetype
+        fontconfig
       ];
     in
     ''
