@@ -6,15 +6,15 @@
 , zlib
 }:
 
-stdenv.mkDerivation (finalAttrs: {
+stdenv.mkDerivation (finalAttrs: rec {
   pname = "ipu6-camera-bins";
-  version = "unstable-2023-10-26";
+  version = "1.0.1-nex-v6.6";
 
   src = fetchFromGitHub {
-    owner = "intel";
     repo = "ipu6-camera-bins";
-    rev = "af5ba0cb4a763569ac7514635013e9d870040bcf";
-    hash = "sha256-y0pT5M7AKACbquQWLZPYpTPXRC5hipLNL61nhs+cst4=";
+    owner = "intel";
+    rev = "refs/tags/v${version}";
+    hash = "sha256-Tv6r4rZLKZ1tvIi/nEJKre1X4UTwNuKBQ7LiVPVRQRo=";
   };
 
   nativeBuildInputs = [
@@ -33,7 +33,8 @@ stdenv.mkDerivation (finalAttrs: {
       include \
       $out/
 
-    install -m 0644 -D LICENSE $out/share/doc/LICENSE
+    # There is no LICENSE file in the src
+    # install -m 0644 -D LICENSE $out/share/doc/LICENSE
 
     runHook postInstall
   '';
