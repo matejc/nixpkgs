@@ -25,15 +25,15 @@ let
     "ipu6epmtl" = "ipu_mtl";
   }.${ipuVersion};
 in
-stdenv.mkDerivation {
+stdenv.mkDerivation rec {
   pname = "${ipuVersion}-camera-hal";
-  version = "unstable-2023-09-25";
+  version = "1.0.1-nex-v6.6";
 
   src = fetchFromGitHub {
     owner = "intel";
     repo = "ipu6-camera-hal";
-    rev = "9fa05a90886d399ad3dda4c2ddc990642b3d20c9";
-    hash = "sha256-yS1D7o6dsQ4FQkjfwcisOxcP7Majb+4uQ/iW5anMb5c=";
+    rev = "refs/tags/v${version}";
+    hash = "sha256-9REiuYStnDn+BUD7Twfwx2vzHj4Dny69s907W3Fg17A=";
   };
 
   nativeBuildInputs = [
@@ -47,6 +47,10 @@ stdenv.mkDerivation {
     "-DIPU_VER=${ipuVersion}"
     # missing libiacss
     "-DUSE_PG_LITE_PIPE=ON"
+    "-DCMAKE_BUILD_TYPE=Release"
+    "-DCMAKE_INSTALL_PREFIX=${placeholder "out"}"
+    "-DCMAKE_INSTALL_SUB_PATH=${ipuTarget}"
+    "-DCMAKE_INSTALL_LIBDIR=lib"
   ];
 
   NIX_CFLAGS_COMPILE = [
@@ -65,7 +69,16 @@ stdenv.mkDerivation {
 
   postPatch = ''
     substituteInPlace src/platformdata/PlatformData.h \
-      --replace '/usr/share/' "${placeholder "out"}/share/"
+      --replace '/usr/share/' "${placeholder "out"}/share/" \
+      --replace '#define CAMERA_DEFAULT_CFG_PATH "/etc/camera/"' '#define CAMERA_DEFAULT_CFG_PATH "${placeholder "out"}/etc/camera/"'
+  '';
+
+  postInstall = ''
+    mkdir -p $out/include/${ipuTarget}/
+    cp -r $src/include $out/include/${ipuTarget}/libcamhal
+
+    mv $out/usr/lib $out/lib
+    rmdir $out/usr
   '';
 
   postFixup = ''
@@ -75,7 +88,7 @@ stdenv.mkDerivation {
   '';
 
   passthru = {
-    inherit ipuVersion;
+    inherit ipuVersion ipuTarget;
   };
 
   meta = with lib; {
