@@ -27,8 +27,7 @@ in
   config = mkIf cfg.enable {
 
     # Module is upstream as of 6.10
-    boot.extraModulePackages = with config.boot.kernelPackages;
-      optional (kernelOlder "6.10") ipu6-drivers;
+    boot.extraModulePackages = with config.boot.kernelPackages; [ ipu6-drivers ];
 
     hardware.firmware = with pkgs; [
       ipu6-camera-bins
