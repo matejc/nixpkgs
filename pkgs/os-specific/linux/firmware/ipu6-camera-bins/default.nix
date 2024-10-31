@@ -8,13 +8,13 @@
 
 stdenv.mkDerivation (finalAttrs: rec {
   pname = "ipu6-camera-bins";
-  version = "unstable-2024-09-27";
+  version = "1.0.0-nex-twl-pv-v6.6.50";
 
   src = fetchFromGitHub {
     repo = "ipu6-camera-bins";
     owner = "intel";
-    rev = "98ca6f2a54d20f171628055938619972514f7a07";
-    hash = "sha256-DAjAzHMqX41mrfQVpDUJLw4Zjb9pz6Uy3TJjTGIkd6o=";
+    rev = "refs/tags/v${version}";
+    hash = "sha256-pz7WR0kYxsD0eq5xiR72Ii3ykTuMCB1V79gytrKN/gY=";
   };
 
   nativeBuildInputs = [
