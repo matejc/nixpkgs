@@ -11,13 +11,13 @@
 
 stdenv.mkDerivation rec {
   pname = "icamerasrc-${ipu6-camera-hal.ipuVersion}";
-  version = "unstable-2024-09-29";
+  version = "1.0.0-arl-pv-v6.11-rc3";
 
   src = fetchFromGitHub {
     owner = "intel";
     repo = "icamerasrc";
-    rev = "refs/tags/20240926_1446";
-    hash = "sha256-BpIZxkPmSVKqPntwBJjGmCaMSYFCEZHJa4soaMAJRWE=";
+    rev = "refs/tags/v${version}";
+    hash = "sha256-H7Xamt9Aig7AVVWfURte41YDHrUiJ+uP6iaewUvHtso=";
   };
 
   nativeBuildInputs = [
