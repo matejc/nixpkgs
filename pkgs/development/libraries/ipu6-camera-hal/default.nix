@@ -26,15 +26,15 @@ let
     "ipu6epmtl" = "ipu_mtl";
   }.${ipuVersion};
 in
-stdenv.mkDerivation {
+stdenv.mkDerivation rec {
   pname = "${ipuVersion}-camera-hal";
-  version = "unstable-2024-09-29";
+  version = "1.0.0-nex-twl-pv-v6.6.50";
 
   src = fetchFromGitHub {
     owner = "intel";
     repo = "ipu6-camera-hal";
-    rev = "f98f72b156563fe8373e4f8d017a9f609676bb33";
-    hash = "sha256-zVcgKW7/GHYd1oMvsaI77cPyj3G68dL+OXBJDz5+Td4=";
+    rev = "refs/tags/v${version}";
+    hash = "sha256-ktbQnWfNjsp8QPp9MXDT7bmZZdqS2h3TLIOu1hQm60I=";
   };
 
   nativeBuildInputs = [

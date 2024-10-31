@@ -28,7 +28,7 @@ in
 
     # Module is upstream as of 6.10,
     # but still needs various out-of-tree i2c and the `intel-ipu6-psys` kernel driver
-    boot.extraModulePackages = with config.boot.kernelPackages; [ ipu6-drivers ];
+    # boot.extraModulePackages = with config.boot.kernelPackages; [ ipu6-drivers ];
 
     hardware.firmware = with pkgs; [
       ipu6-camera-bins
