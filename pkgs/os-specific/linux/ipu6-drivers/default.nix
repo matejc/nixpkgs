@@ -4,26 +4,28 @@
 , ivsc-driver
 , kernel
 }:
+let
 
-stdenv.mkDerivation rec {
+
+in stdenv.mkDerivation rec {
   pname = "ipu6-drivers";
-  version = "unstable-2024-10-10";
+  version = "unstable-2024-10-30";
 
   src = fetchFromGitHub {
     owner = "intel";
     repo = "ipu6-drivers";
-    rev = "118952d49ec598f56add50d93fa7bc3ac4a05643";
-    hash = "sha256-xdMwINoKrdRHCPMpdZQn86ATi1dAXncMU39LLXS16mc=";
+    rev = "19c1deddd2274016ed0b8b5eed804bb1e2f6fee7";
+    hash = "sha256-ybivLegi9dCy+JVQ+jvNPXbFa0tlQ3CTV9iHE3tTXI4=";
   };
 
-  patches = [ "${src}/patches/0001-v6.10-IPU6-headers-used-by-PSYS.patch" ];
+  hardeningDisable = [ "pic" "format" ];
+
+  patches = [
+    "${src}/patches/0001-v6.10-IPU6-headers-used-by-PSYS.patch"
+  ];
 
   postPatch = ''
-    cp --no-preserve=mode --recursive --verbose \
-      ${ivsc-driver.src}/backport-include \
-      ${ivsc-driver.src}/drivers \
-      ${ivsc-driver.src}/include \
-      .
+    cp -r ${ivsc-driver.src}/backport-include ${ivsc-driver.src}/drivers ${ivsc-driver.src}/include .
   '';
 
   nativeBuildInputs = kernel.moduleBuildDependencies;
@@ -31,13 +33,10 @@ stdenv.mkDerivation rec {
   makeFlags = kernel.makeFlags ++ [
     "KERNELRELEASE=${kernel.modDirVersion}"
     "KERNEL_SRC=${kernel.dev}/lib/modules/${kernel.modDirVersion}/build"
+    "INSTALL_MOD_PATH=${placeholder "out"}"
   ];
 
   enableParallelBuilding = true;
-
-  preInstall = ''
-    sed -i -e "s,INSTALL_MOD_DIR=,INSTALL_MOD_PATH=$out INSTALL_MOD_DIR=," Makefile
-  '';
 
   installTargets = [
     "modules_install"
