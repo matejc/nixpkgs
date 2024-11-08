@@ -11,8 +11,8 @@
   };
   backtracer = {
     url = "https://github.com/sija/backtracer.cr.git";
-    rev = "v1.2.1";
-    sha256 = "02r1l7rn2wsljkx495s5s7j04zgn73m2kx0hkzs7620camvlwbqq";
+    rev = "v1.2.2";
+    sha256 = "1rknyylsi14m7i77x7c3138wdw27i4f6sd78m3srw851p47bwr20";
   };
   db = {
     url = "https://github.com/crystal-lang/crystal-db.git";
@@ -23,6 +23,11 @@
     url = "https://github.com/crystal-loot/exception_page.git";
     rev = "v0.2.2";
     sha256 = "1c8askb9b7621jjz5pjj6b8pdbhw3r1l3dym6swg1saspf5j3jwi";
+  };
+  http_proxy = {
+    url = "https://github.com/mamantoha/http_proxy.git";
+    rev = "v0.10.3";
+    sha256 = "1hgghjy611m9bbmq8drvzs30mymkq2s4d18lp19543qls58h80vs";
   };
   kemal = {
     url = "https://github.com/kemalcr/kemal.git";
@@ -51,8 +56,8 @@
   };
   spectator = {
     url = "https://github.com/icy-arctic-fox/spectator.git";
-    rev = "v0.10.4";
-    sha256 = "0rcxq2nbslvwrd8m9ajw6dzaw3hagxmkdy9s8p34cgnr4c9dijdq";
+    rev = "v0.10.6";
+    sha256 = "0w6mv1q44is2m19pyspkyiwm84h55nchsm4pp82gdbb0j9ylhckx";
   };
   sqlite3 = {
     url = "https://github.com/crystal-lang/crystal-sqlite3.git";
