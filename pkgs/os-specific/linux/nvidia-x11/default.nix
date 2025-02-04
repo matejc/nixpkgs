@@ -143,6 +143,15 @@ rec {
     useSettings = false;
     usePersistenced = true;
     useFabricmanager = true;
+    patches = [
+      ./fix-for-linux-6.13.patch
+    ];
+    patchesOpen = [
+      ./nvidia-nv-Convert-symbol-namespace-to-string-literal.patch
+      ./crypto-Add-fix-for-6.13-Module-compilation.patch
+      ./Use-linux-aperture.c-for-removing-conflict.patch
+      ./TTM-fbdev-emulation-for-Linux-6.13.patch
+    ];
   };
 
   # Update note:
