@@ -1,29 +1,29 @@
 {
-  stdenv,
   lib,
-  buildPythonPackage,
   fetchFromGitHub,
   setuptools,
   addBinToPathHook,
+  python,
   curl-impersonate-chrome,
-  cffi,
-  certifi,
-  charset-normalizer,
-  cryptography,
-  fastapi,
-  httpx,
-  proxy-py,
-  pytest-asyncio,
-  pytest-trio,
-  pytestCheckHook,
-  python-multipart,
-  trustme,
-  uvicorn,
-  websockets,
   writableTmpDirAsHomeHook,
 }:
 
-buildPythonPackage rec {
+let
+  customPython = python.override {
+    packageOverrides = self: super: {
+      websockets = super.websockets.overridePythonAttrs (old: rec {
+        version = "12.0";
+        src = fetchFromGitHub {
+          owner = "python-websockets";
+          repo = "websockets";
+          tag = version;
+          hash = "sha256-sOL3VI9Ib/PncZs5KN4dAIHOrBc7LfXqT15LO4M6qKg=";
+        };
+      });
+    };
+  };
+in
+python.pkgs.buildPythonPackage rec {
   pname = "curl-cffi";
   version = "0.14.0b2";
   pyproject = true;
@@ -38,19 +38,19 @@ buildPythonPackage rec {
   patches = [ ./use-system-libs.patch ];
   buildInputs = [ curl-impersonate-chrome ];
 
-  build-system = [
+  build-system = with customPython.pkgs; [
     cffi
     setuptools
   ];
 
-  dependencies = [
+  dependencies = with customPython.pkgs; [
     cffi
     certifi
   ];
 
   pythonImportsCheck = [ "curl_cffi" ];
 
-  nativeCheckInputs = [
+  nativeCheckInputs = with customPython.pkgs; [
     addBinToPathHook
     charset-normalizer
     cryptography
