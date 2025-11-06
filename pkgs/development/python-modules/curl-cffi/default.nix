@@ -97,6 +97,10 @@ python.pkgs.buildPythonPackage rec {
     "test_websocket"
     # Runs out of memory
     "test_receive_large_messages_run_forever"
+    # timeouts on target aarch64
+    "test_session_with_hostname_proxies"
+    "test_session_with_http_proxies"
+    "test_session_with_all_proxies"
   ];
 
   __darwinAllowLocalNetworking = true;
