@@ -7,17 +7,17 @@
 }:
 
 rustPlatform.buildRustPackage rec {
-  version = "0.2.2-pre";
+  version = "20260129";
   pname = "kdotool";
 
   src = fetchFromGitHub {
     owner = "jinliu";
     repo = "kdotool";
-    rev = "v${version}";
-    hash = "sha256-qx4bWAFQcoLM/r4aNzmoZdjclw8ccAW8lKLda6ON1aQ=";
+    rev = "049e3f5620ad8c5484241d7d06d742bc17d423ed";
+    hash = "sha256-8pKPVOj0fMwzzuNehG+vbDxKn+wfpWoiYabl5wkcQtc=";
   };
 
-  cargoHash = "sha256-ASR2zMwVCKeEZPYQNoO54J00eZyTn1i6FE0NBCJWSCs=";
+  cargoHash = "sha256-CZr/aPAPFjeJdlF8wvf1c16bBGhzGhVW3WnZJ8TC68A=";
 
   nativeBuildInputs = [ pkg-config ];
   buildInputs = [ dbus ];
