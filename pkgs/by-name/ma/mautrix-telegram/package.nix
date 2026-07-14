@@ -2,13 +2,13 @@
   lib,
   fetchPypi,
   fetchFromGitHub,
-  python3,
+  python313,
 
   withE2BE ? true,
 }:
 
 let
-  tulir-telethon = python3.pkgs.telethon.overrideAttrs (
+  tulir-telethon = python313.pkgs.telethon.overrideAttrs (
     finalAttrs: previousAttrs: {
       version = "1.99.0a6";
       pname = "tulir_telethon";
@@ -22,19 +22,19 @@ let
     }
   );
 in
-python3.pkgs.buildPythonApplication (finalAttrs: {
+python313.pkgs.buildPythonApplication (finalAttrs: {
   pname = "mautrix-telegram";
-  version = "0.15.3";
+  version = "0.15.3-unstable-2026-02-10";
   pyproject = true;
 
   src = fetchFromGitHub {
     owner = "mautrix";
     repo = "telegram";
-    tag = "v${finalAttrs.version}";
-    hash = "sha256-w3BqWyAJV/lZPoOFDzxhootpw451lYruwM9efwS6cEc=";
+    rev = "e8114ff5ad642446162618e9453d2195e9480e05";
+    hash = "sha256-NDGPHDEqQ+/UTP+s5M6xFF5Wj/AWs8cx74CnvghL8to=";
   };
 
-  build-system = with python3.pkgs; [ setuptools ];
+  build-system = with python313.pkgs; [ setuptools_80 ];
 
   patches = [ ./0001-Re-add-entrypoint.patch ];
 
@@ -44,7 +44,7 @@ python3.pkgs.buildPythonApplication (finalAttrs: {
   ];
 
   dependencies =
-    with python3.pkgs;
+    with python313.pkgs;
     [
       ruamel-yaml
       python-magic
@@ -55,7 +55,7 @@ python3.pkgs.buildPythonApplication (finalAttrs: {
       tulir-telethon
       asyncpg
       mako
-      setuptools
+      setuptools_80
       # speedups
       cryptg
       aiodns
@@ -71,6 +71,7 @@ python3.pkgs.buildPythonApplication (finalAttrs: {
       aiosqlite
       # proxy support
       pysocks
+      base58
     ]
     ++ lib.optionals withE2BE [
       # e2be
