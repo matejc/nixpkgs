@@ -1,0 +1,93 @@
+Load nixpkgs' native EGL before the compositor restricts filesystem access.
+ANGLE looks up libEGL.so.1 by SONAME, and the helper does not inherit
+LD_LIBRARY_PATH from the browser.
+
+Allow the system-managed NixOS EGL and Vulkan manifests and their driver
+library directories. The driver libraries load other libraries from
+those directories after the filesystem sandbox is in place.
+
+--- a/Services/Compositor/main.cpp
++++ b/Services/Compositor/main.cpp
+@@ -23,6 +23,10 @@
+ #include <LibIPC/SingleServer.h>
+ #include <LibMain/Main.h>
+ #include <LibPlatformFeatures/ProcessFeatures.h>
++
++#if defined(AK_OS_LINUX)
++#    include <dlfcn.h>
++#endif
+ 
+ ErrorOr<int> ladybird_main(Main::Arguments arguments)
+ {
+@@ -103,6 +107,10 @@
+         Compositor::set_font_rasterizer(Compositor::FontRasterizer::FreeType);
+ 
+ #if defined(AK_OS_LINUX)
++    // ANGLE opens native EGL by SONAME. Keep libglvnd loaded locally so it does not replace ANGLE's symbols.
++    if (!dlopen("@NIX_NATIVE_EGL@", RTLD_NOW | RTLD_LOCAL))
++        warnln("Could not load native EGL: {}", dlerror());
++
+     // NB: The GPU driver starts threads, and Landlock does not confine a thread that already runs. Seccomp covers every
+     //     thread, so the rest of the sandbox can wait until the driver is done with the syscalls that only its setup uses.
+     if (!disable_sandbox)
+--- a/Libraries/LibSandbox/GpuDriverPaths.cpp
++++ b/Libraries/LibSandbox/GpuDriverPaths.cpp
+@@ -20,7 +20,7 @@
+ 
+ // A driver or layer manifest names the library that the loader opens. A bare name is found by the dynamic loader in
+ // the library directories, which are already allowed. A path, which may be relative to the manifest, can be anywhere.
+-static ErrorOr<void> add_manifest_library_paths(Vector<PathRule>& paths, StringView manifest_path)
++static ErrorOr<void> add_manifest_library_paths(Vector<PathRule>& paths, StringView manifest_path, bool allow_driver_library_directory)
+ {
+     auto file = Core::File::open(manifest_path, Core::File::OpenMode::Read);
+     if (file.is_error())
+@@ -35,6 +35,8 @@
+         if (!library_path.has_value() || !library_path->contains('/'))
+             return {};
+         auto path = LexicalPath::absolute_path(LexicalPath::dirname(manifest_path), *library_path);
++        if (allow_driver_library_directory)
++            return add_path_if_exists(paths, LexicalPath::dirname(path), PathRule::Access::ReadOnly);
+         return add_path_if_exists(paths, path, PathRule::Access::ReadOnly);
+     };
+ 
+@@ -53,19 +55,24 @@
+ }
+ 
+ // Allows a manifest, or every manifest in a directory, along with the libraries that they point to.
+-static ErrorOr<void> add_manifest_paths(Vector<PathRule>& paths, StringView manifest_file_or_directory)
++static ErrorOr<void> add_manifest_paths(Vector<PathRule>& paths, StringView manifest_file_or_directory, bool allow_driver_library_directory = false)
+ {
+     auto metadata = Core::System::stat(manifest_file_or_directory);
+     if (metadata.is_error())
+         return {};
+     TRY(add_path_if_exists(paths, manifest_file_or_directory, PathRule::Access::ReadOnly));
+     if (!S_ISDIR(metadata.value().st_mode))
+-        return add_manifest_library_paths(paths, manifest_file_or_directory);
++        return add_manifest_library_paths(paths, manifest_file_or_directory, allow_driver_library_directory);
+ 
+     auto flags = static_cast<Core::DirIterator::Flags>(Core::DirIterator::SkipDots | Core::DirIterator::NoStat);
+     return Core::Directory::for_each_entry(manifest_file_or_directory, flags, [&](Core::DirectoryEntry const& entry, Core::Directory const&) -> ErrorOr<IterationDecision> {
+-        if (entry.name.ends_with(".json"sv))
+-            TRY(add_manifest_library_paths(paths, LexicalPath::join(manifest_file_or_directory, entry.name).string()));
++        if (!entry.name.ends_with(".json"sv))
++            return IterationDecision::Continue;
++        auto manifest_path = LexicalPath::join(manifest_file_or_directory, entry.name).string();
++        // The NixOS driver directory links to manifests in separate store paths.
++        if (allow_driver_library_directory)
++            TRY(add_path_if_exists(paths, manifest_path, PathRule::Access::ReadOnly));
++        TRY(add_manifest_library_paths(paths, manifest_path, allow_driver_library_directory));
+         return IterationDecision::Continue;
+     });
+ }
+@@ -102,6 +109,11 @@
+     }
+     for (auto directory : { "/etc/glvnd/egl_vendor.d"sv, "/usr/share/glvnd/egl_vendor.d"sv })
+         TRY(add_manifest_paths(paths, directory));
++
++    // System-managed NixOS drivers keep their dependencies alongside the library named in each manifest.
++    for (auto directory : { "@NIX_DRIVER_LINK@/share/glvnd/egl_vendor.d"sv,
++             "@NIX_DRIVER_LINK@/share/vulkan/icd.d"sv })
++        TRY(add_manifest_paths(paths, directory, /* allow_driver_library_directory */ true));
+ 
+     static constexpr Array manifest_variables {
+         "VK_DRIVER_FILES"sv,
